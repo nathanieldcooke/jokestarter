@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from './store/session'
 import { RootState } from './store';
 import { IUser } from './d';
+import FormTest from './components/FormTest';
 
 
 function App() {
@@ -22,10 +23,9 @@ function App() {
 
   return ( (isLoaded && 
     <div>
-      Hello
-      {/* stuff */}
+      <FormTest></FormTest>
     </div>) || null
   )
-}
+};
 
 export default App;

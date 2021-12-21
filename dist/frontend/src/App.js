@@ -18,10 +18,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var react_redux_1 = require("react-redux");
 var sessionActions = __importStar(require("./store/session"));
+var FormTest_1 = __importDefault(require("./components/FormTest"));
 function App() {
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_1.useState)(false), isLoaded = _a[0], setIsLoaded = _a[1];
@@ -33,6 +37,8 @@ function App() {
         dispatch(sessionActions.restoreUser());
     }, [dispatch]);
     return ((isLoaded &&
-        react_1.default.createElement("div", null, "Hello")) || null);
+        react_1.default.createElement("div", null,
+            react_1.default.createElement(FormTest_1.default, null))) || null);
 }
+;
 exports.default = App;
