@@ -1,0 +1,27 @@
+{
+  "name": "trade-buddy",
+  "version": "1.0.0",
+  "description": "Finish Boiler Plate",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "npm run build --prefix dist/frontend",
+    "install": "npm --prefix dist/backend install dist/backend && npm --prefix dist/frontend install dist/frontend",
+    "dev:backend": "npm install --prefix dist/backend start",
+    "dev:frontend": "npm install --prefix dist/frontend start",
+    "sequelize": "npm run --prefix dist/backend sequelize",
+    "sequelize-cli": "npm run --prefix dist/backend sequelize-cli",
+    "start": "npm start --prefix dist/backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanieldcooke/trade-buddy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nathanieldcooke/trade-buddy/issues"
+  },
+  "homepage": "https://github.com/nathanieldcooke/trade-buddy#readme",
+  "dependencies": {}
+}
