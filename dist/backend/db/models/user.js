@@ -37,11 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt = require('bcryptjs');
+// const path = require('path');
+var Sequelize = require('sequelize');
+var DataTypes = require("sequelize").DataTypes;
 'use strict';
-module.exports = function (sequelize, DataTypes) {
+module.exports = function (sequelize, dataTypes) {
     var User = sequelize.define('User', {
         username: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: false,
             unique: true,
             validate: {
@@ -50,7 +53,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         hashedPassword: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: false,
             validate: {
                 min: 60,
@@ -72,9 +75,9 @@ module.exports = function (sequelize, DataTypes) {
             }
         }
     });
-    User.associate = function (models) {
-        // associations can be defined here
-    };
+    // User.associate = function(models) { // mabey try to destructure other models.
+    //   // associations can be defined here
+    // };
     User.prototype.toSafeObject = function () {
         var _a = this, id = _a.id, username = _a.username; // context will be the User instance
         return { id: id, username: username, errors: [] };

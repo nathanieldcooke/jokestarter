@@ -1,8 +1,10 @@
 'use strict';
+
+import { QueryInterface } from "sequelize/types";
 const bcrypt = require('bcryptjs');
 
 module.exports = {
-  up: (queryInterface:any, Sequelize:any) => {
+  up: (queryInterface: QueryInterface) => {
 
     return queryInterface.bulkInsert('Users', [{
       username: 'Demo User',
@@ -10,8 +12,8 @@ module.exports = {
     }], {});
   },
 
-  down: (queryInterface:any, Sequelize:any) => {
+  down: (queryInterface: QueryInterface) => {
 
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('Users', {}, {});
   }
 };

@@ -1,13 +1,14 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt = require('bcryptjs');
 module.exports = {
-    up: function (queryInterface, Sequelize) {
+    up: function (queryInterface) {
         return queryInterface.bulkInsert('Users', [{
                 username: 'Demo User',
                 hashedPassword: bcrypt.hashSync('password')
             }], {});
     },
-    down: function (queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('Users', null, {});
+    down: function (queryInterface) {
+        return queryInterface.bulkDelete('Users', {}, {});
     }
 };

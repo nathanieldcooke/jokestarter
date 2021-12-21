@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs')
-import { IUser, IUserSecure } from "../../custom-types";
+import { IUserSecure } from "../../custom-types";
+// const path = require('path');
+const Sequelize = require('sequelize');
+const { DataTypes } = require("sequelize");
 'use strict';
-module.exports = (sequelize:any, DataTypes:any) => {
+module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const User = sequelize.define('User', {
     username: {
-      type: DataTypes.STRING,
+      type: dataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
@@ -13,7 +16,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       }
     },
     hashedPassword: {
-      type: DataTypes.STRING,
+      type: dataTypes.STRING,
       allowNull: false,
       validate: {
         min: 60, 
@@ -36,9 +39,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
       }
     }
   });
-  User.associate = function(models:any) {
-    // associations can be defined here
-  };
+  // User.associate = function(models) { // mabey try to destructure other models.
+  //   // associations can be defined here
+  // };
 
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
     const { id, username } = this; // context will be the User instance
