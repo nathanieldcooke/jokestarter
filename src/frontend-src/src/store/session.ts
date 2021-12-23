@@ -1,8 +1,8 @@
 import { Dispatch } from 'react';
-import { IAction, IUserSecure, IUser, IUserSignup } from '../d';
+import { IUserSecure, IUser, IUserSignup, IActionUser } from '../d';
 import { csrfFetch } from './csrf';
 const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
+// const REMOVE_USER = 'session/removeUser';
 
 const setUser = (user:IUser) => {
   return {
@@ -11,20 +11,24 @@ const setUser = (user:IUser) => {
   };
 };
 
-const removeUser = () => {
-  return {
-    type: REMOVE_USER,
-  };
-};
+// const removeUser = () => {
+//   return {
+//     type: REMOVE_USER,
+//   };
+// };
 
-export const restoreUser = () => async (dispatch: Dispatch<IAction>) => {
+export const restoreUser = () => async (dispatch: Dispatch<IActionUser>) => {
   const response = await csrfFetch('/api/users/account');
-  const data:{user:IUser} = await response.json();
-  dispatch(setUser(data.user));
+  const data:IUser = await response.json();
+  dispatch(setUser({
+    status: data.status,
+    errors: data.errors,
+    user: data.user
+  }));
   return response;
 };
 
-export const login = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) => {
+export const login = (user:IUserSecure) => async (dispatch: Dispatch<IActionUser>) => {
   const credential:string = user.credential
   const password:string = user.password
   const response = await csrfFetch('/api/users/login', {
@@ -36,23 +40,19 @@ export const login = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) =
     }),
   });
 
-  const data = await response.json();
+  const data:IUser = await response.json();
 
-  if (data.errors) {
     dispatch(setUser({
-        id: null,
-        username: null,
-        errors: data.errors
+      status: data.status,
+      errors: data.errors,
+      user: data.user
     }));
-  } else {
-    dispatch(setUser(data.user));
-  };
+
   return response;
 };
 
-export const demo = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) => {
-  // const credential:string = user.credential
-  // const password:string = user.password
+export const demo = () => async (dispatch: Dispatch<IActionUser>) => {
+
   const response = await csrfFetch('/api/users/demo', {
     method: 'PUT',
     headers: {}, 
@@ -60,21 +60,18 @@ export const demo = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) =>
     }),
   });
 
-  const data = await response.json();
+  const data:IUser = await response.json();
 
-  if (data.errors) {
-    dispatch(setUser({
-        id: null,
-        username: null,
-        errors: data.errors
-    }));
-  } else {
-    dispatch(setUser(data.user));
-  };
+  dispatch(setUser({
+    status: data.status,
+    errors: data.errors,
+    user: data.user
+  }));
+
   return response;
 };
 
-export const signup = (user:IUserSignup) => async (dispatch: Dispatch<IAction>) => {
+export const signup = (user:IUserSignup) => async (dispatch: Dispatch<IActionUser>) => {
   const email:string = user.email
   const username:string = user.username
   const password:string = user.password
@@ -90,59 +87,49 @@ export const signup = (user:IUserSignup) => async (dispatch: Dispatch<IAction>) 
     }),
   });
 
-  const data = await response.json();
+  const data:IUser = await response.json();
 
-  if (data.errors) {
-    dispatch(setUser(data.user)); // add error confirmation for failed log out, at later date.
-  } else {
-    dispatch(setUser({
-        id: null,
-        username: null,
-        errors: []
-    }));
-  };
+  dispatch(setUser({
+    status: data.status,
+    errors: data.errors,
+    user: data.user
+  }));
+
   return response;
 };
 
-export const logout = (user:IUser) => async (dispatch: Dispatch<IAction>) => {
-  const username:string|null = user.username
-  const id:number|null = user.id
+export const logout = () => async (dispatch: Dispatch<IActionUser>) => {
   const response = await csrfFetch('/api/users/logout', {
     method: 'PUT',
     headers: {}, 
-    body: JSON.stringify({
-      username,
-      id,
-    }),
+    body: JSON.stringify({}),
   });
 
-  const data = await response.json();
+  const data:IUser = await response.json();
 
-  if (data.errors) {
-    dispatch(setUser({
-        id: null,
-        username: null,
-        errors: data.errors
-    }));
-  } else {
-    dispatch(setUser(data.user));
-  };
+
+  dispatch(setUser({
+    status: data.status,
+    errors: data.errors,
+    user: data.user
+  }));
+
   return response;
 };
 
-const initialState = { user: {username: null, id: null, errors: []} };
+const initialState:IUser = { status: true, errors: [], user: {username: null, id: null} };
 
-const sessionReducer = (state = initialState, action:IAction) => {
+const sessionReducer = (state = initialState, action:IActionUser) => {
   let newState;
   switch (action.type) {
     case SET_USER:
       newState = Object.assign({}, state);
-      newState.user = action.payload;
+      newState = action.payload;
       return newState;
-    case REMOVE_USER:
-      newState = Object.assign({}, state);
-      newState.user = {username: null, id: null, errors: []};
-      return newState;
+    // case REMOVE_USER:
+    //   newState = Object.assign({}, state);
+    //   newState.user = {username: null, id: null, errors: []};
+    //   return newState;
     default:
       return state;
   };

@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { RootState } from '../store';
 import Button from '@material-ui/core/Button';
+import { IUser } from '../d';
 // import '../CompStyles/Form.css'
 // import '../CompStyles/Form.css'
 const FormTest = () => {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state: RootState) => state.session.user);
+  const sessionUser:IUser = useSelector((state: RootState) => state.session);
   const [credential, setCredential] = useState('');
   // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,7 +22,7 @@ const FormTest = () => {
 
     return (
     <form className='log-sign' onSubmit={handleSubmit}>
-      <p>{sessionUser && sessionUser.username}</p>
+      <p>{sessionUser && sessionUser.user.username}</p>
       <ul>
         {sessionUser && sessionUser.errors && sessionUser.errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>

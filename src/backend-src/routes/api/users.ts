@@ -127,7 +127,7 @@ router.put(
       return res.json({
         status: true,
         errors: [],
-        user: { userId: null, 
+        user: { id: null, 
           username: null
         }
       });
@@ -136,15 +136,23 @@ router.put(
 
 // Restore session user
 router.get(
-    '/account',
+    '/profile',
     restoreUser,
     (req, res) => {
       const { user }: typeof User = req
       if (user) {
         return res.json({
+          status: true,
+          errors: [],
           user: user.toSafeObject()
         });
-      } else return res.json({});
+      } else return res.json({
+        status: true,
+        errors: [],
+        user: { id: null, 
+          username: null
+        }
+      });
     }
   );
 

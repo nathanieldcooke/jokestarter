@@ -8,9 +8,12 @@ export interface IOptions {
 }
 
 export interface IUser {
-    username:string|null,
-    id:number|null
+    status:boolean|null
     errors:string[]
+    user: {
+        username:string|null
+        id:number|null
+    }
 }
 
 export interface IUserSignup {
@@ -25,9 +28,9 @@ export interface IUserSecure {
     credential:string
 }
 
-export interface IAction {
+export interface IActionUser {
     type:string,
-    payload:any,
+    payload:IUser,
 }
 
 declare global {

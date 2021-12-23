@@ -164,20 +164,28 @@ router.put('/logout', function (_req, res) {
     return res.json({
         status: true,
         errors: [],
-        user: { userId: null,
+        user: { id: null,
             username: null
         }
     });
 });
 // Restore session user
-router.get('/account', restoreUser, function (req, res) {
+router.get('/profile', restoreUser, function (req, res) {
     var user = req.user;
     if (user) {
         return res.json({
+            status: true,
+            errors: [],
             user: user.toSafeObject()
         });
     }
     else
-        return res.json({});
+        return res.json({
+            status: true,
+            errors: [],
+            user: { id: null,
+                username: null
+            }
+        });
 });
 module.exports = router;

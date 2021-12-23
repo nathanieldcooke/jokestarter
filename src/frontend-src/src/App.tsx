@@ -10,7 +10,7 @@ function App() {
 
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const sessionUser:IUser = useSelector((state: RootState) => state.session.user);
+  const sessionUser:IUser = useSelector((state: RootState) => state.session);
 
   useEffect(() => { // once session user updates in store, load App
     setIsLoaded(true);

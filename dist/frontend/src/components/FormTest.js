@@ -30,7 +30,7 @@ var Button_1 = __importDefault(require("@material-ui/core/Button"));
 // import '../CompStyles/Form.css'
 var FormTest = function () {
     var dispatch = (0, react_redux_1.useDispatch)();
-    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session.user; });
+    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var _a = (0, react_1.useState)(''), credential = _a[0], setCredential = _a[1];
     // const [email, setEmail] = useState('');
     var _b = (0, react_1.useState)(''), password = _b[0], setPassword = _b[1];
@@ -40,7 +40,7 @@ var FormTest = function () {
         return dispatch(sessionActions.login({ credential: credential, password: password }));
     };
     return (react_1.default.createElement("form", { className: 'log-sign', onSubmit: handleSubmit },
-        react_1.default.createElement("p", null, sessionUser && sessionUser.username),
+        react_1.default.createElement("p", null, sessionUser && sessionUser.user.username),
         react_1.default.createElement("ul", null, sessionUser && sessionUser.errors && sessionUser.errors.map(function (error, idx) { return react_1.default.createElement("li", { key: idx }, error); })),
         react_1.default.createElement("label", null,
             "Credential:",
