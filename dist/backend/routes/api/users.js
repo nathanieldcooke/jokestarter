@@ -132,7 +132,7 @@ router.put('/login', validateLogin, asyncHandler(function (req, res, next) { ret
     });
 }); }));
 // Demo Log in
-router.put('/demo', validateLogin, asyncHandler(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/demo', asyncHandler(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var user, err;
     return __generator(this, function (_a) {
         switch (_a.label) {

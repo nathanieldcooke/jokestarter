@@ -55,7 +55,7 @@ var restoreUser = function () { return function (dispatch) { return __awaiter(vo
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/account')];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/profile')];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
@@ -91,11 +91,23 @@ var login = function (user) { return function (dispatch) { return __awaiter(void
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                dispatch(setUser({
-                    status: data.status,
-                    errors: data.errors,
-                    user: data.user
-                }));
+                if (data.errors.length > 0) {
+                    dispatch(setUser({
+                        status: true,
+                        errors: data.errors,
+                        user: {
+                            username: null,
+                            id: null
+                        }
+                    }));
+                }
+                else {
+                    dispatch(setUser({
+                        status: data.status,
+                        errors: data.errors,
+                        user: data.user
+                    }));
+                }
                 return [2 /*return*/, response];
         }
     });
@@ -149,11 +161,23 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                dispatch(setUser({
-                    status: data.status,
-                    errors: data.errors,
-                    user: data.user
-                }));
+                if (data.errors.length > 0) {
+                    dispatch(setUser({
+                        status: true,
+                        errors: data.errors,
+                        user: {
+                            username: null,
+                            id: null
+                        }
+                    }));
+                }
+                else {
+                    dispatch(setUser({
+                        status: data.status,
+                        errors: data.errors,
+                        user: data.user
+                    }));
+                }
                 return [2 /*return*/, response];
         }
     });

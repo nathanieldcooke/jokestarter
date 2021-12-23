@@ -4,6 +4,7 @@ import * as sessionActions from './store/session'
 import { RootState } from './store';
 import { IUser } from './d';
 import FormTest from './components/FormTest';
+import Navbar from './components/Navbar';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
 
   return ( (isLoaded && 
     <div>
-      <FormTest></FormTest>
+      <Navbar/>
     </div>) || null
   )
 };
