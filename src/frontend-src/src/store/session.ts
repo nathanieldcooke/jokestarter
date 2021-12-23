@@ -18,7 +18,7 @@ const setUser = (user:IUser) => {
 // };
 
 export const restoreUser = () => async (dispatch: Dispatch<IActionUser>) => {
-  const response = await csrfFetch('/api/users/account');
+  const response = await csrfFetch('/api/users/profile');
   const data:IUser = await response.json();
   dispatch(setUser({
     status: data.status,

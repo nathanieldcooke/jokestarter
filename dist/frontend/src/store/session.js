@@ -55,7 +55,7 @@ var restoreUser = function () { return function (dispatch) { return __awaiter(vo
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/account')];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/profile')];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];

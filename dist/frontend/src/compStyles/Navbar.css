@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+
+
+/* top nav bar css */
+
+nav div#nav-top {
+    /* background-color: yellowgreen; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0em 1.25em;
+    border-bottom: 1px solid rgb(189, 189, 189);
+}
+
+nav div#nav-top > p#nav-left {
+    /* background-color: yellowgreen; */
+    font-size: 1.1em;
+    width: 400px;
+}
+
+nav div#nav-top > div#nav-button-container {
+    display: flex;
+    justify-content: end;
+    width: 400px;
+}
+
+nav div#nav-top > p#nav-left > span {
+    /* background-color: yellowgreen; */
+    font-weight: bold;
+}
+
+nav div#nav-top p#site-title {
+    font-family: 'Modak', cursive;
+    font-size: 2em;
+    letter-spacing: .05em;
+    color: #05ce78;
+    margin: .75em 0em;
+}
+
+nav div#nav-top p#site-title span {
+    font-family: 'Modak', cursive;
+    color: black
+}
+
+
+/* bottom nav bar css */
+
+nav div#nav-bottom {
+    /* background-color: tomato; */
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgb(189, 189, 189);
+}
+
+nav div#nav-bottom > div {
+    /* background-color: turquoise; */
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: rgb(114, 114, 114);
+    padding-top: .25em;
+    padding-bottom: .25em;
+    font-size: 1.1em;
+    font-family: "Maison Neue Book", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-bottom: 2px solid white;
+    margin: 1.25em 1.25em;
+}
+
+nav a:hover {
+    border-bottom: 2px solid black;
+    transition: 1s;
+    color: black;
+}
+
+nav a.selected {
+    border-bottom: 2px solid black;
+    color: black;
+}
+
+nav button {
+
+}

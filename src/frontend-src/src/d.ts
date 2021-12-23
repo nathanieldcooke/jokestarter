@@ -1,3 +1,12 @@
+/////////////////////// general interfaces and types
+declare global {
+    interface Window { 
+        csrfFetch:any,
+        store:any,
+        sessionActions:any
+    }
+}
+
 export interface IOptions {
     method:string,
     headers:{
@@ -7,6 +16,9 @@ export interface IOptions {
     body?:string
 }
 
+
+
+/////////////////////// user interfaces and types
 export interface IUser {
     status:boolean|null
     errors:string[]
@@ -33,10 +45,5 @@ export interface IActionUser {
     payload:IUser,
 }
 
-declare global {
-    interface Window { 
-        csrfFetch:any,
-        store:any,
-        sessionActions:any
-    }
-}
+
+
