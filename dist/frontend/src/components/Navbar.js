@@ -25,19 +25,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var react_redux_1 = require("react-redux");
 var react_router_dom_1 = require("react-router-dom");
+var sessionActions = __importStar(require("./../store/session"));
 var Button_1 = __importDefault(require("@material-ui/core/Button"));
 require("./../compStyles/Navbar.css");
+var Modal_1 = __importDefault(require("@mui/material/Modal"));
+var LoginForm_1 = __importDefault(require("./LoginForm"));
+var SignupForm_1 = __importDefault(require("./SignupForm"));
 function Navbar() {
+    var _a = (0, react_1.useState)(''), selectedForm = _a[0], setSelectedForm = _a[1];
+    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
+    var handleOpen = function (selectedForm) {
+        setSelectedForm(selectedForm);
+        setOpen(true);
+    };
+    var handleClose = function () {
+        setSelectedForm('');
+        setOpen(false);
+    };
     var dispatch = (0, react_redux_1.useDispatch)();
-    var _a = (0, react_1.useState)(false), isLoaded = _a[0], setIsLoaded = _a[1];
+    var _c = (0, react_1.useState)(false), isLoaded = _c[0], setIsLoaded = _c[1];
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
-    //   useEffect(() => { // once session user updates in store, load App
-    //     setIsLoaded(true);
-    //   }, [sessionUser])
+    (0, react_1.useEffect)(function () {
+        if (sessionUser.user.username) {
+            handleClose();
+        }
+    }, [sessionUser]);
     //   useEffect(() => { // attempt to restore user on page load
     //     dispatch(sessionActions.restoreUser())
     //   }, [dispatch]);
     return (react_1.default.createElement("nav", null,
+        react_1.default.createElement(Modal_1.default, { open: open, onClose: handleClose, "aria-labelledby": "modal-modal-title", "aria-describedby": "modal-modal-description" }, selectedForm === 'login'
+            ?
+                react_1.default.createElement(LoginForm_1.default, { props: { setSelectedForm: setSelectedForm } })
+            :
+                react_1.default.createElement(SignupForm_1.default, { props: { setSelectedForm: setSelectedForm } })),
         react_1.default.createElement("div", { id: 'nav-top' },
             sessionUser.user.username
                 ?
@@ -49,10 +70,15 @@ function Navbar() {
             react_1.default.createElement("p", { id: 'site-title' },
                 react_1.default.createElement("span", null, "JOKE"),
                 "STARTER"),
-            react_1.default.createElement("div", { id: 'nav-button-container' },
-                react_1.default.createElement(Button_1.default, { id: 'login' }, "Log In"),
-                react_1.default.createElement(Button_1.default, { id: 'signup' }, "Sign Up"),
-                react_1.default.createElement(Button_1.default, { id: 'demo' }, "Demo"))),
+            sessionUser.user.username
+                ?
+                    react_1.default.createElement("div", { id: 'nav-button-container' },
+                        react_1.default.createElement(Button_1.default, { id: 'login', onClick: function () { return dispatch(sessionActions.logout()); } }, "Log Out"))
+                :
+                    react_1.default.createElement("div", { id: 'nav-button-container' },
+                        react_1.default.createElement(Button_1.default, { id: 'login', onClick: function () { return handleOpen('login'); } }, "Log In"),
+                        react_1.default.createElement(Button_1.default, { id: 'signup', onClick: function () { return handleOpen('signup'); } }, "Sign Up"),
+                        react_1.default.createElement(Button_1.default, { id: 'demo', onClick: function () { return dispatch(sessionActions.demo()); } }, "Demo"))),
         react_1.default.createElement("div", { id: 'nav-bottom' },
             react_1.default.createElement("div", { id: 'nav-link-container' },
                 react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing1", activeClassName: "selected" }, "Top"),

@@ -91,11 +91,23 @@ var login = function (user) { return function (dispatch) { return __awaiter(void
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                dispatch(setUser({
-                    status: data.status,
-                    errors: data.errors,
-                    user: data.user
-                }));
+                if (data.errors.length > 0) {
+                    dispatch(setUser({
+                        status: true,
+                        errors: data.errors,
+                        user: {
+                            username: null,
+                            id: null
+                        }
+                    }));
+                }
+                else {
+                    dispatch(setUser({
+                        status: data.status,
+                        errors: data.errors,
+                        user: data.user
+                    }));
+                }
                 return [2 /*return*/, response];
         }
     });
@@ -149,11 +161,23 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                dispatch(setUser({
-                    status: data.status,
-                    errors: data.errors,
-                    user: data.user
-                }));
+                if (data.errors.length > 0) {
+                    dispatch(setUser({
+                        status: true,
+                        errors: data.errors,
+                        user: {
+                            username: null,
+                            id: null
+                        }
+                    }));
+                }
+                else {
+                    dispatch(setUser({
+                        status: data.status,
+                        errors: data.errors,
+                        user: data.user
+                    }));
+                }
                 return [2 /*return*/, response];
         }
     });

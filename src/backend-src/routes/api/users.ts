@@ -97,7 +97,6 @@ router.put(
 // Demo Log in
 router.put(
   '/demo',
-  validateLogin,
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     // const { credential, password } = req.body;
 

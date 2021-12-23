@@ -1,0 +1,71 @@
+form.log-sign {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: rgb(220, 220, 220);
+    border-radius: 5px;
+    padding: 2em;
+    border: solid black 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+form label, form h3 {
+    font-size: 1.75em;
+    font-weight: bold;
+}
+
+form h3 {
+    padding-bottom: 1em;
+}
+
+form > ul {
+    color: red;
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+form li {
+    margin-bottom: 1em;
+}
+
+form input {
+    font-size: 1.25em;
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+#form-button {
+    background-color: rgb(41, 41, 45);
+    font-size: 1.5em;
+    color: white;
+    margin-bottom: 1em;
+}
+
+#form-button:hover {
+    background-color: rgb(255, 255, 255);
+    font-size: 1.5em;
+    color: rgb(41, 41, 45);
+    transition: .5s;
+    border: black solid 2px;
+}
+
+#log-sign-change {
+    text-transform: none;
+    font-size: 1.2em;
+}
+
+#log-sign-change > button {
+    font-weight: bolder;
+}
+
+#log-sign-change > button:hover {
+    background-color: rgba(0, 0, 0, 0);
+    font-weight:normal;
+    color: rgb(0, 102, 255);
+    cursor: pointer;
+}

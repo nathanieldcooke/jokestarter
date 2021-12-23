@@ -42,11 +42,22 @@ export const login = (user:IUserSecure) => async (dispatch: Dispatch<IActionUser
 
   const data:IUser = await response.json();
 
-    dispatch(setUser({
-      status: data.status,
-      errors: data.errors,
-      user: data.user
-    }));
+    if (data.errors.length > 0) {
+      dispatch(setUser({
+        status: true,
+        errors: data.errors,
+        user: {
+          username: null,
+          id: null
+        }
+      }));
+    } else {
+      dispatch(setUser({
+        status: data.status,
+        errors: data.errors,
+        user: data.user
+      }));
+    }
 
   return response;
 };
@@ -89,11 +100,22 @@ export const signup = (user:IUserSignup) => async (dispatch: Dispatch<IActionUse
 
   const data:IUser = await response.json();
 
-  dispatch(setUser({
-    status: data.status,
-    errors: data.errors,
-    user: data.user
-  }));
+  if (data.errors.length > 0) {
+    dispatch(setUser({
+      status: true,
+      errors: data.errors,
+      user: {
+        username: null,
+        id: null
+      }
+    }));
+  } else {
+    dispatch(setUser({
+      status: data.status,
+      errors: data.errors,
+      user: data.user
+    }));
+  }
 
   return response;
 };
