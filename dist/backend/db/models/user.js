@@ -49,7 +49,16 @@ module.exports = function (sequelize, dataTypes) {
             unique: true,
             validate: {
                 min: 4,
-                max: 30,
+                max: 50,
+            }
+        },
+        email: {
+            type: dataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                min: 4,
+                max: 50,
             }
         },
         hashedPassword: {
@@ -75,12 +84,12 @@ module.exports = function (sequelize, dataTypes) {
             }
         }
     });
-    // User.associate = function(models) { // mabey try to destructure other models.
-    //   // associations can be defined here
-    // };
+    User.associate = function (models) {
+        // associations can be defined here
+    };
     User.prototype.toSafeObject = function () {
         var _a = this, id = _a.id, username = _a.username; // context will be the User instance
-        return { id: id, username: username, errors: [] };
+        return { id: id, username: username };
     };
     User.prototype.validatePassword = function (password) {
         return bcrypt.compareSync(password, this.hashedPassword.toString());
@@ -96,28 +105,38 @@ module.exports = function (sequelize, dataTypes) {
         });
     };
     User.login = function (_a) {
-        var username = _a.username, password = _a.password;
+        var credential = _a.credential, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
             var user;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, User.scope('loginUser').findOne({
                             where: {
-                                username: username,
+                                username: credential,
                             }
                         })];
                     case 1:
                         user = _b.sent();
-                        if (!(user && user.validatePassword(password))) return [3 /*break*/, 3];
+                        if (!!user) return [3 /*break*/, 3];
+                        return [4 /*yield*/, User.scope('loginUser').findOne({
+                                where: {
+                                    email: credential,
+                                }
+                            })];
+                    case 2:
+                        user = _b.sent();
+                        _b.label = 3;
+                    case 3:
+                        if (!(user && user.validatePassword(password))) return [3 /*break*/, 5];
                         return [4 /*yield*/, User.scope('currentUser').findByPk(user.id)];
-                    case 2: return [2 /*return*/, _b.sent()];
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/, _b.sent()];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     User.signup = function (_a) {
-        var username = _a.username, password = _a.password;
+        var username = _a.username, email = _a.email, password = _a.password;
         return __awaiter(this, void 0, void 0, function () {
             var hashedPassword, user;
             return __generator(this, function (_b) {
@@ -126,6 +145,7 @@ module.exports = function (sequelize, dataTypes) {
                         hashedPassword = bcrypt.hashSync(password);
                         return [4 /*yield*/, User.create({
                                 username: username,
+                                email: email,
                                 hashedPassword: hashedPassword
                             })];
                     case 1:

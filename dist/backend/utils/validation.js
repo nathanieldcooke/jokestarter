@@ -12,7 +12,7 @@ var handleValidationErrors = function (req, _res, next) {
             .map(function (error) { return "".concat(error.msg); });
         var err = new custom_types_1.ExpError('Bad request.');
         err.errors = errors;
-        err.status = 400;
+        err.status = 401;
         err.title = 'Bad request.';
         next(err);
     }

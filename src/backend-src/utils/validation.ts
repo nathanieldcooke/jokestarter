@@ -19,7 +19,7 @@ const handleValidationErrors = (req: Request, _res: Response, next: NextFunction
 
     const err = new ExpError('Bad request.');
     err.errors = errors;
-    err.status = 400;
+    err.status = 401;
     err.title = 'Bad request.';
     next(err);
   }

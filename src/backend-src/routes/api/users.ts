@@ -16,10 +16,10 @@ const { User } = require('../../db/models');
 const router = express.Router();
 
 const validateLogin = [
-  check('username')
+  check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid username.'),
+    .withMessage('Please provide a valid username or email.'),
   check('password')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password.'),
@@ -33,8 +33,16 @@ const validateSignup = [
     .withMessage('Please provide a username with at least 4 characters.'),
   check('username')
     .exists({ checkFalsy: true })
-    .isLength({ max: 30 })
-    .withMessage('Please provide a username with less than 31 characters.'),
+    .isLength({ max: 50 })
+    .withMessage('Please provide a username with less than 51 characters.'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Please provide a email with at least 4 characters.'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage('Please provide a email with less than 51 characters.'),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -47,12 +55,14 @@ router.post(
     '/signup',
     validateSignup,
     asyncHandler(async (req: Request, res: Response) => {
-      const { password, username } = req.body;
-      const user = await User.signup({ username, password });
+      const { password, username, email } = req.body;
+      const user = await User.signup({username, email, password });
   
       await setTokenCookie(res, user);
   
       return res.json({
+        status: true,
+        errors: [],
         user: user.toSafeObject()
       });
     })
@@ -63,20 +73,22 @@ router.put(
     '/login',
     validateLogin,
     asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-      const { username, password } = req.body;
+      const { credential, password } = req.body;
   
-      const user = await User.login({ username, password });
+      const user = await User.login({ credential, password });
   
       if (!user) {
         const err = new ExpError('Login failed');
         err.status = 401;
         err.title = 'Login failed';
-        err.errors = ['The provided usernames were invalid.'];
+        err.errors = ['The provided credentials were invalid.'];
         return next(err);
       };
   
       await setTokenCookie(res, user);
       return res.json({
+        status: true,
+        errors: [],
         user: user.toSafeObject()
       });
     })
@@ -87,20 +99,22 @@ router.put(
   '/demo',
   validateLogin,
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password } = req.body;
+    // const { credential, password } = req.body;
 
-    const user = await User.login({ username, password });
+    const user = await User.login({ credential: 'demo@user.com', password: 'password' });
 
     if (!user) {
       const err = new ExpError('Login failed');
       err.status = 401;
       err.title = 'Login failed';
-      err.errors = ['The provided usernames were invalid.'];
+      err.errors = ['The provided credentials were invalid.'];
       return next(err);
     };
 
     await setTokenCookie(res, user);
     return res.json({
+      status: true,
+      errors: [],
       user: user.toSafeObject()
     });
   })
@@ -110,21 +124,35 @@ router.put(
   router.put('/logout',
     (_req, res) => {
       res.clearCookie('token');
-      return res.json({ message: 'success' });
+      return res.json({
+        status: true,
+        errors: [],
+        user: { id: null, 
+          username: null
+        }
+      });
     }
   );
 
 // Restore session user
 router.get(
-    '/account',
+    '/profile',
     restoreUser,
     (req, res) => {
       const { user }: typeof User = req
       if (user) {
         return res.json({
+          status: true,
+          errors: [],
           user: user.toSafeObject()
         });
-      } else return res.json({});
+      } else return res.json({
+        status: true,
+        errors: [],
+        user: { id: null, 
+          username: null
+        }
+      });
     }
   );
 

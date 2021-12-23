@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs')
-import { IUserSecure } from "../../custom-types";
+import { IUserSecure, IUserSignUp } from "../../custom-types";
 // const path = require('path');
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
@@ -12,7 +12,16 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
       unique: true,
       validate: {
         min: 4,
-        max: 30, 
+        max: 50, 
+      }
+    },
+    email: {
+      type: dataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        min: 4,
+        max: 50, 
       }
     },
     hashedPassword: {
@@ -39,13 +48,13 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
       }
     }
   });
-  // User.associate = function(models) { // mabey try to destructure other models.
-  //   // associations can be defined here
-  // };
+  User.associate = function(models:any) { // mabey try to destructure other models.
+    // associations can be defined here
+  };
 
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
     const { id, username } = this; // context will be the User instance
-    return { id, username, errors: [] };
+    return { id, username };
   };
 
   User.prototype.validatePassword = function (password:string) {
@@ -56,21 +65,30 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     return await User.scope('currentUser').findByPk(id);
   };
 
-  User.login = async function ({ username, password }:IUserSecure) {
-    const user = await User.scope('loginUser').findOne({
+  User.login = async function ({ credential, password }:IUserSecure) {
+    let user = await User.scope('loginUser').findOne({
       where: {
-        username: username,
+        username: credential,
       }
     });
+
+    if (!user) {
+      user = await User.scope('loginUser').findOne({
+        where: {
+          email: credential,
+        }
+      });
+    }
     if (user && user.validatePassword(password)) {
       return await User.scope('currentUser').findByPk(user.id);
     }
   };
 
-  User.signup = async function ({ username, password }:IUserSecure) {
+  User.signup = async function ({ username, email, password }:IUserSignUp) {
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       username,
+      email,
       hashedPassword
     });
     return await User.scope('currentUser').findByPk(user.id);

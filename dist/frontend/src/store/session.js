@@ -39,18 +39,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.signup = exports.demo = exports.login = exports.restoreUser = void 0;
 var csrf_1 = require("./csrf");
 var SET_USER = 'session/setUser';
-var REMOVE_USER = 'session/removeUser';
+// const REMOVE_USER = 'session/removeUser';
 var setUser = function (user) {
     return {
         type: SET_USER,
         payload: user,
     };
 };
-var removeUser = function () {
-    return {
-        type: REMOVE_USER,
-    };
-};
+// const removeUser = () => {
+//   return {
+//     type: REMOVE_USER,
+//   };
+// };
 var restoreUser = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
@@ -61,24 +61,28 @@ var restoreUser = function () { return function (dispatch) { return __awaiter(vo
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                dispatch(setUser(data.user));
+                dispatch(setUser({
+                    status: data.status,
+                    errors: data.errors,
+                    user: data.user
+                }));
                 return [2 /*return*/, response];
         }
     });
 }); }; };
 exports.restoreUser = restoreUser;
 var login = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, response, data;
+    var credential, password, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                username = user.username;
+                credential = user.credential;
                 password = user.password;
                 return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/login', {
                         method: 'PUT',
                         headers: {},
                         body: JSON.stringify({
-                            username: username,
+                            credential: credential,
                             password: password,
                         }),
                     })];
@@ -87,63 +91,46 @@ var login = function (user) { return function (dispatch) { return __awaiter(void
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                if (data.errors) {
-                    dispatch(setUser({
-                        id: null,
-                        username: null,
-                        errors: data.errors
-                    }));
-                }
-                else {
-                    dispatch(setUser(data.user));
-                }
-                ;
+                dispatch(setUser({
+                    status: data.status,
+                    errors: data.errors,
+                    user: data.user
+                }));
                 return [2 /*return*/, response];
         }
     });
 }); }; };
 exports.login = login;
-var demo = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, response, data;
+var demo = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                username = user.username;
-                password = user.password;
-                return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/demo', {
-                        method: 'PUT',
-                        headers: {},
-                        body: JSON.stringify({
-                            username: username,
-                            password: password,
-                        }),
-                    })];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/demo', {
+                    method: 'PUT',
+                    headers: {},
+                    body: JSON.stringify({}),
+                })];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                if (data.errors) {
-                    dispatch(setUser({
-                        id: null,
-                        username: null,
-                        errors: data.errors
-                    }));
-                }
-                else {
-                    dispatch(setUser(data.user));
-                }
-                ;
+                dispatch(setUser({
+                    status: data.status,
+                    errors: data.errors,
+                    user: data.user
+                }));
                 return [2 /*return*/, response];
         }
     });
 }); }; };
 exports.demo = demo;
 var signup = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, confirmPassword, response, data;
+    var email, username, password, confirmPassword, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                email = user.email;
                 username = user.username;
                 password = user.password;
                 confirmPassword = user.confirmPassword;
@@ -152,6 +139,7 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
                         headers: {},
                         body: JSON.stringify({
                             username: username,
+                            email: email,
                             password: password,
                             confirmPassword: confirmPassword,
                         }),
@@ -161,71 +149,53 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                if (data.errors) {
-                    dispatch(setUser(data.user)); // add error confirmation for failed log out, at later date.
-                }
-                else {
-                    dispatch(setUser({
-                        id: null,
-                        username: null,
-                        errors: []
-                    }));
-                }
-                ;
+                dispatch(setUser({
+                    status: data.status,
+                    errors: data.errors,
+                    user: data.user
+                }));
                 return [2 /*return*/, response];
         }
     });
 }); }; };
 exports.signup = signup;
-var logout = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, id, response, data;
+var logout = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                username = user.username;
-                id = user.id;
-                return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/logout', {
-                        method: 'PUT',
-                        headers: {},
-                        body: JSON.stringify({
-                            username: username,
-                            id: id,
-                        }),
-                    })];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/logout', {
+                    method: 'PUT',
+                    headers: {},
+                    body: JSON.stringify({}),
+                })];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                if (data.errors) {
-                    dispatch(setUser({
-                        id: null,
-                        username: null,
-                        errors: data.errors
-                    }));
-                }
-                else {
-                    dispatch(setUser(data.user));
-                }
-                ;
+                dispatch(setUser({
+                    status: data.status,
+                    errors: data.errors,
+                    user: data.user
+                }));
                 return [2 /*return*/, response];
         }
     });
 }); }; };
 exports.logout = logout;
-var initialState = { user: { username: null, id: null, errors: [] } };
+var initialState = { status: true, errors: [], user: { username: null, id: null } };
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;
     switch (action.type) {
         case SET_USER:
             newState = Object.assign({}, state);
-            newState.user = action.payload;
+            newState = action.payload;
             return newState;
-        case REMOVE_USER:
-            newState = Object.assign({}, state);
-            newState.user = { username: null, id: null, errors: [] };
-            return newState;
+        // case REMOVE_USER:
+        //   newState = Object.assign({}, state);
+        //   newState.user = {username: null, id: null, errors: []};
+        //   return newState;
         default:
             return state;
     }

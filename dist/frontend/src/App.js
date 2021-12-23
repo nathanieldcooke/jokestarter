@@ -29,7 +29,7 @@ var FormTest_1 = __importDefault(require("./components/FormTest"));
 function App() {
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_1.useState)(false), isLoaded = _a[0], setIsLoaded = _a[1];
-    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session.user; });
+    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     (0, react_1.useEffect)(function () {
         setIsLoaded(true);
     }, [sessionUser]);
