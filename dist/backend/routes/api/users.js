@@ -49,10 +49,10 @@ var _a = require('../../utils/auth'), setTokenCookie = _a.setTokenCookie, restor
 var User = require('../../db/models').User;
 var router = express_1.default.Router();
 var validateLogin = [
-    check('username')
+    check('credential')
         .exists({ checkFalsy: true })
         .notEmpty()
-        .withMessage('Please provide a valid username.'),
+        .withMessage('Please provide a valid username or email.'),
     check('password')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a password.'),
@@ -65,8 +65,16 @@ var validateSignup = [
         .withMessage('Please provide a username with at least 4 characters.'),
     check('username')
         .exists({ checkFalsy: true })
-        .isLength({ max: 30 })
-        .withMessage('Please provide a username with less than 31 characters.'),
+        .isLength({ max: 50 })
+        .withMessage('Please provide a username with less than 51 characters.'),
+    check('email')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 4 })
+        .withMessage('Please provide a email with at least 4 characters.'),
+    check('email')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 50 })
+        .withMessage('Please provide a email with less than 51 characters.'),
     check('password')
         .exists({ checkFalsy: true })
         .isLength({ min: 6 })
@@ -75,18 +83,20 @@ var validateSignup = [
 ];
 // Sign up
 router.post('/signup', validateSignup, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, password, username, user;
+    var _a, password, username, email, user;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, password = _a.password, username = _a.username;
-                return [4 /*yield*/, User.signup({ username: username, password: password })];
+                _a = req.body, password = _a.password, username = _a.username, email = _a.email;
+                return [4 /*yield*/, User.signup({ username: username, email: email, password: password })];
             case 1:
                 user = _b.sent();
                 return [4 /*yield*/, setTokenCookie(res, user)];
             case 2:
                 _b.sent();
                 return [2 /*return*/, res.json({
+                        status: true,
+                        errors: [],
                         user: user.toSafeObject()
                     })];
         }
@@ -94,19 +104,19 @@ router.post('/signup', validateSignup, asyncHandler(function (req, res) { return
 }); }));
 // Log in
 router.put('/login', validateLogin, asyncHandler(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password, user, err;
+    var _a, credential, password, user, err;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.body, username = _a.username, password = _a.password;
-                return [4 /*yield*/, User.login({ username: username, password: password })];
+                _a = req.body, credential = _a.credential, password = _a.password;
+                return [4 /*yield*/, User.login({ credential: credential, password: password })];
             case 1:
                 user = _b.sent();
                 if (!user) {
                     err = new custom_types_1.ExpError('Login failed');
                     err.status = 401;
                     err.title = 'Login failed';
-                    err.errors = ['The provided usernames were invalid.'];
+                    err.errors = ['The provided credentials were invalid.'];
                     return [2 /*return*/, next(err)];
                 }
                 ;
@@ -114,6 +124,8 @@ router.put('/login', validateLogin, asyncHandler(function (req, res, next) { ret
             case 2:
                 _b.sent();
                 return [2 /*return*/, res.json({
+                        status: true,
+                        errors: [],
                         user: user.toSafeObject()
                     })];
         }
@@ -121,26 +133,26 @@ router.put('/login', validateLogin, asyncHandler(function (req, res, next) { ret
 }); }));
 // Demo Log in
 router.put('/demo', validateLogin, asyncHandler(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password, user, err;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body, username = _a.username, password = _a.password;
-                return [4 /*yield*/, User.login({ username: username, password: password })];
+    var user, err;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, User.login({ credential: 'demo@user.com', password: 'password' })];
             case 1:
-                user = _b.sent();
+                user = _a.sent();
                 if (!user) {
                     err = new custom_types_1.ExpError('Login failed');
                     err.status = 401;
                     err.title = 'Login failed';
-                    err.errors = ['The provided usernames were invalid.'];
+                    err.errors = ['The provided credentials were invalid.'];
                     return [2 /*return*/, next(err)];
                 }
                 ;
                 return [4 /*yield*/, setTokenCookie(res, user)];
             case 2:
-                _b.sent();
+                _a.sent();
                 return [2 /*return*/, res.json({
+                        status: true,
+                        errors: [],
                         user: user.toSafeObject()
                     })];
         }
@@ -149,7 +161,13 @@ router.put('/demo', validateLogin, asyncHandler(function (req, res, next) { retu
 // Log out
 router.put('/logout', function (_req, res) {
     res.clearCookie('token');
-    return res.json({ message: 'success' });
+    return res.json({
+        status: true,
+        errors: [],
+        user: { userId: null,
+            username: null
+        }
+    });
 });
 // Restore session user
 router.get('/account', restoreUser, function (req, res) {

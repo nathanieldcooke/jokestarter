@@ -31,25 +31,23 @@ var Button_1 = __importDefault(require("@material-ui/core/Button"));
 var FormTest = function () {
     var dispatch = (0, react_redux_1.useDispatch)();
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session.user; });
-    var _a = (0, react_1.useState)(''), username = _a[0], setusername = _a[1];
+    var _a = (0, react_1.useState)(''), credential = _a[0], setCredential = _a[1];
+    // const [email, setEmail] = useState('');
     var _b = (0, react_1.useState)(''), password = _b[0], setPassword = _b[1];
-    var _c = (0, react_1.useState)(''), confirmPassword = _c[0], setConfirmPassword = _c[1];
+    // const [confirmPassword, setConfirmPassword] = useState('');
     var handleSubmit = function (e) {
         e.preventDefault();
-        return dispatch(sessionActions.signup({ username: username, password: password, confirmPassword: confirmPassword }));
+        return dispatch(sessionActions.login({ credential: credential, password: password }));
     };
     return (react_1.default.createElement("form", { className: 'log-sign', onSubmit: handleSubmit },
         react_1.default.createElement("p", null, sessionUser && sessionUser.username),
         react_1.default.createElement("ul", null, sessionUser && sessionUser.errors && sessionUser.errors.map(function (error, idx) { return react_1.default.createElement("li", { key: idx }, error); })),
         react_1.default.createElement("label", null,
-            "Username:",
-            react_1.default.createElement("input", { type: "text", value: username, onChange: function (e) { return setusername(e.target.value); }, required: true })),
+            "Credential:",
+            react_1.default.createElement("input", { type: "text", value: credential, onChange: function (e) { return setCredential(e.target.value); }, required: true })),
         react_1.default.createElement("label", null,
             "Password:",
             react_1.default.createElement("input", { type: "password", value: password, onChange: function (e) { return setPassword(e.target.value); }, required: true })),
-        react_1.default.createElement("label", null,
-            "Confirm Password:",
-            react_1.default.createElement("input", { type: "password", value: confirmPassword, onChange: function (e) { return setConfirmPassword(e.target.value); }, required: true })),
         react_1.default.createElement(Button_1.default, { type: 'submit', id: 'form-button' }, "Sign Up"),
         react_1.default.createElement("a", { id: 'log-sign-change' },
             "already have an account? ",

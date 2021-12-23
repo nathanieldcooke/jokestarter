@@ -68,17 +68,17 @@ var restoreUser = function () { return function (dispatch) { return __awaiter(vo
 }); }; };
 exports.restoreUser = restoreUser;
 var login = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, response, data;
+    var credential, password, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                username = user.username;
+                credential = user.credential;
                 password = user.password;
                 return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/login', {
                         method: 'PUT',
                         headers: {},
                         body: JSON.stringify({
-                            username: username,
+                            credential: credential,
                             password: password,
                         }),
                     })];
@@ -104,20 +104,14 @@ var login = function (user) { return function (dispatch) { return __awaiter(void
 }); }; };
 exports.login = login;
 var demo = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, response, data;
+    var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                username = user.username;
-                password = user.password;
-                return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/demo', {
-                        method: 'PUT',
-                        headers: {},
-                        body: JSON.stringify({
-                            username: username,
-                            password: password,
-                        }),
-                    })];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)('/api/users/demo', {
+                    method: 'PUT',
+                    headers: {},
+                    body: JSON.stringify({}),
+                })];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
@@ -140,10 +134,11 @@ var demo = function (user) { return function (dispatch) { return __awaiter(void 
 }); }; };
 exports.demo = demo;
 var signup = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, confirmPassword, response, data;
+    var email, username, password, confirmPassword, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                email = user.email;
                 username = user.username;
                 password = user.password;
                 confirmPassword = user.confirmPassword;
@@ -152,6 +147,7 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
                         headers: {},
                         body: JSON.stringify({
                             username: username,
+                            email: email,
                             password: password,
                             confirmPassword: confirmPassword,
                         }),

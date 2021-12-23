@@ -12,6 +12,12 @@ export class ExpError extends Error {
 }
 
 export interface IUserSecure {
+    credential:string,
+    password:string
+}
+
+export interface IUserSignUp {
+    email:string,
     username:string,
     password:string
 }

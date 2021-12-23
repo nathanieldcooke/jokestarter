@@ -13,10 +13,16 @@ export interface IUser {
     errors:string[]
 }
 
-export interface IUserSecure {
+export interface IUserSignup {
+    email:string,
     username:string,
     password:string,
-    confirmPassword?:string
+    confirmPassword:string
+}
+
+export interface IUserSecure {
+    password:string,
+    credential:string
 }
 
 export interface IAction {

@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { IAction, IUserSecure, IUser } from '../d';
+import { IAction, IUserSecure, IUser, IUserSignup } from '../d';
 import { csrfFetch } from './csrf';
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -25,13 +25,13 @@ export const restoreUser = () => async (dispatch: Dispatch<IAction>) => {
 };
 
 export const login = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) => {
-  const username:string = user.username
+  const credential:string = user.credential
   const password:string = user.password
   const response = await csrfFetch('/api/users/login', {
     method: 'PUT',
     headers: {}, 
     body: JSON.stringify({
-      username,
+      credential,
       password,
     }),
   });
@@ -51,14 +51,12 @@ export const login = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) =
 };
 
 export const demo = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) => {
-  const username:string = user.username
-  const password:string = user.password
+  // const credential:string = user.credential
+  // const password:string = user.password
   const response = await csrfFetch('/api/users/demo', {
     method: 'PUT',
     headers: {}, 
     body: JSON.stringify({
-      username,
-      password,
     }),
   });
 
@@ -76,15 +74,17 @@ export const demo = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) =>
   return response;
 };
 
-export const signup = (user:IUserSecure) => async (dispatch: Dispatch<IAction>) => {
+export const signup = (user:IUserSignup) => async (dispatch: Dispatch<IAction>) => {
+  const email:string = user.email
   const username:string = user.username
   const password:string = user.password
-  const confirmPassword:string|undefined = user.confirmPassword
+  const confirmPassword:string = user.confirmPassword
   const response = await csrfFetch('/api/users/signup', {
     method: 'POST',
     headers: {}, 
     body: JSON.stringify({
       username,
+      email,
       password,
       confirmPassword,
     }),
