@@ -81,18 +81,18 @@ function Navbar() {
                         react_1.default.createElement(Button_1.default, { id: 'demo', onClick: function () { return dispatch(sessionActions.demo()); } }, "Demo"))),
         react_1.default.createElement("div", { id: 'nav-bottom' },
             react_1.default.createElement("div", { id: 'nav-link-container' },
-                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing1", activeClassName: "selected" }, "Top"),
+                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Top/page/1", activeClassName: "selected" }, "Top"),
                 react_1.default.createElement("br", null),
-                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing2", activeClassName: "selected" }, "Toys"),
-                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing3", activeClassName: "selected" }, "Food"),
-                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing4", activeClassName: "selected" }, "Services"),
-                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing5", activeClassName: "selected" }, "Misc"),
+                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Toys/page/1", activeClassName: "selected" }, "Toys"),
+                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Food/page/1", activeClassName: "selected" }, "Food"),
+                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Services/page/1", activeClassName: "selected" }, "Services"),
+                react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Misc/page/1", activeClassName: "selected" }, "Misc"),
                 sessionUser.user.username
                     ?
                         react_1.default.createElement(react_1.default.Fragment, null,
                             react_1.default.createElement("span", null, "|"),
-                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing6", activeClassName: "selected" }, "Bookmarks"),
-                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/thing7", activeClassName: "selected" }, "Contributed"))
+                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Bookmarks/page/1", activeClassName: "selected" }, "Bookmarks"),
+                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/contributions/page/:pageNumber", activeClassName: "selected" }, "Contributed"))
                     :
                         null))));
 }

@@ -3,15 +3,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as sessionActions from './store/session'
 import { RootState } from './store';
 import { IUser } from './d';
-import FormTest from './components/FormTest';
 import Navbar from './components/Navbar';
+import { useHistory } from 'react-router-dom';
+import Main from './components/Main';
 
 
 function App() {
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser:IUser = useSelector((state: RootState) => state.session);
+
+  useEffect(() => {
+    history.push('/category/Top/page/1')
+  }, [])
 
   useEffect(() => { // once session user updates in store, load App
     setIsLoaded(true);
@@ -24,7 +29,11 @@ function App() {
 
   return ( (isLoaded && 
     <div>
-      <Navbar/>
+      <header>
+        <Navbar/>
+      </header>
+      <Main props={{}}>
+      </Main>
     </div>) || null
   )
 };

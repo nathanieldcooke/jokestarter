@@ -90,20 +90,20 @@ function Navbar() {
         </div>
         <div id='nav-bottom'>
             <div id='nav-link-container'>
-                <NavLink to="/thing1" activeClassName="selected">
+                <NavLink to="/category/Top/page/1" activeClassName="selected">
                     Top
                 </NavLink>
                 <br></br>
-                <NavLink to="/thing2" activeClassName="selected">
+                <NavLink to="/category/Toys/page/1" activeClassName="selected">
                     Toys
                 </NavLink>
-                <NavLink to="/thing3" activeClassName="selected">
+                <NavLink to="/category/Food/page/1" activeClassName="selected">
                     Food
                 </NavLink>
-                <NavLink to="/thing4" activeClassName="selected">
+                <NavLink to="/category/Services/page/1" activeClassName="selected">
                     Services
                 </NavLink>
-                <NavLink to="/thing5" activeClassName="selected">
+                <NavLink to="/category/Misc/page/1" activeClassName="selected">
                     Misc
                 </NavLink>
                 {
@@ -111,10 +111,10 @@ function Navbar() {
                 ?
                 <>
                 <span>|</span>
-                <NavLink to="/thing6" activeClassName="selected">
+                <NavLink to="/category/Bookmarks/page/1" activeClassName="selected">
                     Bookmarks
                 </NavLink>
-                <NavLink to="/thing7" activeClassName="selected">
+                <NavLink to="/contributions/page/:pageNumber" activeClassName="selected">
                     Contributed
                 </NavLink>
                 </>
