@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
+// 'use strict';
 var fs = require('fs');
 var path = require('path');
-// const Sequelize = require('sequelize');
-require('./type');
+var Sequelize = require('sequelize');
 var basename = path.basename(__filename);
 var env = process.env.NODE_ENV || 'development';
 var configIndex = require(__dirname + '/../../config/database.js')[env];

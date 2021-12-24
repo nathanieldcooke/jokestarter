@@ -1,18 +1,17 @@
-'use strict';
-// import { DataTypes, Sequelize } from "sequelize";
-require('./type')
-// require('sequelize');
-// require("sequelize");
+// 'use strict';
+export {}
+const Sequelize = require('sequelize');
+const { DataTypes } = require("sequelize");
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const Project = sequelize.define('Project', {
-    goal: DataTypes.INTEGER,
-    endDate: DataTypes.DATE,
-    title: DataTypes.STRING(50),
-    summary: DataTypes.STRING(500),
-    video: DataTypes.STRING(500),
-    screenShot: DataTypes.STRING(500),
-    creatorName: DataTypes.STRING(25),
-    categoryId: DataTypes.INTEGER
+    goal: dataTypes.INTEGER,
+    endDate: dataTypes.DATE,
+    title: dataTypes.STRING(50),
+    summary: dataTypes.STRING(500),
+    video: dataTypes.STRING(500),
+    screenShot: dataTypes.STRING(500),
+    creatorName: dataTypes.STRING(25),
+    categoryId: dataTypes.INTEGER
   }, {});
   Project.associate = function(models:any) {
     // associations can be defined here

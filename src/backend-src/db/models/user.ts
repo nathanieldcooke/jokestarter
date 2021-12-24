@@ -1,9 +1,9 @@
+'use strict';
+export {}
 const bcrypt = require('bcryptjs')
 import { IUserSecure, IUserSignUp } from "../../custom-types";
-// const Sequelize = require('sequelize');
-// const { DataTypes } = require("sequelize");
-require('./type')
-'use strict';
+const Sequelize = require('sequelize');
+const { DataTypes } = require("sequelize");
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const User = sequelize.define('User', {
     username: {

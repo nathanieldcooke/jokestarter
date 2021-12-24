@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,10 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt = require('bcryptjs');
-// const Sequelize = require('sequelize');
-// const { DataTypes } = require("sequelize");
-require('./type');
-'use strict';
+var Sequelize = require('sequelize');
+var DataTypes = require("sequelize").DataTypes;
 module.exports = function (sequelize, dataTypes) {
     var User = sequelize.define('User', {
         username: {
