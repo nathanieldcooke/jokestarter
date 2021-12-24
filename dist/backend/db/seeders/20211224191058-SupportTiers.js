@@ -84,7 +84,6 @@ module.exports = {
                     projects.forEach(function (project) {
                         projectSupportTiers.push.apply(projectSupportTiers, generateSupportTiers(project));
                     });
-                    // 
                     return [2 /*return*/, queryInterface.bulkInsert('SupportTiers', projectSupportTiers, {})];
             }
         });

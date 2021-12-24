@@ -1,0 +1,15 @@
+'use strict';
+export {}
+const Sequelize = require('sequelize');
+const { DataTypes } = require("sequelize");
+module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
+  const UsersToSupportTier = sequelize.define('UsersToSupportTier', {
+    userId: DataTypes.INTEGER,
+    supportTierId: DataTypes.INTEGER,
+    pledgeAmount: DataTypes.INTEGER
+  }, {});
+  UsersToSupportTier.associate = function(models:any) {
+    // associations can be defined here
+  };
+  return UsersToSupportTier;
+};

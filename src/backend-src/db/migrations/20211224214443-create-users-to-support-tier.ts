@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface:any, Sequelize:any) => {
-    return queryInterface.createTable('Bookmarks', {
+    return queryInterface.createTable('UsersToSupportTiers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,11 +10,15 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
-      projectId: {
+      supportTierId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+      },
+      pledgeAmount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface:any, Sequelize:any) => {
-    return queryInterface.dropTable('Bookmarks');
+    return queryInterface.dropTable('UsersToSupportTiers');
   }
 };
