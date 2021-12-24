@@ -16,5 +16,14 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   Project.associate = function(models:any) {
     // associations can be defined here
   };
+
+  Project.getProjectId = async function (title:string) {
+    const project = await Project.findOne({
+      where: {
+        title
+      }
+    })
+    return project.id
+  }
   return Project;
 };

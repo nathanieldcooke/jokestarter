@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,38 +36,49 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Sequelize = require('sequelize');
-var DataTypes = require("sequelize").DataTypes;
-module.exports = function (sequelize, dataTypes) {
-    var Project = sequelize.define('Project', {
-        goal: dataTypes.INTEGER,
-        endDate: dataTypes.DATE,
-        title: dataTypes.STRING(50),
-        summary: dataTypes.STRING(500),
-        video: dataTypes.STRING(500),
-        screenShot: dataTypes.STRING(500),
-        creatorName: dataTypes.STRING(25),
-        categoryId: dataTypes.INTEGER
-    }, {});
-    Project.associate = function (models) {
-        // associations can be defined here
-    };
-    Project.getProjectId = function (title) {
-        return __awaiter(this, void 0, void 0, function () {
-            var project;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Project.findOne({
-                            where: {
-                                title: title
-                            }
-                        })];
-                    case 1:
-                        project = _a.sent();
-                        return [2 /*return*/, project.id];
-                }
-            });
+var _a = require('./../models'), Project = _a.Project, User = _a.User;
+module.exports = {
+    up: function (queryInterface) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, _b, _c, _d;
+        var _e, _f, _g;
+        return __generator(this, function (_h) {
+            switch (_h.label) {
+                case 0:
+                    _b = (_a = queryInterface).bulkInsert;
+                    _c = ['Bookmarks'];
+                    _e = {};
+                    return [4 /*yield*/, User.getUserId('Demo User')];
+                case 1:
+                    _e.userId = _h.sent();
+                    return [4 /*yield*/, Project.getProjectId('Sexy Beasts')];
+                case 2:
+                    _d = [
+                        (_e.projectId = _h.sent(),
+                            _e)
+                    ];
+                    _f = {};
+                    return [4 /*yield*/, User.getUserId('Demo User')];
+                case 3:
+                    _f.userId = _h.sent();
+                    return [4 /*yield*/, Project.getProjectId('Jalapeno Milk')];
+                case 4:
+                    _d = _d.concat([
+                        (_f.projectId = _h.sent(),
+                            _f)
+                    ]);
+                    _g = {};
+                    return [4 /*yield*/, User.getUserId('Demo User')];
+                case 5:
+                    _g.userId = _h.sent();
+                    return [4 /*yield*/, Project.getProjectId('Playground For Seniors')];
+                case 6: return [2 /*return*/, _b.apply(_a, _c.concat([_d.concat([
+                            (_g.projectId = _h.sent(),
+                                _g)
+                        ]), {}]))];
+            }
         });
-    };
-    return Project;
+    }); },
+    down: function (queryInterface) {
+        return queryInterface.bulkDelete('Bookmarks', {}, {});
+    }
 };
