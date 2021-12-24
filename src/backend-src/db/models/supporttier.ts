@@ -13,7 +13,14 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     minPledge: DataTypes.INTEGER
   }, {});
   SupportTier.associate = function(models:any) {
-    // associations can be defined here
+    SupportTier.belongsTo(models.Project, { foreignKey: 'projectId' });
+
+    const columnMapping1 = {
+      through: 'UsersToSupportTier',
+      otherKey: 'userId',
+      foreignKey: 'supportTierId'
+     };
+     SupportTier.belongsToMany(models.User, columnMapping1);
   };
   return SupportTier;
 };

@@ -49,7 +49,26 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     }
   });
   User.associate = function(models:any) { // mabey try to destructure other models.
-    // associations can be defined here
+    const columnMapping1 = {
+      through: 'HideList',
+      otherKey: 'projectId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.Project, columnMapping1);
+
+     const columnMapping2 = {
+      through: 'Bookmark',
+      otherKey: 'projectId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.Project, columnMapping2);
+
+     const columnMapping3 = {
+      through: 'UsersToSupportTier',
+      otherKey: 'supportTierId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.SupportTier, columnMapping3);
   };
 
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function

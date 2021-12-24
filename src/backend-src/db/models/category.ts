@@ -8,7 +8,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     loggedIn: dataTypes.BOOLEAN
   }, {});
   Category.associate = function(models:any) {
-    // associations can be defined here
+    Category.hasMany(models.Project, { foreignKey: 'categoryId' });
   };
 
   Category.getAllCategories = async function () {

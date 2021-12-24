@@ -44,7 +44,7 @@ module.exports = function (sequelize, dataTypes) {
         loggedIn: dataTypes.BOOLEAN
     }, {});
     Category.associate = function (models) {
-        // associations can be defined here
+        Category.hasMany(models.Project, { foreignKey: 'categoryId' });
     };
     Category.getAllCategories = function () {
         return __awaiter(this, void 0, void 0, function () {

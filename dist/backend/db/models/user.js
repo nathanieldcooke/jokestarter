@@ -83,7 +83,24 @@ module.exports = function (sequelize, dataTypes) {
         }
     });
     User.associate = function (models) {
-        // associations can be defined here
+        var columnMapping1 = {
+            through: 'HideList',
+            otherKey: 'projectId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.Project, columnMapping1);
+        var columnMapping2 = {
+            through: 'Bookmark',
+            otherKey: 'projectId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.Project, columnMapping2);
+        var columnMapping3 = {
+            through: 'UsersToSupportTier',
+            otherKey: 'supportTierId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.SupportTier, columnMapping3);
     };
     User.prototype.toSafeObject = function () {
         var _a = this, id = _a.id, username = _a.username; // context will be the User instance

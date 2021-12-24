@@ -50,7 +50,20 @@ module.exports = function (sequelize, dataTypes) {
         categoryId: dataTypes.INTEGER
     }, {});
     Project.associate = function (models) {
-        // associations can be defined here
+        Project.belongsTo(models.Category, { foreignKey: 'categoryId' });
+        Project.hasMany(models.SupportTier, { foreignKey: 'projectId' });
+        var columnMapping1 = {
+            through: 'HideList',
+            otherKey: 'userId',
+            foreignKey: 'projectId'
+        };
+        Project.belongsToMany(models.User, columnMapping1);
+        var columnMapping2 = {
+            through: 'Bookmark',
+            otherKey: 'userId',
+            foreignKey: 'projectId'
+        };
+        Project.belongsToMany(models.User, columnMapping2);
     };
     Project.getProjectId = function (title) {
         return __awaiter(this, void 0, void 0, function () {

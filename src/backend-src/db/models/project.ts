@@ -14,7 +14,22 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     categoryId: dataTypes.INTEGER
   }, {});
   Project.associate = function(models:any) {
-    // associations can be defined here
+    Project.belongsTo(models.Category, { foreignKey: 'categoryId' });
+    Project.hasMany(models.SupportTier, { foreignKey: 'projectId' });
+
+    const columnMapping1 = {
+      through: 'HideList',
+      otherKey: 'userId',
+      foreignKey: 'projectId'
+     }
+     Project.belongsToMany(models.User, columnMapping1);
+
+     const columnMapping2 = {
+      through: 'Bookmark',
+      otherKey: 'userId',
+      foreignKey: 'projectId'
+     }
+     Project.belongsToMany(models.User, columnMapping2);
   };
 
   Project.getProjectId = async function (title:string) {
