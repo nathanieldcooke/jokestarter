@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs')
 import { IUserSecure, IUserSignUp } from "../../custom-types";
-// const path = require('path');
-const Sequelize = require('sequelize');
-const { DataTypes } = require("sequelize");
+// const Sequelize = require('sequelize');
+// const { DataTypes } = require("sequelize");
+require('./type')
 'use strict';
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const User = sequelize.define('User', {

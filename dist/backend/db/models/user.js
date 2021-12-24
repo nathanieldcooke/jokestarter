@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt = require('bcryptjs');
-// const path = require('path');
-var Sequelize = require('sequelize');
-var DataTypes = require("sequelize").DataTypes;
+// const Sequelize = require('sequelize');
+// const { DataTypes } = require("sequelize");
+require('./type');
 'use strict';
 module.exports = function (sequelize, dataTypes) {
     var User = sequelize.define('User', {
