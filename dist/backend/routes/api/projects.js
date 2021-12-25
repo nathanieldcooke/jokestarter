@@ -43,31 +43,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var Op = require("sequelize").Op;
 var asyncHandler = require('express-async-handler');
-var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier;
+var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark;
 var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser, requireAuth = _b.requireAuth;
 var router = express_1.default.Router();
-var getOtherCategoryLoggedOut = function (category, pageNumber) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, categoryId, projects;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var zeroIndexPage, userBookmarks, projects;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 zeroIndexPage = Number(pageNumber) - 1;
-                return [4 /*yield*/, Category.getCategoryId(category)];
+                return [4 /*yield*/, Bookmark.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
             case 1:
-                categoryId = _a.sent();
+                userBookmarks = _b.sent();
+                userBookmarks = userBookmarks.map(function (bookmark) { return bookmark.projectId; });
+                console.log("f-bookmarks: ", userBookmarks);
                 return [4 /*yield*/, Project.findAll({
                         include: {
                             model: SupportTier,
                             include: UsersToSupportTier
                         },
                         where: {
-                            categoryId: categoryId
-                        },
-                        // limit: 4,
-                        // offset: zeroIndexPage * 4
+                            id: (_a = {},
+                                _a[Op.or] = userBookmarks,
+                                _a)
+                        }
                     })];
             case 2:
-                projects = _a.sent();
+                projects = _b.sent();
+                console.log('f-projects: ', projects);
                 projects = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
@@ -88,7 +96,48 @@ var getOtherCategoryLoggedOut = function (category, pageNumber) { return __await
         }
     });
 }); };
-var getTopLoggedOut = function (pageNumber) { return __awaiter(void 0, void 0, void 0, function () {
+var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var zeroIndexPage, categoryId, projects;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                zeroIndexPage = Number(pageNumber) - 1;
+                return [4 /*yield*/, Category.getCategoryId(category)];
+            case 1:
+                categoryId = _a.sent();
+                return [4 /*yield*/, Project.findAll({
+                        include: {
+                            model: SupportTier,
+                            include: UsersToSupportTier
+                        },
+                        where: {
+                            categoryId: categoryId
+                        },
+                    })];
+            case 2:
+                projects = _a.sent();
+                // remove prjects in hidelists if there's a user
+                projects = projects.map(function (project) {
+                    var sum = 0;
+                    var percentFunded = 0;
+                    project.SupportTiers.forEach(function (supportTier) {
+                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                    });
+                    percentFunded = sum / project.goal * 100;
+                    return {
+                        screenShot: project.screenShot,
+                        title: project.title,
+                        summary: project.summary,
+                        creatorName: project.creatorName,
+                        percentFunded: percentFunded,
+                        pageNums: Math.ceil(projects.length / 4)
+                    };
+                });
+                return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
+        }
+    });
+}); };
+var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
     var zeroIndexPage, categories, categoryIds, projects;
     var _a, _b;
     return __generator(this, function (_c) {
@@ -115,11 +164,10 @@ var getTopLoggedOut = function (pageNumber) { return __awaiter(void 0, void 0, v
                                 _b[Op.or] = categoryIds,
                                 _b)
                         },
-                        // limit: 4,
-                        // offset: zeroIndexPage * 4
                     })];
             case 2:
                 projects = _c.sent();
+                // remove prjects in hidelists if there's a user
                 projects = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
@@ -148,22 +196,26 @@ router.get('/:category/page/:pageNumber', restoreUser, asyncHandler(function (re
             case 0:
                 _a = req.params, category = _a.category, pageNumber = _a.pageNumber;
                 user = req.user;
-                if (!user) return [3 /*break*/, 1];
-                return [3 /*break*/, 5];
-            case 1:
                 projects = [];
-                if (!(category === 'Top')) return [3 /*break*/, 3];
-                return [4 /*yield*/, getTopLoggedOut(pageNumber)];
+                if (!(category === 'Top')) return [3 /*break*/, 2];
+                return [4 /*yield*/, getTop(pageNumber, user)];
+            case 1:
+                projects = _b.sent();
+                res.json(projects);
+                return [3 /*break*/, 6];
             case 2:
+                if (!(category === 'Bookmarks')) return [3 /*break*/, 4];
+                return [4 /*yield*/, getBookmarks(pageNumber, user)];
+            case 3:
                 projects = _b.sent();
                 res.json(projects);
-                return [3 /*break*/, 5];
-            case 3: return [4 /*yield*/, getOtherCategoryLoggedOut(category, pageNumber)];
-            case 4:
+                return [3 /*break*/, 6];
+            case 4: return [4 /*yield*/, getOtherCategory(category, pageNumber, user)];
+            case 5:
                 projects = _b.sent();
                 res.json(projects);
-                _b.label = 5;
-            case 5: return [2 /*return*/];
+                _b.label = 6;
+            case 6: return [2 /*return*/];
         }
     });
 }); }));

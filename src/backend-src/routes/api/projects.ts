@@ -8,11 +8,59 @@ import express, {
 const { Op } = require("sequelize");
 import { ExpError } from '../../custom-types';
 const asyncHandler = require('express-async-handler');
-const { Project, Category, SupportTier, UsersToSupportTier } = require('../../db/models');
+const { Project, Category, SupportTier, UsersToSupportTier, Bookmark } = require('../../db/models');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
-const getOtherCategoryLoggedOut = async (category:string, pageNumber:string) => {
+const getBookmarks = async (pageNumber:string, user:any) => {
+    const zeroIndexPage = Number(pageNumber) - 1
+
+    let userBookmarks = await Bookmark.findAll({
+        where: {
+            userId: user.id
+        }
+    })
+
+    
+    userBookmarks = userBookmarks.map((bookmark:any) => bookmark.projectId)
+    console.log("f-bookmarks: ", userBookmarks)
+
+    let projects = await Project.findAll({
+        include: {
+            model: SupportTier,
+            include: UsersToSupportTier
+        },
+        where: {
+            id: {
+                [Op.or]: userBookmarks
+            }
+        }
+    })
+
+    console.log('f-projects: ', projects)
+
+    projects = projects.map((project:any) => {
+        let sum = 0
+        let percentFunded = 0
+        project.SupportTiers.forEach((supportTier:any) => {
+            sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
+        })
+        percentFunded = sum / project.goal * 100
+
+        return {
+            screenShot: project.screenShot,
+            title: project.title,
+            summary: project.summary,
+            creatorName: project.creatorName,
+            percentFunded,
+            pageNums: Math.ceil(projects.length / 4)
+        }
+    })
+
+    return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
+}
+
+const getOtherCategory = async (category:string, pageNumber:string, user:any) => {
     const zeroIndexPage = Number(pageNumber) - 1
 
     const categoryId = await Category.getCategoryId(category)
@@ -25,9 +73,9 @@ const getOtherCategoryLoggedOut = async (category:string, pageNumber:string) => 
         where: {
             categoryId: categoryId
         },
-        // limit: 4,
-        // offset: zeroIndexPage * 4
     });
+
+    // remove prjects in hidelists if there's a user
 
     projects = projects.map((project:any) => {
         let sum = 0
@@ -51,7 +99,7 @@ const getOtherCategoryLoggedOut = async (category:string, pageNumber:string) => 
 
 }
 
-const getTopLoggedOut = async (pageNumber:string) => {
+const getTop = async (pageNumber:string, user:any) => {
     const zeroIndexPage = Number(pageNumber) - 1
 
     const categories = await Category.findAll({
@@ -73,9 +121,9 @@ const getTopLoggedOut = async (pageNumber:string) => {
                 [Op.or]: categoryIds
             }
         },
-        // limit: 4,
-        // offset: zeroIndexPage * 4
     });
+
+    // remove prjects in hidelists if there's a user
 
     projects = projects.map((project:any) => {
         let sum = 0
@@ -104,19 +152,19 @@ router.get('/:category/page/:pageNumber', restoreUser, asyncHandler( async (req:
     const { category, pageNumber } = req.params;
     const user = req.user
 
-    // console.log('Yoooz: ', category, pageNumber)
-    if (user) {
 
+    let projects = []
+    if (category === 'Top') {
+        projects = await getTop(pageNumber, user)
+        res.json(projects)
+    } else if (category === 'Bookmarks') { // other logged out categories
+        projects = await getBookmarks(pageNumber, user)
+        res.json(projects)
     } else {
-        let projects = []
-        if (category === 'Top') {
-            projects = await getTopLoggedOut(pageNumber)
-            res.json(projects)
-        } else { // other logged out categories
-            projects = await getOtherCategoryLoggedOut(category, pageNumber)
-            res.json(projects)
-        }
+        projects = await getOtherCategory(category, pageNumber, user)
+        res.json(projects)
     }
+    
 }))
 
 module.exports = router;
