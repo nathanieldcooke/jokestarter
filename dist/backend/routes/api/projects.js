@@ -61,7 +61,6 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
             case 1:
                 userBookmarks = _b.sent();
                 userBookmarks = userBookmarks.map(function (bookmark) { return bookmark.projectId; });
-                console.log("f-bookmarks: ", userBookmarks);
                 return [4 /*yield*/, Project.findAll({
                         include: {
                             model: SupportTier,
@@ -75,7 +74,6 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                     })];
             case 2:
                 projects = _b.sent();
-                console.log('f-projects: ', projects);
                 projects = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
@@ -84,6 +82,7 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                     });
                     percentFunded = sum / project.goal * 100;
                     return {
+                        id: project.id,
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
@@ -125,6 +124,7 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
                     });
                     percentFunded = sum / project.goal * 100;
                     return {
+                        id: project.id,
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
@@ -176,6 +176,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                     });
                     percentFunded = sum / project.goal * 100;
                     return {
+                        id: project.id,
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
@@ -189,6 +190,80 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
         }
     });
 }); };
+var editSupportTier = function (supportTier) {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var backers = supportTier.UsersToSupportTiers.length;
+    var amountLeft = supportTier.amountAvailable - backers;
+    var date = new Date(supportTier.estimatedDelivery);
+    return {
+        amount: supportTier.minPledge,
+        name: supportTier.name,
+        summary: supportTier.summary,
+        shipsTo: supportTier.shipsTo,
+        backers: backers,
+        amountLeft: amountLeft,
+        estimatedDelivery: "".concat(months[date.getMonth()], " ").concat(date.getFullYear())
+    };
+};
+var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, void 0, function () {
+    var project, sum, numOfBackers, percentFunded, supportTiers, d1, d2, diffInTIme, diffInDays;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Project.findByPk(projectId, {
+                    include: {
+                        model: SupportTier,
+                        include: UsersToSupportTier
+                    }
+                })];
+            case 1:
+                project = _a.sent();
+                sum = 0;
+                numOfBackers = 0;
+                percentFunded = 0;
+                supportTiers = [];
+                project.SupportTiers.forEach(function (supportTier) {
+                    sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                    console.log('Helloz', supportTier);
+                    numOfBackers += supportTier.UsersToSupportTiers.length;
+                    var dictSupportTier = editSupportTier(supportTier);
+                    console.log('Yoooz');
+                    supportTiers.push(dictSupportTier);
+                });
+                percentFunded = sum / project.goal * 100;
+                d1 = new Date();
+                d2 = new Date(project.endDate);
+                diffInTIme = d2.getTime() - d1.getTime();
+                diffInDays = diffInTIme / (1000 * 3600 * 24);
+                return [2 /*return*/, {
+                        id: project.id,
+                        screenShot: project.screenShot,
+                        videoScr: project.video,
+                        title: project.title,
+                        summary: project.summary,
+                        creatorName: project.creatorName,
+                        fundsCollected: sum,
+                        percentFunded: percentFunded,
+                        numOfBackers: numOfBackers,
+                        supportTiers: supportTiers,
+                        daysToGo: diffInDays
+                    }];
+        }
+    });
+}); };
+router.get('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var projectId, projects;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                projectId = req.params.projectId;
+                return [4 /*yield*/, getProjectDetails(projectId)];
+            case 1:
+                projects = _a.sent();
+                res.json(projects);
+                return [2 /*return*/];
+        }
+    });
+}); }));
 router.get('/:category/page/:pageNumber', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, category, pageNumber, user, projects;
     return __generator(this, function (_b) {

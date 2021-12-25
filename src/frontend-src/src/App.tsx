@@ -15,7 +15,9 @@ function App() {
   const sessionUser:IUser = useSelector((state: RootState) => state.session);
 
   useEffect(() => {
-    history.push('/category/Top/page/1')
+    if (window.location.pathname === '/') {
+      history.push('/category/Top/page/1')
+    }
   }, [])
 
   useEffect(() => { // once session user updates in store, load App

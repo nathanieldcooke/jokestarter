@@ -50,6 +50,7 @@ export interface IActionUser {
 
 
 export interface IProjects {
+    id:number
     screenShot:string|undefined,
     title:string|null,
     summary:string|null,
@@ -61,4 +62,34 @@ export interface IProjects {
 export interface IActionProjects {
     type:string,
     payload:IProjects[]
+}
+
+
+/////////////////////// project interfaces and types
+
+export interface ISupportTier {
+    amount:number|null,
+    name:string|null,
+    summary:string|null,
+    shipsTo:string|null,
+    backers:number|null,
+    amountLeft:number|null,
+    estimatedDelivery:string|null,
+} 
+
+export interface IProject {
+    id:number|null,
+    screenShot:string|undefined,
+    videoSrc:string|null,
+    title:string|null,
+    summary:string|null,
+    creatorName:string|null,
+    fundsCollected:number|null,
+    percentFunded:number|null,
+    supportTiers:ISupportTier[],
+}
+
+export interface IActionProject {
+    type:string,
+    payload:IProject
 }

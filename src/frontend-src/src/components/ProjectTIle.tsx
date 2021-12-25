@@ -16,7 +16,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     : 
     project.percentFunded * 100
 
-  console.log('PPs: ', project)
+    const openInNewTab = (url:string) => {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+      }
 
   return (
     <div className='project-tile'>
@@ -33,7 +36,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                 <span>By {project.creatorName}</span>
             </div>
         </section>
-        <div className='hidden-tile-cover'>More Details</div>
+        <div 
+            className='hidden-tile-cover'
+            onClick={() => openInNewTab('https://stackoverflow.com')}
+            >More Details</div>
     </div>
   )
 };

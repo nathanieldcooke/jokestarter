@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import projectsReducer from './projects';
+import projectReducer from './project';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   projects: projectsReducer,
+  project: projectReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -7,9 +7,11 @@ var redux_1 = require("redux");
 var redux_thunk_1 = __importDefault(require("redux-thunk"));
 var session_1 = __importDefault(require("./session"));
 var projects_1 = __importDefault(require("./projects"));
+var project_1 = __importDefault(require("./project"));
 var rootReducer = (0, redux_1.combineReducers)({
     session: session_1.default,
     projects: projects_1.default,
+    project: project_1.default,
 });
 var enhancer;
 if (process.env.NODE_ENV === 'production') {

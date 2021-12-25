@@ -13,7 +13,11 @@ function ProjectTile(props) {
             100
         :
             project.percentFunded * 100;
-    console.log('PPs: ', project);
+    var openInNewTab = function (url) {
+        var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (newWindow)
+            newWindow.opener = null;
+    };
     return (react_1.default.createElement("div", { className: 'project-tile' },
         react_1.default.createElement("img", { src: project.screenShot }),
         react_1.default.createElement(LinearProgress_1.default, { variant: "determinate", value: percentFunded }),
@@ -26,7 +30,7 @@ function ProjectTile(props) {
                 react_1.default.createElement("span", null,
                     "By ",
                     project.creatorName))),
-        react_1.default.createElement("div", { className: 'hidden-tile-cover' }, "More Details")));
+        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab('https://stackoverflow.com'); } }, "More Details")));
 }
 ;
 exports.default = ProjectTile;

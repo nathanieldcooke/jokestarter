@@ -23,7 +23,6 @@ const getBookmarks = async (pageNumber:string, user:any) => {
 
     
     userBookmarks = userBookmarks.map((bookmark:any) => bookmark.projectId)
-    console.log("f-bookmarks: ", userBookmarks)
 
     let projects = await Project.findAll({
         include: {
@@ -37,8 +36,6 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         }
     })
 
-    console.log('f-projects: ', projects)
-
     projects = projects.map((project:any) => {
         let sum = 0
         let percentFunded = 0
@@ -48,6 +45,7 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         percentFunded = sum / project.goal * 100
 
         return {
+            id: project.id,
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
@@ -86,6 +84,7 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
         percentFunded = sum / project.goal * 100
 
         return {
+            id: project.id,
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
@@ -134,6 +133,7 @@ const getTop = async (pageNumber:string, user:any) => {
         percentFunded = sum / project.goal * 100
 
         return {
+            id: project.id,
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
@@ -147,6 +147,80 @@ const getTop = async (pageNumber:string, user:any) => {
 
     return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
 }
+
+const editSupportTier = (supportTier:any) => {
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    let backers = supportTier.UsersToSupportTiers.length
+    let amountLeft = supportTier.amountAvailable - backers
+    let date = new Date(supportTier.estimatedDelivery) 
+    return {
+        amount: supportTier.minPledge,
+        name: supportTier.name,
+        summary: supportTier.summary,
+        shipsTo: supportTier.shipsTo,
+        backers,
+        amountLeft,
+        estimatedDelivery: `${months[date.getMonth()]} ${date.getFullYear()}`
+    }
+}
+
+const getProjectDetails = async (projectId:string) => {
+
+
+    let project = await Project.findByPk(projectId, {
+        include: {
+            model: SupportTier,
+            include: UsersToSupportTier
+        }
+    });
+    let sum = 0
+    let numOfBackers = 0
+    let percentFunded = 0
+    let supportTiers:any = []
+    project.SupportTiers.forEach((supportTier:any) => {
+        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
+        console.log('Helloz', supportTier)
+        numOfBackers += supportTier.UsersToSupportTiers.length
+        
+        let dictSupportTier = editSupportTier(supportTier) 
+        console.log('Yoooz')
+        supportTiers.push(dictSupportTier)
+    })
+    percentFunded = sum / project.goal * 100
+
+    let d1 = new Date()
+    let d2 = new Date(project.endDate)
+
+    let diffInTIme = d2.getTime() - d1.getTime();
+
+    let diffInDays = diffInTIme / (1000 * 3600 * 24);
+
+    return {
+        id: project.id,
+        screenShot: project.screenShot,
+        videoScr: project.video,
+        title: project.title,
+        summary: project.summary,
+        creatorName: project.creatorName,
+        fundsCollected: sum,
+        percentFunded,
+        numOfBackers,
+        supportTiers,
+        daysToGo: diffInDays
+    }
+
+
+}
+
+router.get('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
+    
+    const { projectId } = req.params;
+
+
+    let projects = await getProjectDetails(projectId)
+    res.json(projects)
+    
+}))
 
 router.get('/:category/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     const { category, pageNumber } = req.params;
