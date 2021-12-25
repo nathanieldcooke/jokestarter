@@ -46,6 +46,48 @@ var asyncHandler = require('express-async-handler');
 var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier;
 var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser, requireAuth = _b.requireAuth;
 var router = express_1.default.Router();
+var getOtherCategoryLoggedOut = function (category, pageNumber) { return __awaiter(void 0, void 0, void 0, function () {
+    var zeroIndexPage, categoryId, projects;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                zeroIndexPage = Number(pageNumber) - 1;
+                return [4 /*yield*/, Category.getCategoryId(category)];
+            case 1:
+                categoryId = _a.sent();
+                return [4 /*yield*/, Project.findAll({
+                        include: {
+                            model: SupportTier,
+                            include: UsersToSupportTier
+                        },
+                        where: {
+                            categoryId: categoryId
+                        },
+                        // limit: 4,
+                        // offset: zeroIndexPage * 4
+                    })];
+            case 2:
+                projects = _a.sent();
+                projects = projects.map(function (project) {
+                    var sum = 0;
+                    var percentFunded = 0;
+                    project.SupportTiers.forEach(function (supportTier) {
+                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                    });
+                    percentFunded = sum / project.goal * 100;
+                    return {
+                        screenShot: project.screenShot,
+                        title: project.title,
+                        summary: project.summary,
+                        creatorName: project.creatorName,
+                        percentFunded: percentFunded,
+                        pageNums: Math.ceil(projects.length / 4)
+                    };
+                });
+                return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
+        }
+    });
+}); };
 var getTopLoggedOut = function (pageNumber) { return __awaiter(void 0, void 0, void 0, function () {
     var zeroIndexPage, categories, categoryIds, projects;
     var _a, _b;
@@ -107,14 +149,21 @@ router.get('/:category/page/:pageNumber', restoreUser, asyncHandler(function (re
                 _a = req.params, category = _a.category, pageNumber = _a.pageNumber;
                 user = req.user;
                 if (!user) return [3 /*break*/, 1];
-                return [3 /*break*/, 3];
-            case 1: return [4 /*yield*/, getTopLoggedOut(pageNumber)];
+                return [3 /*break*/, 5];
+            case 1:
+                projects = [];
+                if (!(category === 'Top')) return [3 /*break*/, 3];
+                return [4 /*yield*/, getTopLoggedOut(pageNumber)];
             case 2:
                 projects = _b.sent();
-                console.log('Back: ', projects);
                 res.json(projects);
-                _b.label = 3;
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 3: return [4 /*yield*/, getOtherCategoryLoggedOut(category, pageNumber)];
+            case 4:
+                projects = _b.sent();
+                res.json(projects);
+                _b.label = 5;
+            case 5: return [2 /*return*/];
         }
     });
 }); }));
