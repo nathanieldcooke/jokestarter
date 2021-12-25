@@ -14,6 +14,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   }, {});
   SupportTier.associate = function(models:any) {
     SupportTier.belongsTo(models.Project, { foreignKey: 'projectId' });
+    SupportTier.hasMany(models.UsersToSupportTier, { foreignKey: 'supportTierId' });
 
     const columnMapping1 = {
       through: 'UsersToSupportTier',

@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { RootState } from '../store';
 import Button from '@material-ui/core/Button';
 import '../compStyles/Form.css'
+import Projects from './Projects';
 // props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
 const Main = (props:{props: {}}|React.ReactNode) => {
 //   const { setSelectedForm } = props.props;
@@ -19,7 +20,7 @@ const Main = (props:{props: {}}|React.ReactNode) => {
         <Switch>
           <Route
             path="/category/:categoryName/page/:pageNumber"
-          ><div id='whatt'>Cat and Page</div></Route>
+          ><Projects/></Route>
           <Route
             path="/category/:categoryName/project/:projectId"
           ><div id='whatt'>project Details</div></Route>

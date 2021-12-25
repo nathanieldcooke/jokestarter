@@ -9,7 +9,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     pledgeAmount: DataTypes.INTEGER
   }, {});
   UsersToSupportTier.associate = function(models:any) {
-    // associations can be defined here
+    UsersToSupportTier.belongsTo(models.SupportTier, { foreignKey: 'supportTierId' });
   };
   return UsersToSupportTier;
 };

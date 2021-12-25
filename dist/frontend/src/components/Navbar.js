@@ -92,7 +92,7 @@ function Navbar() {
                         react_1.default.createElement(react_1.default.Fragment, null,
                             react_1.default.createElement("span", null, "|"),
                             react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Bookmarks/page/1", activeClassName: "selected" }, "Bookmarks"),
-                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/contributions/page/:pageNumber", activeClassName: "selected" }, "Contributed"))
+                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/contributions/page/1", activeClassName: "selected" }, "Contributed"))
                     :
                         null))));
 }

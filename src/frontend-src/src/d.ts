@@ -46,4 +46,18 @@ export interface IActionUser {
 }
 
 
+/////////////////////// projects interfaces and types
 
+
+export interface IProjects {
+    screenShot:string|null,
+    title:string|null,
+    summary:string|null,
+    creatorName:string|null,
+    percentFunded:number|null
+}
+
+export interface IActionProjects {
+    type:string,
+    payload:IProjects[]
+}

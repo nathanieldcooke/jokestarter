@@ -4,5 +4,7 @@ var _a = require('../../utils/auth'), setTokenCookie = _a.setTokenCookie, restor
 var User = require('../../db/models').User;
 var router = require('express').Router();
 var usersRouter = require('./users.js');
+var projectsRouter = require('./projects');
+router.use('/projects', projectsRouter);
 router.use('/users', usersRouter);
 module.exports = router;

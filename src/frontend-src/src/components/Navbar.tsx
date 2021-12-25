@@ -114,7 +114,7 @@ function Navbar() {
                 <NavLink to="/category/Bookmarks/page/1" activeClassName="selected">
                     Bookmarks
                 </NavLink>
-                <NavLink to="/contributions/page/:pageNumber" activeClassName="selected">
+                <NavLink to="/contributions/page/1" activeClassName="selected">
                     Contributed
                 </NavLink>
                 </>
