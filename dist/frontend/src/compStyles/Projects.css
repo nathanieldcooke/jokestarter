@@ -5,3 +5,12 @@ div#projects {
     margin-top: 5em;
     margin-bottom: 5em;
 }
+
+div.css-1p5q5e5-MuiStack-root {
+    margin-bottom: 5em;
+}
+
+div.css-1p5q5e5-MuiStack-root > nav > ul {
+    display: flex;
+    justify-content: center;
+}

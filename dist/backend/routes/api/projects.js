@@ -90,7 +90,8 @@ var getTopLoggedOut = function (pageNumber) { return __awaiter(void 0, void 0, v
                         title: project.title,
                         summary: project.summary,
                         creatorName: project.creatorName,
-                        percentFunded: percentFunded
+                        percentFunded: percentFunded,
+                        pageNums: projects.length / 4
                     };
                 });
                 projects.sort(function (a, b) { return b.percentFunded - a.percentFunded; });

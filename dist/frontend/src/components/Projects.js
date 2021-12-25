@@ -27,17 +27,29 @@ var react_redux_1 = require("react-redux");
 var projectActions = __importStar(require("./../store/projects"));
 var react_router_dom_1 = require("react-router-dom");
 var ProjectTIle_1 = __importDefault(require("./ProjectTIle"));
+var Pagination_1 = __importDefault(require("@mui/material/Pagination"));
+var Stack_1 = __importDefault(require("@mui/material/Stack"));
 require("../compStyles/Projects.css");
 function Projects() {
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_router_dom_1.useParams)(), categoryName = _a.categoryName, pageNumber = _a.pageNumber;
+    var pageNumberNum = Number(pageNumber);
     var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
-    console.log('PPs: ', projects);
+    var pageNums = projects[0] ? projects[0].pageNums : 0;
+    var _b = (0, react_1.useState)(pageNumberNum), page = _b[0], setPage = _b[1];
+    var handleChange = function (event, value) {
+        history.push("/category/".concat(categoryName, "/page/").concat(value));
+        dispatch(projectActions.getProjects(categoryName, "".concat(value)));
+        setPage(value);
+    };
     (0, react_1.useEffect)(function () {
         dispatch(projectActions.getProjects(categoryName, pageNumber));
     }, [dispatch]);
-    return (react_1.default.createElement("div", { id: 'projects' }, projects.map((function (project) { return react_1.default.createElement(ProjectTIle_1.default, { props: { project: project } }); }))));
+    return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement("div", { id: 'projects' }, projects.map((function (project) { return react_1.default.createElement(ProjectTIle_1.default, { key: "project-tile-".concat(project.title), props: { project: project } }); }))),
+        react_1.default.createElement(Stack_1.default, { spacing: 2 },
+            react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange }))));
 }
 ;
 exports.default = Projects;

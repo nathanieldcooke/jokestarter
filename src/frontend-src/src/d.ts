@@ -54,7 +54,8 @@ export interface IProjects {
     title:string|null,
     summary:string|null,
     creatorName:string|null,
-    percentFunded:number
+    percentFunded:number,
+    pageNums:number,
 }
 
 export interface IActionProjects {

@@ -10,22 +10,18 @@ import '../compStyles/ProjectTile.css'
 
 function ProjectTile(props:{props: { project:IProjects }}) {
     const project = props.props.project
-    const percentFunded = project.percentFunded
-    const [progress, setProgress] = useState(
-        (percentFunded) * 100 > 100 
-        ?
-        80
-        : 
-        percentFunded * 100
-    );
-
+    const percentFunded = project.percentFunded > 1 
+    ?
+    100
+    : 
+    project.percentFunded * 100
 
   console.log('PPs: ', project)
 
   return (
     <div className='project-tile'>
         <img src={project.screenShot}/>
-        <LinearProgress variant="determinate" value={progress} />
+        <LinearProgress variant="determinate" value={percentFunded} />
         <section className='text-content'>
             <div className='projects-title'>
                 <span>{project.title}</span>

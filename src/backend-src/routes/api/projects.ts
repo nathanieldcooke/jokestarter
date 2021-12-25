@@ -51,7 +51,8 @@ const getTopLoggedOut = async (pageNumber:string) => {
             title: project.title,
             summary: project.summary,
             creatorName: project.creatorName,
-            percentFunded
+            percentFunded,
+            pageNums: projects.length / 4
         }
     })
 

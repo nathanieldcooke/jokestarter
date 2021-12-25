@@ -2,7 +2,7 @@ div.project-tile {
     background-color: white;
     height: 28em;
     width: 20em;
-    border: solid black 2px;
+    /* border: solid black 2px; */
     display: flex;
     flex-direction: column;
 }
@@ -25,7 +25,7 @@ div.project-tile > span > span {
 
 div.project-tile > section.text-content {
     position: relative;
-    padding-left: .5em;
+    /* padding-left: .5em; */
     height: 100%;
 }
 
