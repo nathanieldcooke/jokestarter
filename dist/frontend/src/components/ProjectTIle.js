@@ -25,7 +25,8 @@ function ProjectTile(props) {
             react_1.default.createElement("div", { className: 'projects-creatorName' },
                 react_1.default.createElement("span", null,
                     "By ",
-                    project.creatorName)))));
+                    project.creatorName))),
+        react_1.default.createElement("div", { className: 'hidden-tile-cover' }, "More Details")));
 }
 ;
 exports.default = ProjectTile;

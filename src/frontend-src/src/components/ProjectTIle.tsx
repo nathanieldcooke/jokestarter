@@ -33,6 +33,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                 <span>By {project.creatorName}</span>
             </div>
         </section>
+        <div className='hidden-tile-cover'>More Details</div>
     </div>
   )
 };

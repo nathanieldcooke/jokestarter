@@ -5,6 +5,7 @@ div.project-tile {
     /* border: solid black 2px; */
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 div.project-tile img {
@@ -51,4 +52,25 @@ div.projects-creatorName {
     margin-top: 1em;
     bottom: 1em;
     position: absolute;
+}
+
+div.hidden-tile-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: rgba(7, 142, 0, 0);
+}
+
+div.hidden-tile-cover:hover {
+    background-color: rgba(7, 135, 0, 0.653);
+    color: white;
+    transition: .5s;
+    cursor: pointer;
 }
