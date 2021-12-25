@@ -4,6 +4,8 @@ import * as projectActions from './../store/projects'
 import { RootState } from './../store';
 import { IProjects, IUser } from './../d';
 import { useHistory, useParams } from 'react-router-dom';
+import ProjectTile from './ProjectTIle';
+import '../compStyles/Projects.css'
 
 type urlParams = {
     categoryName:string,
@@ -14,26 +16,19 @@ function Projects() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { categoryName, pageNumber } = useParams<urlParams>();
-//   const [isLoaded, setIsLoaded] = useState(false);
+
   const projects:IProjects[] = useSelector((state: RootState) => state.projects);
 
   console.log('PPs: ', projects)
-//   useEffect(() => {
-    //     history.push('/category/Top/page/1')
-    //   }, [])
     
-    //   useEffect(() => { // once session user updates in store, load App
-    //     setIsLoaded(true);
-    //   }, [sessionUser])
-    
-    useEffect(() => { // attempt to restore user on page load
+    useEffect(() => {
         dispatch(projectActions.getProjects(categoryName, pageNumber))
     }, [dispatch]);
 
 
   return (
-    <div>
-        Projects
+    <div id='projects'>
+        {projects.map(((project:IProjects) => <ProjectTile props={{ project }}/>))}
     </div>
   )
 };

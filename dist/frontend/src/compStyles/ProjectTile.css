@@ -1,0 +1,54 @@
+div.project-tile {
+    background-color: white;
+    height: 28em;
+    width: 20em;
+    border: solid black 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+div.project-tile img {
+    width:100%;
+    min-height:12em;
+    display: block;
+}
+
+
+div.project-tile > span {
+    background-color: rgb(155, 155, 155);
+    height: 10px;
+}
+
+div.project-tile > span > span {
+    background-color: #05ce78;
+}
+
+div.project-tile > section.text-content {
+    position: relative;
+    padding-left: .5em;
+    height: 100%;
+}
+
+div.projects-title {
+    margin-top: 1em;
+}
+
+div.projects-title > span {
+    font-size: 1.25em;
+    font-weight: bolder;
+}
+
+div.projects-summary {
+    margin-top: 1em;
+}
+
+div.projects-summary > span {
+    font-size: 1.2em;
+}
+
+
+div.projects-creatorName {
+    margin-top: 1em;
+    bottom: 1em;
+    position: absolute;
+}

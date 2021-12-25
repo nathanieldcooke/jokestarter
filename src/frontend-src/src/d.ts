@@ -50,11 +50,11 @@ export interface IActionUser {
 
 
 export interface IProjects {
-    screenShot:string|null,
+    screenShot:string|undefined,
     title:string|null,
     summary:string|null,
     creatorName:string|null,
-    percentFunded:number|null
+    percentFunded:number
 }
 
 export interface IActionProjects {

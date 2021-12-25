@@ -70,15 +70,6 @@ var getProjects = function (category, page) { return function (dispatch) { retur
     });
 }); }; };
 exports.getProjects = getProjects;
-// const initialState:IProjects[] = [
-//     {
-//         screenShot: null,
-//         title: null,
-//         summary: null,
-//         creatorName: null,
-//         percentFunded: null,
-//     }
-// ]
 var initialState = [];
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }

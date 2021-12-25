@@ -21,15 +21,6 @@ export const getProjects = (category:string, page:string) => async (dispatch: Di
     return response;
 };
 
-// const initialState:IProjects[] = [
-//     {
-//         screenShot: null,
-//         title: null,
-//         summary: null,
-//         creatorName: null,
-//         percentFunded: null,
-//     }
-// ]
 const initialState:IProjects[] = []
 
 const sessionReducer = (state = initialState, action:IActionProjects) => {

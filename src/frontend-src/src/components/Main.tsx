@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import * as sessionActions from '../store/session';
-import { useDispatch, useSelector } from 'react-redux';
+// import * as sessionActions from '../store/session';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { RootState } from '../store';
-import Button from '@material-ui/core/Button';
-import '../compStyles/Form.css'
+// import { RootState } from '../store';
+// import Button from '@material-ui/core/Button';
+import '../compStyles/Main.css'
 import Projects from './Projects';
 // props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
 const Main = (props:{props: {}}|React.ReactNode) => {
@@ -16,7 +16,7 @@ const Main = (props:{props: {}}|React.ReactNode) => {
 
 
     return (
-    <div>
+    <div id='main'>
         <Switch>
           <Route
             path="/category/:categoryName/page/:pageNumber"

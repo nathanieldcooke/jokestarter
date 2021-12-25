@@ -1,0 +1,7 @@
+div#projects {
+    /* background-color: burlywood; */
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
