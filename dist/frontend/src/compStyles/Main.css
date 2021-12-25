@@ -1,4 +1,32 @@
 div#main {
-
+    /* position: relative; */
 }
 
+div#background-lines {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    /* background-color: red; */
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+div#background-lines > img {
+    position: absolute;
+}
+
+div#background-lines > img#left-img {
+    left: 0em;
+    top: 10em;
+}
+
+div#background-lines > img#right-img {
+    right: 0;
+    top: 5em;
+}
+
+div#background-lines > img#bottom-img {
+    bottom: 0;
+    right: 0;
+}

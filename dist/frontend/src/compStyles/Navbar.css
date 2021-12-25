@@ -2,6 +2,9 @@
 
 
 /* top nav bar css */
+nav > div{
+    background-color: white;
+}
 
 nav div#nav-top {
     /* background-color: yellowgreen; */
