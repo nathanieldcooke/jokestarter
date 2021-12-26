@@ -8,6 +8,7 @@ import { IProject } from './../d';
 import { useHistory, useParams } from 'react-router-dom';
 import '../compStyles/Project.css'
 import { Button } from '@material-ui/core';
+import TierTile from './TIerTIle';
 
 // /category/:categoryName/project/:projectId
 
@@ -79,7 +80,7 @@ function Project() {
             </div>
         </section>
         <section id='support-tiers'>
-            {project.supportTiers.map(supportTier => <div key={`support-tier-${supportTier.name}`} className='support-tier'></div>)}
+            {project.supportTiers.map(supportTier => <TierTile key={`support-tier-${supportTier.name}`} props={{supportTier}}/>)}
         </section>
     </div>
   )

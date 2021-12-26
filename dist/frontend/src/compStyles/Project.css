@@ -64,14 +64,6 @@ section#support-tiers {
     overflow-y: scroll;
 }
 
-div.support-tier {
-    height: 20em;
-    min-width: 15em;
-    margin-right: 5em;
-    margin-top: 1em;
-    background-color: teal;
-}
-
 #project-details #title-summary {
     margin-top: 2.5em;
     margin-bottom: 2.5em;

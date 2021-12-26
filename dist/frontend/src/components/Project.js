@@ -29,6 +29,7 @@ var projectActions = __importStar(require("./../store/project"));
 var react_router_dom_1 = require("react-router-dom");
 require("../compStyles/Project.css");
 var core_1 = require("@material-ui/core");
+var TIerTIle_1 = __importDefault(require("./TIerTIle"));
 function Project() {
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
@@ -80,7 +81,7 @@ function Project() {
                         react_1.default.createElement("span", null, "days to go"))),
                 react_1.default.createElement(core_1.Button, { id: 'back-this-project-btn' }, "Back this project"),
                 react_1.default.createElement(core_1.Button, { id: 'bookmark-btn' }, "Bookmark"))),
-        react_1.default.createElement("section", { id: 'support-tiers' }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement("div", { key: "support-tier-".concat(supportTier.name), className: 'support-tier' }); }))));
+        react_1.default.createElement("section", { id: 'support-tiers' }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement(TIerTIle_1.default, { key: "support-tier-".concat(supportTier.name), props: { supportTier: supportTier } }); }))));
 }
 ;
 exports.default = Project;
