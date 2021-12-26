@@ -14,8 +14,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     ?
     100
     : 
-    project.percentFunded * 100
-
+    project.percentFunded * 100;
+    
+    const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
+    console.log('GOTTEN: ', category)
     const openInNewTab = (url:string) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
@@ -38,7 +40,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         </section>
         <div 
             className='hidden-tile-cover'
-            onClick={() => openInNewTab('https://stackoverflow.com')}
+            onClick={() => openInNewTab(`/category/${category}/project/${project.id}`)}
             >More Details</div>
     </div>
   )

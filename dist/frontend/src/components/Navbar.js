@@ -34,7 +34,12 @@ var SignupForm_1 = __importDefault(require("./SignupForm"));
 var projectActions = __importStar(require("./../store/projects"));
 function Navbar() {
     var _a = (0, react_1.useState)(''), selectedForm = _a[0], setSelectedForm = _a[1];
-    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
+    var _b = (0, react_1.useState)(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
+        ?
+            'none'
+        :
+            ''), bottomNavDis = _b[0], setBottomNavDis = _b[1];
+    var _c = (0, react_1.useState)(false), open = _c[0], setOpen = _c[1];
     var handleOpen = function (selectedForm) {
         setSelectedForm(selectedForm);
         setOpen(true);
@@ -47,7 +52,7 @@ function Navbar() {
         dispatch(projectActions.getProjects(category, '1'));
     };
     var dispatch = (0, react_redux_1.useDispatch)();
-    var _c = (0, react_1.useState)(false), isLoaded = _c[0], setIsLoaded = _c[1];
+    var _d = (0, react_1.useState)(false), isLoaded = _d[0], setIsLoaded = _d[1];
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     (0, react_1.useEffect)(function () {
         if (sessionUser.user.username) {
@@ -80,7 +85,7 @@ function Navbar() {
                         react_1.default.createElement(Button_1.default, { id: 'login', onClick: function () { return handleOpen('login'); } }, "Log In"),
                         react_1.default.createElement(Button_1.default, { id: 'signup', onClick: function () { return handleOpen('signup'); } }, "Sign Up"),
                         react_1.default.createElement(Button_1.default, { id: 'demo', onClick: function () { return dispatch(sessionActions.demo()); } }, "Demo"))),
-        react_1.default.createElement("div", { id: 'nav-bottom' },
+        react_1.default.createElement("div", { id: 'nav-bottom', style: { display: bottomNavDis } },
             react_1.default.createElement("div", { id: 'nav-link-container' },
                 react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Top/page/1", onClick: function () { return handleClick('Top'); }, activeClassName: "selected" }, "Top"),
                 react_1.default.createElement("br", null),

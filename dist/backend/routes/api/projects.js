@@ -190,9 +190,9 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
         }
     });
 }); };
-var editSupportTier = function (supportTier) {
+var editSupportTier = function (supportTier, usersToSupportTier) {
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var backers = supportTier.UsersToSupportTiers.length;
+    var backers = usersToSupportTier.length;
     var amountLeft = supportTier.amountAvailable - backers;
     var date = new Date(supportTier.estimatedDelivery);
     return {
@@ -206,38 +206,51 @@ var editSupportTier = function (supportTier) {
     };
 };
 var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, void 0, function () {
-    var project, sum, numOfBackers, percentFunded, supportTiers, d1, d2, diffInTIme, diffInDays;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var project, sum, numOfBackers, percentFunded, supportTiers, _i, _a, supportTier, usersToSupportTier, dictSupportTier, d1, d2, diffInTIme, diffInDays;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, Project.findByPk(projectId, {
-                    include: {
-                        model: SupportTier,
-                        include: UsersToSupportTier
-                    }
+                    include: SupportTier
                 })];
             case 1:
-                project = _a.sent();
+                project = _b.sent();
                 sum = 0;
                 numOfBackers = 0;
                 percentFunded = 0;
                 supportTiers = [];
-                project.SupportTiers.forEach(function (supportTier) {
-                    sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
-                    console.log('Helloz', supportTier);
-                    numOfBackers += supportTier.UsersToSupportTiers.length;
-                    var dictSupportTier = editSupportTier(supportTier);
-                    console.log('Yoooz');
-                    supportTiers.push(dictSupportTier);
+                _i = 0, _a = project.SupportTiers;
+                _b.label = 2;
+            case 2:
+                if (!(_i < _a.length)) return [3 /*break*/, 5];
+                supportTier = _a[_i];
+                return [4 /*yield*/, UsersToSupportTier.findAll({
+                        where: {
+                            supportTierId: supportTier.id
+                        }
+                    })];
+            case 3:
+                usersToSupportTier = _b.sent();
+                usersToSupportTier.forEach(function (uToSTier) {
+                    sum += uToSTier.pledgeAmount;
+                    numOfBackers += 1;
                 });
-                percentFunded = sum / project.goal * 100;
+                dictSupportTier = editSupportTier(supportTier, usersToSupportTier);
+                supportTiers.push(dictSupportTier);
+                _b.label = 4;
+            case 4:
+                _i++;
+                return [3 /*break*/, 2];
+            case 5:
+                percentFunded = sum / project.goal;
                 d1 = new Date();
                 d2 = new Date(project.endDate);
                 diffInTIme = d2.getTime() - d1.getTime();
                 diffInDays = diffInTIme / (1000 * 3600 * 24);
                 return [2 /*return*/, {
                         id: project.id,
+                        goal: project.goal,
                         screenShot: project.screenShot,
-                        videoScr: project.video,
+                        videoSrc: project.video,
                         title: project.title,
                         summary: project.summary,
                         creatorName: project.creatorName,
@@ -245,7 +258,7 @@ var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, 
                         percentFunded: percentFunded,
                         numOfBackers: numOfBackers,
                         supportTiers: supportTiers,
-                        daysToGo: diffInDays
+                        daysToGo: Math.floor(diffInDays)
                     }];
         }
     });

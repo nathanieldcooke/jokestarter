@@ -21,18 +21,21 @@ export const getProject = (projectId:number) => async (dispatch: Dispatch<IActio
     return response;
 };
 
-const initialState:IProject|null = null
-// {
-//     id: null,
-//     screenShot: undefined,
-//     videoSrc: null,
-//     title: null,
-//     summary: null,
-//     creatorName: null,
-//     fundsCollected: null,
-//     percentFunded: null,
-//     supportTiers: [],
-// }
+const initialState:IProject = 
+{
+    id: null,
+    screenShot: undefined,
+    videoSrc: undefined,
+    title: null,
+    summary: null,
+    creatorName: null,
+    fundsCollected: null,
+    percentFunded: 0,
+    numOfBackers: 0,
+    daysToGo: 0,
+    goal: null,
+    supportTiers: [],
+}
 
 const sessionReducer = (state = initialState, action:IActionProject) => {
     let newState;

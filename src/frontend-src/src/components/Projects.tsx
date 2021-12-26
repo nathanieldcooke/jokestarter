@@ -45,7 +45,6 @@ function Projects() {
         <Pagination count={pageNums} page={page} onChange={handleChange} />
       </Stack>
     </>
-
   )
 };
 

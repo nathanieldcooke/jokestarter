@@ -148,9 +148,9 @@ const getTop = async (pageNumber:string, user:any) => {
     return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
 }
 
-const editSupportTier = (supportTier:any) => {
+const editSupportTier = (supportTier:any, usersToSupportTier:any) => {
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    let backers = supportTier.UsersToSupportTiers.length
+    let backers = usersToSupportTier.length
     let amountLeft = supportTier.amountAvailable - backers
     let date = new Date(supportTier.estimatedDelivery) 
     return {
@@ -168,25 +168,30 @@ const getProjectDetails = async (projectId:string) => {
 
 
     let project = await Project.findByPk(projectId, {
-        include: {
-            model: SupportTier,
-            include: UsersToSupportTier
-        }
+        include: SupportTier
     });
     let sum = 0
     let numOfBackers = 0
     let percentFunded = 0
     let supportTiers:any = []
-    project.SupportTiers.forEach((supportTier:any) => {
-        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
-        console.log('Helloz', supportTier)
-        numOfBackers += supportTier.UsersToSupportTiers.length
-        
-        let dictSupportTier = editSupportTier(supportTier) 
-        console.log('Yoooz')
+
+    for (let supportTier of project.SupportTiers) {
+        let usersToSupportTier = await UsersToSupportTier.findAll({
+            where: {
+                supportTierId: supportTier.id
+            }
+        })
+
+        usersToSupportTier.forEach((uToSTier:any) => {
+            sum += uToSTier.pledgeAmount;
+            numOfBackers += 1;
+        })
+
+        let dictSupportTier = editSupportTier(supportTier, usersToSupportTier)
         supportTiers.push(dictSupportTier)
-    })
-    percentFunded = sum / project.goal * 100
+    }
+
+    percentFunded = sum / project.goal
 
     let d1 = new Date()
     let d2 = new Date(project.endDate)
@@ -197,8 +202,9 @@ const getProjectDetails = async (projectId:string) => {
 
     return {
         id: project.id,
+        goal: project.goal,
         screenShot: project.screenShot,
-        videoScr: project.video,
+        videoSrc: project.video,
         title: project.title,
         summary: project.summary,
         creatorName: project.creatorName,
@@ -206,7 +212,7 @@ const getProjectDetails = async (projectId:string) => {
         percentFunded,
         numOfBackers,
         supportTiers,
-        daysToGo: diffInDays
+        daysToGo: Math.floor(diffInDays)
     }
 
 

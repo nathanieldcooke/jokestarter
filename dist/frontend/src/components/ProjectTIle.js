@@ -13,6 +13,8 @@ function ProjectTile(props) {
             100
         :
             project.percentFunded * 100;
+    var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
+    console.log('GOTTEN: ', category);
     var openInNewTab = function (url) {
         var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow)
@@ -30,7 +32,7 @@ function ProjectTile(props) {
                 react_1.default.createElement("span", null,
                     "By ",
                     project.creatorName))),
-        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab('https://stackoverflow.com'); } }, "More Details")));
+        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab("/category/".concat(category, "/project/").concat(project.id)); } }, "More Details")));
 }
 ;
 exports.default = ProjectTile;

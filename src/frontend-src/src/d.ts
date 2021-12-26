@@ -79,14 +79,17 @@ export interface ISupportTier {
 
 export interface IProject {
     id:number|null,
+    goal:number|null,
     screenShot:string|undefined,
-    videoSrc:string|null,
+    videoSrc:string|undefined,
     title:string|null,
     summary:string|null,
     creatorName:string|null,
     fundsCollected:number|null,
-    percentFunded:number|null,
+    percentFunded:number,
+    numOfBackers:number
     supportTiers:ISupportTier[],
+    daysToGo:number
 }
 
 export interface IActionProject {

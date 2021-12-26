@@ -13,6 +13,12 @@ import * as projectActions from './../store/projects'
 
 function Navbar() {
   const [selectedForm, setSelectedForm] = useState('')
+  const [bottomNavDis, setBottomNavDis] = useState(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
+  ?
+  'none'
+  :
+  ''
+  );
   const [open, setOpen] = useState(false);
   const handleOpen = (selectedForm:string) => {
             setSelectedForm(selectedForm);
@@ -88,7 +94,7 @@ function Navbar() {
             </div>
             }
         </div>
-        <div id='nav-bottom'>
+        <div id='nav-bottom' style={{display: bottomNavDis}}>
             <div id='nav-link-container'>
                 <NavLink to="/category/Top/page/1" 
                 onClick={() => handleClick('Top')}

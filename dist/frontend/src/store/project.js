@@ -61,18 +61,20 @@ var getProject = function (projectId) { return function (dispatch) { return __aw
     });
 }); }; };
 exports.getProject = getProject;
-var initialState = null;
-// {
-//     id: null,
-//     screenShot: undefined,
-//     videoSrc: null,
-//     title: null,
-//     summary: null,
-//     creatorName: null,
-//     fundsCollected: null,
-//     percentFunded: null,
-//     supportTiers: [],
-// }
+var initialState = {
+    id: null,
+    screenShot: undefined,
+    videoSrc: undefined,
+    title: null,
+    summary: null,
+    creatorName: null,
+    fundsCollected: null,
+    percentFunded: 0,
+    numOfBackers: 0,
+    daysToGo: 0,
+    goal: null,
+    supportTiers: [],
+};
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;
