@@ -47,9 +47,13 @@ function Projects() {
         dispatch(projectActions.getProjects(categoryName, pageNumber));
     }, [dispatch]);
     return (react_1.default.createElement(react_1.default.Fragment, null,
+        react_1.default.createElement("div", { className: 'page-dial-container' },
+            react_1.default.createElement(Stack_1.default, { spacing: 2 },
+                react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange }))),
         react_1.default.createElement("div", { id: 'projects' }, projects.map((function (project) { return react_1.default.createElement(ProjectTIle_1.default, { key: "project-tile-".concat(project.title), props: { project: project } }); }))),
-        react_1.default.createElement(Stack_1.default, { spacing: 2 },
-            react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange }))));
+        react_1.default.createElement("div", { className: 'page-dial-container' },
+            react_1.default.createElement(Stack_1.default, { spacing: 2 },
+                react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange })))));
 }
 ;
 exports.default = Projects;
