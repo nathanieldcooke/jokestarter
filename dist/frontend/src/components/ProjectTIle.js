@@ -24,10 +24,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var LinearProgress_1 = __importDefault(require("@mui/material/LinearProgress"));
+var react_redux_1 = require("react-redux");
+var projectActions = __importStar(require("./../store/projects"));
 var Bookmark_1 = __importDefault(require("@mui/icons-material/Bookmark"));
 var ThumbDown_1 = __importDefault(require("@mui/icons-material/ThumbDown"));
 require("../compStyles/ProjectTile.css");
 function ProjectTile(props) {
+    var dispatch = (0, react_redux_1.useDispatch)();
+    var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
+    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var project = props.props.project;
     var percentFunded = project.percentFunded > 1
         ?
@@ -45,10 +50,11 @@ function ProjectTile(props) {
         e.stopPropagation();
         if (bookmarked) {
             setBookmarked(false);
+            dispatch(projectActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category));
         }
         else {
             setBookmarked(true);
-            // dipatch action to update project as bookmarked and update local project in store
+            dispatch(projectActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category));
         }
     };
     return (react_1.default.createElement("div", { className: 'project-tile' },

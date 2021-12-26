@@ -11,6 +11,9 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import '../compStyles/ProjectTile.css'
 
 function ProjectTile(props:{props: { project:IProjects }}) {
+    const dispatch = useDispatch();
+    const projects:IProjects[] = useSelector((state: RootState) => state.projects);
+    const sessionUser:IUser = useSelector((state: RootState) => state.session);
     const project = props.props.project
     const percentFunded = project.percentFunded > 1 
     ?
@@ -28,9 +31,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         e.stopPropagation()
         if (bookmarked) {
             setBookmarked(false);
+            dispatch(projectActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category))
         } else {
             setBookmarked(true);
-            // dipatch action to update project as bookmarked and update local project in store
+            dispatch(projectActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category))
         }
     }
 

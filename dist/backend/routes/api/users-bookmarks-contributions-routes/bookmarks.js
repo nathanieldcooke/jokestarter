@@ -47,7 +47,7 @@ var _a = require('../../../utils/auth'), setTokenCookie = _a.setTokenCookie, res
 var _b = require('../../../db/models'), Project = _b.Project, Category = _b.Category, SupportTier = _b.SupportTier, UsersToSupportTier = _b.UsersToSupportTier, Bookmark = _b.Bookmark;
 var router = express_1.default.Router();
 var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, userBookmarks, projects;
+    var zeroIndexPage, userBookmarks, projects, bookmarkedProjects, bookmarkedProjectsSet;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -68,12 +68,25 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                         },
                         where: {
                             id: (_a = {},
-                                _a[Op.or] = userBookmarks,
+                                _a[Op.in] = userBookmarks,
                                 _a)
                         }
                     })];
             case 2:
                 projects = _b.sent();
+                bookmarkedProjects = [];
+                if (!user) return [3 /*break*/, 4];
+                return [4 /*yield*/, Bookmark.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
+            case 3:
+                bookmarkedProjects = _b.sent();
+                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
+                _b.label = 4;
+            case 4:
+                bookmarkedProjectsSet = new Set(bookmarkedProjects);
                 projects = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
@@ -88,10 +101,43 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                         summary: project.summary,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4)
+                        pageNums: Math.ceil(projects.length / 4),
+                        bookmarked: bookmarkedProjectsSet.has(project.id)
                     };
                 });
                 return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
+        }
+    });
+}); };
+var addBookmark = function (projectId, user) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Bookmark.create({
+                    projectId: projectId,
+                    userId: user.id
+                })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+var removeBookmark = function (projectId, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var bookmark;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Bookmark.findOne({
+                    projectId: projectId,
+                    userId: user.id
+                })];
+            case 1:
+                bookmark = _a.sent();
+                if (!bookmark) return [3 /*break*/, 3];
+                return [4 /*yield*/, bookmark.destroy()];
+            case 2:
+                _a.sent();
+                _a.label = 3;
+            case 3: return [2 /*return*/];
         }
     });
 }); };
@@ -107,6 +153,29 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler(function (req, res) { 
             case 1:
                 projects = _b.sent();
                 res.json(projects);
+                return [2 /*return*/];
+        }
+    });
+}); }));
+router.post('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var projectId, bookmarked, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                projectId = req.params.projectId;
+                bookmarked = req.body.bookmarked;
+                user = req.user;
+                if (!bookmarked) return [3 /*break*/, 2];
+                return [4 /*yield*/, addBookmark(projectId, user)];
+            case 1:
+                _a.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, removeBookmark(projectId, user)];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                res.json(projectId);
                 return [2 /*return*/];
         }
     });

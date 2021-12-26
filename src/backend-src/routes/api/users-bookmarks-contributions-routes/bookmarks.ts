@@ -8,7 +8,7 @@ import express, {
 
 const { Op } = require("sequelize");
 
-import { ExpError } from '../../../custom-types';
+import { ExpError, IUser } from '../../../custom-types';
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../../utils/auth');
 
@@ -25,7 +25,7 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         }
     })
 
-    
+
     userBookmarks = userBookmarks.map((bookmark:any) => bookmark.projectId)
 
     let projects = await Project.findAll({
@@ -35,10 +35,25 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         },
         where: {
             id: {
-                [Op.or]: userBookmarks
+                [Op.in]: userBookmarks
             }
         }
     })
+
+    let bookmarkedProjects = []
+    
+    if (user) {
+        bookmarkedProjects = await Bookmark.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+
+    }
+    
+    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
 
     projects = projects.map((project:any) => {
         let sum = 0
@@ -55,11 +70,29 @@ const getBookmarks = async (pageNumber:string, user:any) => {
             summary: project.summary,
             creatorName: project.creatorName,
             percentFunded,
-            pageNums: Math.ceil(projects.length / 4)
+            pageNums: Math.ceil(projects.length / 4),
+            bookmarked: bookmarkedProjectsSet.has(project.id)
         }
     })
 
     return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
+}
+
+const addBookmark = async (projectId:string, user:IUser) => {
+    await Bookmark.create({
+        projectId,
+        userId: user.id
+    })
+}
+
+const removeBookmark = async (projectId:string, user:IUser) => {
+    const bookmark = await Bookmark.findOne({
+        projectId,
+        userId: user.id
+    })
+    if (bookmark) {
+        await bookmark.destroy()
+    }
 }
 
 router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, res: Response) => {
@@ -69,8 +102,20 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, 
     let projects = []
 
     projects = await getBookmarks(pageNumber, user)
-    res.json(projects)
-    
+    res.json(projects) 
+}))
+
+router.post('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
+    const { projectId } = req.params;
+    const { bookmarked } = req.body;
+    const user = req.user
+
+    if (bookmarked) {
+        await addBookmark(projectId, user)
+    } else {
+        await removeBookmark(projectId, user)
+    }
+    res.json(projectId) 
 }))
 
 module.exports = router;
