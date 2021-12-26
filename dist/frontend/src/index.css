@@ -47,6 +47,25 @@ table {
 /* //////////////CSS RESET////////////// */
 
 
-body {
-    /* background-color: rgb(187, 187, 187); */
+#app-body {
+	position: relative;
+}
+
+div#background-lines > img {
+    position: absolute;
+}
+
+div#background-lines > img#left-img {
+    left: 0em;
+    top: 10em;
+}
+
+div#background-lines > img#right-img {
+    right: 0;
+    top: 5em;
+}
+
+div#background-lines > img#bottom-img {
+    bottom: 0;
+    right: 0;
 }

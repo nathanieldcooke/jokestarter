@@ -45,10 +45,14 @@ function App() {
         dispatch(sessionActions.restoreUser());
     }, [dispatch]);
     return ((isLoaded &&
-        react_1.default.createElement("div", null,
+        react_1.default.createElement("div", { id: 'app-body' },
             react_1.default.createElement("header", null,
                 react_1.default.createElement(Navbar_1.default, null)),
-            react_1.default.createElement(Main_1.default, { props: {} }))) || null);
+            react_1.default.createElement(Main_1.default, { props: {} }),
+            react_1.default.createElement("div", { id: 'background-lines' },
+                react_1.default.createElement("img", { id: 'left-img', src: 'https://cdn.optimizely.com/img/14069890047/72ae3620b85d48c1878cbe4d0866665d.png' }),
+                react_1.default.createElement("img", { id: 'right-img', src: 'https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png' }),
+                react_1.default.createElement("img", { id: 'bottom-img', src: 'https://ksr-static.imgix.net/c51lnrg9-doodle_continue.png?ixlib=rb-2.1.0&auto=compress%2Cformat&w=1000&fit=min&s=dc34091fa7d24f5d676e0e0201337f9b' })))) || null);
 }
 ;
 exports.default = App;

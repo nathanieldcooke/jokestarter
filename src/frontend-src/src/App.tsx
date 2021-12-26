@@ -30,12 +30,17 @@ function App() {
 
 
   return ( (isLoaded && 
-    <div>
+    <div id='app-body'>
       <header>
         <Navbar/>
       </header>
       <Main props={{}}>
       </Main>
+      <div id='background-lines' >
+        <img id='left-img' src='https://cdn.optimizely.com/img/14069890047/72ae3620b85d48c1878cbe4d0866665d.png'/>
+        <img id='right-img' src='https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png'/>
+        <img id='bottom-img' src='https://ksr-static.imgix.net/c51lnrg9-doodle_continue.png?ixlib=rb-2.1.0&auto=compress%2Cformat&w=1000&fit=min&s=dc34091fa7d24f5d676e0e0201337f9b'/>
+      </div>
     </div>) || null
   )
 };
