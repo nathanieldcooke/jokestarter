@@ -48,9 +48,6 @@ function Navbar() {
         setSelectedForm('');
         setOpen(false);
     };
-    var handleClick = function (category) {
-        dispatch(projectActions.getProjects(category, '1'));
-    };
     var dispatch = (0, react_redux_1.useDispatch)();
     var _d = (0, react_1.useState)(false), isLoaded = _d[0], setIsLoaded = _d[1];
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
@@ -59,6 +56,15 @@ function Navbar() {
             handleClose();
         }
     }, [sessionUser]);
+    var handleClick = function (category) {
+        // dispatch(projectActions.getProjects(category, '1'))
+        if (category !== 'Bookmarks') {
+            dispatch(projectActions.getProjects(category, '1'));
+        }
+        else {
+            dispatch(projectActions.getBookmarks('1', sessionUser.user.id));
+        }
+    };
     return (react_1.default.createElement("nav", null,
         react_1.default.createElement(Modal_1.default, { open: open, onClose: handleClose, "aria-labelledby": "modal-modal-title", "aria-describedby": "modal-modal-description" }, selectedForm === 'login'
             ?

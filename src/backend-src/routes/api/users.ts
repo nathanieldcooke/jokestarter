@@ -13,6 +13,9 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
+
+const bookmarksRouter = require('./users-bookmarks-contributions-routes/bookmarks')
+
 const router = express.Router();
 
 const validateLogin = [
@@ -49,6 +52,8 @@ const validateSignup = [
     .withMessage('Password must be 6 characters or more.'),
   handleValidationErrors
 ];
+
+router.use('/:userId/Bookmarks', bookmarksRouter)
 
 // Sign up
 router.post(

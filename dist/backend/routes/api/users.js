@@ -47,6 +47,7 @@ var check = require('express-validator').check;
 var handleValidationErrors = require('../../utils/validation').handleValidationErrors;
 var _a = require('../../utils/auth'), setTokenCookie = _a.setTokenCookie, restoreUser = _a.restoreUser, requireAuth = _a.requireAuth;
 var User = require('../../db/models').User;
+var bookmarksRouter = require('./users-bookmarks-contributions-routes/bookmarks');
 var router = express_1.default.Router();
 var validateLogin = [
     check('credential')
@@ -81,6 +82,7 @@ var validateSignup = [
         .withMessage('Password must be 6 characters or more.'),
     handleValidationErrors
 ];
+router.use('/:userId/Bookmarks', bookmarksRouter);
 // Sign up
 router.post('/signup', validateSignup, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, password, username, email, user;

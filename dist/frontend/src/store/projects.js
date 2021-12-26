@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,15 +56,23 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProjects = void 0;
+exports.updateBookmark = exports.getBookmarks = exports.getProjects = void 0;
 var csrf_1 = require("./csrf");
 var SET_PROJECTS = 'projects/setProjects';
+// const ADD_BOOKMARK = 'projects/addBookmark'
+// const projects:IProjects[] = useSelector((state: RootState) => state.projects);
 var setProjects = function (projects) {
     return {
         type: SET_PROJECTS,
         payload: projects,
     };
 };
+// const addBookmark = (bookmark:IBookmark) => {
+//     return {
+//         type: ADD_BOOKMARK,
+//         payload: bookmark,
+//     }
+// }
 var getProjects = function (category, page) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
@@ -70,6 +89,72 @@ var getProjects = function (category, page) { return function (dispatch) { retur
     });
 }); }; };
 exports.getProjects = getProjects;
+var getBookmarks = function (page, userId) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/page/").concat(page))];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                dispatch(setProjects(data));
+                return [2 /*return*/, response];
+        }
+    });
+}); }; };
+exports.getBookmarks = getBookmarks;
+var removeBookmarkedProject = function (state, projectId) {
+    var intProjectId = Number(projectId);
+    return state.filter(function (project) {
+        return project.id !== intProjectId;
+    }).map(function (project) {
+        return __assign({}, project);
+    });
+};
+var updateBookmarkedProject = function (state, projectId) {
+    var intProjectId = Number(projectId);
+    return state.map(function (project) {
+        if (project.id === intProjectId) {
+            var projectCopy = __assign({}, project);
+            projectCopy.bookmarked = projectCopy.bookmarked ? false : true;
+            return projectCopy;
+        }
+        else {
+            return __assign({}, project);
+        }
+    });
+};
+var updateBookmark = function (projectId, bookmarked, projects, userId, category) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data, updatedProjects;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/").concat(projectId), {
+                    method: 'POST',
+                    headers: {},
+                    body: JSON.stringify({
+                        bookmarked: bookmarked,
+                    }),
+                })];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                updatedProjects = [];
+                if (!bookmarked && category === 'Bookmarks') {
+                    updatedProjects = removeBookmarkedProject(projects, "".concat(projectId));
+                }
+                else {
+                    updatedProjects = updateBookmarkedProject(projects, data.projecId);
+                }
+                dispatch(setProjects(updatedProjects));
+                return [2 /*return*/, response];
+        }
+    });
+}); }; };
+exports.updateBookmark = updateBookmark;
 var initialState = [];
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }

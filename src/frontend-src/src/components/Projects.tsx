@@ -16,24 +16,36 @@ type urlParams = {
 }
 
 function Projects() {
+  console.log('HELLOOOOOOOOOOOOOO')
   const history = useHistory();
   const dispatch = useDispatch();
-  const { categoryName, pageNumber } = useParams<urlParams>();
+  const {categoryName, pageNumber} = useParams<urlParams>();
 
   const pageNumberNum:number = Number(pageNumber)
   const projects:IProjects[] = useSelector((state: RootState) => state.projects);
+  const sessionUser:IUser = useSelector((state: RootState) => state.session);
   const pageNums = projects[0] ? projects[0].pageNums : 0
 
   const [page, setPage] = useState(pageNumberNum);
+
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    history.push(`/category/${categoryName}/page/${value}`)
-    dispatch(projectActions.getProjects(categoryName, `${value}`))
+    if (categoryName !== 'Bookmarks') {
+      dispatch(projectActions.getProjects(categoryName, `${value}`))
+    } else {
+      dispatch(projectActions.getBookmarks(`${value}`, sessionUser.user.id))
+    }
     setPage(value);
+    history.push(`/category/${categoryName}/page/${value}`)
   };
     
     useEffect(() => {
-        dispatch(projectActions.getProjects(categoryName, pageNumber))
-    }, [dispatch]);
+      setPage(1)
+      if (categoryName !== 'Bookmarks') {
+        dispatch(projectActions.getProjects(categoryName, '1'))
+      } else {
+        dispatch(projectActions.getBookmarks('1', sessionUser.user.id))
+      }
+    }, [dispatch, useParams<urlParams>().categoryName]);
 
 
   return (

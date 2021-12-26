@@ -57,12 +57,24 @@ export interface IProjects {
     creatorName:string|null,
     percentFunded:number,
     pageNums:number,
+    bookmarked:boolean,
+}
+
+export interface IBookmark {
+    projectId:number,
+    bool:boolean
 }
 
 export interface IActionProjects {
     type:string,
     payload:IProjects[]
 }
+
+
+export interface IActionBookmark {
+    type:string,
+}
+
 
 
 /////////////////////// project interfaces and types

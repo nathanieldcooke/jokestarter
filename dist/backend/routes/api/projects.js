@@ -43,36 +43,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var Op = require("sequelize").Op;
 var asyncHandler = require('express-async-handler');
-var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark;
+var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark, HideList = _a.HideList;
 var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser, requireAuth = _b.requireAuth;
 var router = express_1.default.Router();
-var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, userBookmarks, projects;
+var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var zeroIndexPage, categoryId, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 zeroIndexPage = Number(pageNumber) - 1;
+                return [4 /*yield*/, Category.getCategoryId(category)];
+            case 1:
+                categoryId = _b.sent();
+                bookmarkedProjects = [];
+                hideLists = [];
+                if (!user) return [3 /*break*/, 4];
                 return [4 /*yield*/, Bookmark.findAll({
                         where: {
                             userId: user.id
                         }
                     })];
-            case 1:
-                userBookmarks = _b.sent();
-                userBookmarks = userBookmarks.map(function (bookmark) { return bookmark.projectId; });
+            case 2:
+                bookmarkedProjects = _b.sent();
+                return [4 /*yield*/, HideList.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
+            case 3:
+                hideLists = _b.sent();
+                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
+                hideLists = hideLists.map(function (hide) { return hide.projectId; });
+                _b.label = 4;
+            case 4:
+                bookmarkedProjectsSet = new Set(bookmarkedProjects);
                 return [4 /*yield*/, Project.findAll({
                         include: {
                             model: SupportTier,
                             include: UsersToSupportTier
                         },
                         where: {
-                            id: (_a = {},
-                                _a[Op.or] = userBookmarks,
+                            categoryId: categoryId,
+                            projectId: (_a = {},
+                                _a[Op.not] = hideLists,
                                 _a)
-                        }
+                        },
                     })];
-            case 2:
+            case 5:
                 projects = _b.sent();
                 projects = projects.map(function (project) {
                     var sum = 0;
@@ -88,49 +106,8 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                         summary: project.summary,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4)
-                    };
-                });
-                return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
-        }
-    });
-}); };
-var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, categoryId, projects;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                zeroIndexPage = Number(pageNumber) - 1;
-                return [4 /*yield*/, Category.getCategoryId(category)];
-            case 1:
-                categoryId = _a.sent();
-                return [4 /*yield*/, Project.findAll({
-                        include: {
-                            model: SupportTier,
-                            include: UsersToSupportTier
-                        },
-                        where: {
-                            categoryId: categoryId
-                        },
-                    })];
-            case 2:
-                projects = _a.sent();
-                // remove prjects in hidelists if there's a user
-                projects = projects.map(function (project) {
-                    var sum = 0;
-                    var percentFunded = 0;
-                    project.SupportTiers.forEach(function (supportTier) {
-                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
-                    });
-                    percentFunded = sum / project.goal * 100;
-                    return {
-                        id: project.id,
-                        screenShot: project.screenShot,
-                        title: project.title,
-                        summary: project.summary,
-                        creatorName: project.creatorName,
-                        percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4)
+                        pageNums: Math.ceil(projects.length / 4),
+                        bookmarked: bookmarkedProjectsSet.has(project.id)
                     };
                 });
                 return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
@@ -138,10 +115,10 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
     });
 }); };
 var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, categories, categoryIds, projects;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var zeroIndexPage, categories, categoryIds, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects;
+    var _a, _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
                 zeroIndexPage = Number(pageNumber) - 1;
                 return [4 /*yield*/, Category.findAll({
@@ -152,8 +129,30 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         }
                     })];
             case 1:
-                categories = _c.sent();
+                categories = _d.sent();
                 categoryIds = categories.map(function (category) { return category.id; });
+                bookmarkedProjects = [];
+                hideLists = [];
+                if (!user) return [3 /*break*/, 4];
+                return [4 /*yield*/, Bookmark.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
+            case 2:
+                bookmarkedProjects = _d.sent();
+                return [4 /*yield*/, HideList.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
+            case 3:
+                hideLists = _d.sent();
+                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
+                hideLists = hideLists.map(function (hide) { return hide.projectId; });
+                _d.label = 4;
+            case 4:
+                bookmarkedProjectsSet = new Set(bookmarkedProjects);
                 return [4 /*yield*/, Project.findAll({
                         include: {
                             model: SupportTier,
@@ -162,12 +161,14 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         where: {
                             categoryId: (_b = {},
                                 _b[Op.or] = categoryIds,
-                                _b)
+                                _b),
+                            projectId: (_c = {},
+                                _c[Op.not] = hideLists,
+                                _c)
                         },
                     })];
-            case 2:
-                projects = _c.sent();
-                // remove prjects in hidelists if there's a user
+            case 5:
+                projects = _d.sent();
                 projects = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
@@ -182,7 +183,8 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         summary: project.summary,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
-                        pageNums: projects.length / 4
+                        pageNums: projects.length / 4,
+                        bookmarked: bookmarkedProjectsSet.has(project.id)
                     };
                 });
                 projects.sort(function (a, b) { return b.percentFunded - a.percentFunded; });
@@ -290,20 +292,13 @@ router.get('/:category/page/:pageNumber', restoreUser, asyncHandler(function (re
             case 1:
                 projects = _b.sent();
                 res.json(projects);
-                return [3 /*break*/, 6];
-            case 2:
-                if (!(category === 'Bookmarks')) return [3 /*break*/, 4];
-                return [4 /*yield*/, getBookmarks(pageNumber, user)];
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, getOtherCategory(category, pageNumber, user)];
             case 3:
                 projects = _b.sent();
                 res.json(projects);
-                return [3 /*break*/, 6];
-            case 4: return [4 /*yield*/, getOtherCategory(category, pageNumber, user)];
-            case 5:
-                projects = _b.sent();
-                res.json(projects);
-                _b.label = 6;
-            case 6: return [2 /*return*/];
+                _b.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); }));
