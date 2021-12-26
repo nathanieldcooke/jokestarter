@@ -68,7 +68,7 @@ export interface IActionProjects {
 /////////////////////// project interfaces and types
 
 export interface ISupportTier {
-    amount:number|null,
+    amount:number,
     name:string|null,
     summary:string|null,
     shipsTo:string|null,

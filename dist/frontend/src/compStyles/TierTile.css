@@ -76,3 +76,47 @@ div.support-tier > div {
     transition: .5s;
     cursor: pointer;
 }
+
+#pledge-amount-title {
+    margin-bottom: .5em;
+    font-size: 1.25em;
+    display: block;
+}
+
+#enter-pledge-amount {
+    margin-bottom: .5em;
+    display: block;
+    box-sizing: border-box;
+    border: black solid 1px;
+    /* padding: .25em .5em; */
+}
+
+#enter-pledge-amount > input {
+    font-size: 1.1em;
+    border: none;
+    border-left: black solid 1px;
+    /* min-width: 100%; */
+}
+
+#enter-pledge-amount > span {
+    padding-right: .5em;
+    padding-left: .5em;
+    /* border-right: black solid 1px; */
+    font-weight: bold;
+}
+
+#continue-pledge-amount {
+    width: 100%;
+    background-color: #028858;
+    color: white;
+    border-radius: 0px;
+}
+
+#continue-pledge-amount:hover {
+    cursor: pointer;
+    background-color: #005235;
+}
+
+.alert {
+    color: red;
+}
