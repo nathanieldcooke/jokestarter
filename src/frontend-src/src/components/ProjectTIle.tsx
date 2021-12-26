@@ -6,6 +6,8 @@ import * as projectActions from './../store/projects'
 import { RootState } from './../store';
 import { IProjects, IUser } from './../d';
 import { useHistory, useParams } from 'react-router-dom';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import '../compStyles/ProjectTile.css'
 
 function ProjectTile(props:{props: { project:IProjects }}) {
@@ -41,7 +43,17 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         <div 
             className='hidden-tile-cover'
             onClick={() => openInNewTab(`/category/${category}/project/${project.id}`)}
-            >More Details</div>
+            >
+            <span>More Details</span>
+        <div className='hidden-icons'>
+            <div>
+                <BookmarkIcon></BookmarkIcon>
+            </div>
+            <div>
+                <ThumbDownIcon></ThumbDownIcon>
+            </div>
+        </div>
+        </div>
     </div>
   )
 };

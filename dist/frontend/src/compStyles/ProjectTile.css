@@ -72,3 +72,25 @@ div.hidden-tile-cover:hover {
     transition: .5s;
     cursor: pointer;
 }
+
+div.hidden-icons {
+    position: absolute;
+    right: 1em;
+    top: 2em;
+    z-index: 2;
+}
+
+div.hidden-icons > div {
+    margin-bottom: .5em;
+}
+
+div.hidden-icons > div > svg {
+    font-size: 2em;
+    transition: .5s;
+}
+
+div.hidden-icons > div > svg:hover {
+    color: yellow;
+    transition: .5s;
+}
+

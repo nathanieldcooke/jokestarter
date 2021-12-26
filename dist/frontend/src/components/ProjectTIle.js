@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
 var LinearProgress_1 = __importDefault(require("@mui/material/LinearProgress"));
+var Bookmark_1 = __importDefault(require("@mui/icons-material/Bookmark"));
+var ThumbDown_1 = __importDefault(require("@mui/icons-material/ThumbDown"));
 require("../compStyles/ProjectTile.css");
 function ProjectTile(props) {
     var project = props.props.project;
@@ -32,7 +34,13 @@ function ProjectTile(props) {
                 react_1.default.createElement("span", null,
                     "By ",
                     project.creatorName))),
-        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab("/category/".concat(category, "/project/").concat(project.id)); } }, "More Details")));
+        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab("/category/".concat(category, "/project/").concat(project.id)); } },
+            react_1.default.createElement("span", null, "More Details"),
+            react_1.default.createElement("div", { className: 'hidden-icons' },
+                react_1.default.createElement("div", null,
+                    react_1.default.createElement(Bookmark_1.default, null)),
+                react_1.default.createElement("div", null,
+                    react_1.default.createElement(ThumbDown_1.default, null))))));
 }
 ;
 exports.default = ProjectTile;
