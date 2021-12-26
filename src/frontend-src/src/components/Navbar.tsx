@@ -29,19 +29,25 @@ function Navbar() {
             setOpen(false);
         };
 
-  const handleClick = (category:string) => {
-    dispatch(projectActions.getProjects(category, '1'))
-  }
+        
+        const dispatch = useDispatch();
+        const [isLoaded, setIsLoaded] = useState(false);
+        const sessionUser:IUser = useSelector((state: RootState) => state.session);
+        
+        useEffect(() => {
+            if (sessionUser.user.username) {
+                handleClose()
+            }
+        }, [sessionUser])
 
-  const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const sessionUser:IUser = useSelector((state: RootState) => state.session);
-
-  useEffect(() => {
-    if (sessionUser.user.username) {
-        handleClose()
+    const handleClick = (category:string) => {
+        // dispatch(projectActions.getProjects(category, '1'))
+        if (category !== 'Bookmarks') {
+        dispatch(projectActions.getProjects(category, '1'))
+        } else {
+        dispatch(projectActions.getBookmarks('1', sessionUser.user.id))
+        }
     }
-  }, [sessionUser])
 
   return ( 
     <nav>

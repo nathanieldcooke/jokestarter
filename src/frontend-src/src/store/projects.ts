@@ -21,6 +21,17 @@ export const getProjects = (category:string, page:string) => async (dispatch: Di
     return response;
 };
 
+export const getBookmarks = (page:string, userId:number|null) => async (dispatch: Dispatch<IActionProjects>) => {
+    const response = await csrfFetch(`/api/users/${userId}/Bookmarks/page/${page}`)
+
+    const data:IProjects[] = await response.json();
+
+    dispatch(setProjects(data))
+
+    return response;
+};
+
+
 const initialState:IProjects[] = []
 
 const sessionReducer = (state = initialState, action:IActionProjects) => {

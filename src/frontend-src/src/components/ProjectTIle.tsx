@@ -19,7 +19,6 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     project.percentFunded * 100;
     
     const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
-    console.log('GOTTEN: ', category)
     const openInNewTab = (url:string) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null

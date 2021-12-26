@@ -45,7 +45,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProjects = void 0;
+exports.getBookmarks = exports.getProjects = void 0;
 var csrf_1 = require("./csrf");
 var SET_PROJECTS = 'projects/setProjects';
 var setProjects = function (projects) {
@@ -70,6 +70,22 @@ var getProjects = function (category, page) { return function (dispatch) { retur
     });
 }); }; };
 exports.getProjects = getProjects;
+var getBookmarks = function (page, userId) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/page/").concat(page))];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                dispatch(setProjects(data));
+                return [2 /*return*/, response];
+        }
+    });
+}); }; };
+exports.getBookmarks = getBookmarks;
 var initialState = [];
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }

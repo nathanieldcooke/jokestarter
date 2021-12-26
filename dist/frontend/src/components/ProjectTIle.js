@@ -16,7 +16,6 @@ function ProjectTile(props) {
         :
             project.percentFunded * 100;
     var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
-    console.log('GOTTEN: ', category);
     var openInNewTab = function (url) {
         var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
         if (newWindow)

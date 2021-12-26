@@ -46,55 +46,6 @@ var asyncHandler = require('express-async-handler');
 var _a = require('../../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark;
 var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser, requireAuth = _b.requireAuth;
 var router = express_1.default.Router();
-var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, userBookmarks, projects;
-    var _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                zeroIndexPage = Number(pageNumber) - 1;
-                return [4 /*yield*/, Bookmark.findAll({
-                        where: {
-                            userId: user.id
-                        }
-                    })];
-            case 1:
-                userBookmarks = _b.sent();
-                userBookmarks = userBookmarks.map(function (bookmark) { return bookmark.projectId; });
-                return [4 /*yield*/, Project.findAll({
-                        include: {
-                            model: SupportTier,
-                            include: UsersToSupportTier
-                        },
-                        where: {
-                            id: (_a = {},
-                                _a[Op.or] = userBookmarks,
-                                _a)
-                        }
-                    })];
-            case 2:
-                projects = _b.sent();
-                projects = projects.map(function (project) {
-                    var sum = 0;
-                    var percentFunded = 0;
-                    project.SupportTiers.forEach(function (supportTier) {
-                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
-                    });
-                    percentFunded = sum / project.goal * 100;
-                    return {
-                        id: project.id,
-                        screenShot: project.screenShot,
-                        title: project.title,
-                        summary: project.summary,
-                        creatorName: project.creatorName,
-                        percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4)
-                    };
-                });
-                return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
-        }
-    });
-}); };
 var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
     var zeroIndexPage, categoryId, projects;
     return __generator(this, function (_a) {
@@ -290,20 +241,13 @@ router.get('/:category/page/:pageNumber', restoreUser, asyncHandler(function (re
             case 1:
                 projects = _b.sent();
                 res.json(projects);
-                return [3 /*break*/, 6];
-            case 2:
-                if (!(category === 'Bookmarks')) return [3 /*break*/, 4];
-                return [4 /*yield*/, getBookmarks(pageNumber, user)];
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, getOtherCategory(category, pageNumber, user)];
             case 3:
                 projects = _b.sent();
                 res.json(projects);
-                return [3 /*break*/, 6];
-            case 4: return [4 /*yield*/, getOtherCategory(category, pageNumber, user)];
-            case 5:
-                projects = _b.sent();
-                res.json(projects);
-                _b.label = 6;
-            case 6: return [2 /*return*/];
+                _b.label = 4;
+            case 4: return [2 /*return*/];
         }
     });
 }); }));
