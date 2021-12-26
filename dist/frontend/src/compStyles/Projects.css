@@ -6,12 +6,17 @@ div#projects {
     margin-bottom: 5em;
 }
 
-div.css-1p5q5e5-MuiStack-root {
-    margin: 5em 5em;
-}
 
-.page-dial-container {
+.page-dial-container-top, .page-dial-container-bottom {
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.page-dial-container-top {
+    margin-top: 5em;
+}
+
+.page-dial-container-bottom {
+    margin-bottom: 5em;
 }
