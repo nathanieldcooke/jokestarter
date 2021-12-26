@@ -57,6 +57,7 @@ export interface IProjects {
     creatorName:string|null,
     percentFunded:number,
     pageNums:number,
+    bookmarked:boolean,
 }
 
 export interface IActionProjects {

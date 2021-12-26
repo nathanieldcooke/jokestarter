@@ -17,12 +17,22 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     100
     : 
     project.percentFunded * 100;
-    
+    const [bookmarked, setBookmarked] = useState(project.bookmarked)
     const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
     const openInNewTab = (url:string) => {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
         if (newWindow) newWindow.opener = null
-      }
+    }
+
+    const handleBookmarkClick = (e:React.MouseEvent) => {
+        e.stopPropagation()
+        if (bookmarked) {
+            setBookmarked(false);
+        } else {
+            setBookmarked(true);
+            // dipatch action to update project as bookmarked and update local project in store
+        }
+    }
 
   return (
     <div className='project-tile'>
@@ -46,7 +56,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
             <span>More Details</span>
         <div className='hidden-icons'>
             <div>
-                <BookmarkIcon></BookmarkIcon>
+                <BookmarkIcon
+                    onClick={(e) => handleBookmarkClick(e)}
+                    style={{color: bookmarked ? 'yellow' : ''}}
+                />
             </div>
             <div>
                 <ThumbDownIcon></ThumbDownIcon>

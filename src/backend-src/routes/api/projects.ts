@@ -8,15 +8,37 @@ import express, {
 const { Op } = require("sequelize");
 import { ExpError } from '../../custom-types';
 const asyncHandler = require('express-async-handler');
-const { Project, Category, SupportTier, UsersToSupportTier, Bookmark } = require('../../db/models');
+const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList } = require('../../db/models');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 
 const getOtherCategory = async (category:string, pageNumber:string, user:any) => {
     const zeroIndexPage = Number(pageNumber) - 1
-
+    
     const categoryId = await Category.getCategoryId(category)
+    
+    let bookmarkedProjects = []
+    let hideLists = []
+    
+    if (user) {
+        bookmarkedProjects = await Bookmark.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        hideLists = await HideList.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+        hideLists = hideLists.map((hide:any) => hide.projectId)
+    }
+
+    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
 
     let projects = await Project.findAll({
         include: {
@@ -24,11 +46,13 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
             include: UsersToSupportTier
         },
         where: {
-            categoryId: categoryId
+            categoryId: categoryId,
+            projectId: {
+                [Op.not]: hideLists
+            }
         },
     });
 
-    // remove prjects in hidelists if there's a user
 
     projects = projects.map((project:any) => {
         let sum = 0
@@ -45,7 +69,8 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
             summary: project.summary,
             creatorName: project.creatorName,
             percentFunded,
-            pageNums: Math.ceil(projects.length / 4)
+            pageNums: Math.ceil(projects.length / 4),
+            bookmarked: bookmarkedProjectsSet.has(project.id)
         }
     })
 
@@ -65,6 +90,28 @@ const getTop = async (pageNumber:string, user:any) => {
     })
     const categoryIds = categories.map((category:any) => category.id)
 
+    let bookmarkedProjects = []
+    let hideLists = []
+    
+    if (user) {
+        bookmarkedProjects = await Bookmark.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        hideLists = await HideList.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+        hideLists = hideLists.map((hide:any) => hide.projectId)
+    }
+    
+    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
+
     let projects = await Project.findAll({
         include: {
             model: SupportTier,
@@ -73,11 +120,12 @@ const getTop = async (pageNumber:string, user:any) => {
         where: {
             categoryId: {
                 [Op.or]: categoryIds
+            },
+            projectId: {
+                [Op.not]: hideLists
             }
         },
     });
-
-    // remove prjects in hidelists if there's a user
 
     projects = projects.map((project:any) => {
         let sum = 0
@@ -94,7 +142,8 @@ const getTop = async (pageNumber:string, user:any) => {
             summary: project.summary,
             creatorName: project.creatorName,
             percentFunded,
-            pageNums: projects.length / 4
+            pageNums: projects.length / 4,
+            bookmarked: bookmarkedProjectsSet.has(project.id)
         }
     })
 
