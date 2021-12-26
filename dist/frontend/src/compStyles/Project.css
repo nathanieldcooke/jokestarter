@@ -1,0 +1,115 @@
+iframe {
+    display: block;
+    width: 50em;
+    height: 28em;
+    z-index: 2;
+}
+
+div#project-details {
+    width: 80em;
+    /* padding: 10em; */
+    align-self: center;
+    /* background-color: tomato; */
+}
+
+div#project-details button {
+    display: block;
+}
+
+div#project-details #back-this-project-btn {
+    background-color: #028858;
+    color: white;
+    border-radius: 0px;
+    height: 3.5em;
+}
+
+div#project-details #bookmark-btn {
+    border-radius: 0px;
+    height: 3.5em;
+    background-color: white;
+    border: rgb(208, 208, 208) solid 1px 
+}
+
+div#project-details #back-this-project-btn:hover {
+    transition: .5s;
+    background-color: #005235;
+    cursor: pointer;
+}
+
+
+div#project-details #bookmark-btn:hover {
+    border: black solid 1px;
+    transition: .5s;
+    cursor: pointer;
+}
+
+section#video-other-data {
+    display: flex;
+    justify-content: center;
+}
+
+section > div#other-data {
+    width: 30em;
+    margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+section#support-tiers {
+    display: flex;
+    /* width: 80%; */
+    /* height: 20em; */
+    justify-content: left;
+    overflow-y: scroll;
+}
+
+#project-details #title-summary {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#project-details #title-summary #title {
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#project-details #title-summary #summary {
+    font-size: 1.25em;
+}
+
+div#other-data section > span {
+    background-color: rgb(155, 155, 155);
+    height: 10px;
+    margin-bottom: .5em;
+}
+
+div#other-data section > span > span {
+    background-color: #0a9d5d;
+}
+
+#funds-collected {
+    color: #06ae65;
+    font-size: 1.75em;
+    font-weight: bold;
+}
+
+#funding-goal {
+    font-weight: bold;
+    /* margin-bottom: 2em; */
+}
+
+#num-of-backers {
+    font-size: 1.75em;
+    font-weight: bold;
+}
+
+#days-to-go {
+    font-size: 1.75em;
+    font-weight: bold;
+}

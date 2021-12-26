@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,10 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt = require('bcryptjs');
-// const path = require('path');
 var Sequelize = require('sequelize');
 var DataTypes = require("sequelize").DataTypes;
-'use strict';
 module.exports = function (sequelize, dataTypes) {
     var User = sequelize.define('User', {
         username: {
@@ -85,7 +83,24 @@ module.exports = function (sequelize, dataTypes) {
         }
     });
     User.associate = function (models) {
-        // associations can be defined here
+        var columnMapping1 = {
+            through: 'HideList',
+            otherKey: 'projectId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.Project, columnMapping1);
+        var columnMapping2 = {
+            through: 'Bookmark',
+            otherKey: 'projectId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.Project, columnMapping2);
+        var columnMapping3 = {
+            through: 'UsersToSupportTier',
+            otherKey: 'supportTierId',
+            foreignKey: 'userId'
+        };
+        User.belongsToMany(models.SupportTier, columnMapping3);
     };
     User.prototype.toSafeObject = function () {
         var _a = this, id = _a.id, username = _a.username; // context will be the User instance
@@ -100,6 +115,23 @@ module.exports = function (sequelize, dataTypes) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, User.scope('currentUser').findByPk(id)];
                     case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    User.getUserId = function (username) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, User.findOne({
+                            where: {
+                                username: username
+                            }
+                        })];
+                    case 1:
+                        user = _a.sent();
+                        return [2 /*return*/, user.id];
                 }
             });
         });

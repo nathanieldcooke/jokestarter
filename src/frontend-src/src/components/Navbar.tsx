@@ -9,9 +9,16 @@ import './../compStyles/Navbar.css'
 import Modal from '@mui/material/Modal';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import * as projectActions from './../store/projects'
 
 function Navbar() {
   const [selectedForm, setSelectedForm] = useState('')
+  const [bottomNavDis, setBottomNavDis] = useState(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
+  ?
+  'none'
+  :
+  ''
+  );
   const [open, setOpen] = useState(false);
   const handleOpen = (selectedForm:string) => {
             setSelectedForm(selectedForm);
@@ -22,6 +29,10 @@ function Navbar() {
             setOpen(false);
         };
 
+  const handleClick = (category:string) => {
+    dispatch(projectActions.getProjects(category, '1'))
+  }
+
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser:IUser = useSelector((state: RootState) => state.session);
@@ -31,11 +42,6 @@ function Navbar() {
         handleClose()
     }
   }, [sessionUser])
-
-//   useEffect(() => { // attempt to restore user on page load
-//     dispatch(sessionActions.restoreUser())
-//   }, [dispatch]);
-
 
   return ( 
     <nav>
@@ -88,22 +94,32 @@ function Navbar() {
             </div>
             }
         </div>
-        <div id='nav-bottom'>
+        <div id='nav-bottom' style={{display: bottomNavDis}}>
             <div id='nav-link-container'>
-                <NavLink to="/thing1" activeClassName="selected">
+                <NavLink to="/category/Top/page/1" 
+                onClick={() => handleClick('Top')}
+                activeClassName="selected">
                     Top
                 </NavLink>
                 <br></br>
-                <NavLink to="/thing2" activeClassName="selected">
+                <NavLink to="/category/Toys/page/1" 
+                onClick={() => handleClick('Toys')}
+                activeClassName="selected">
                     Toys
                 </NavLink>
-                <NavLink to="/thing3" activeClassName="selected">
+                <NavLink to="/category/Food/page/1" 
+                onClick={() => handleClick('Food')}
+                activeClassName="selected">
                     Food
                 </NavLink>
-                <NavLink to="/thing4" activeClassName="selected">
+                <NavLink to="/category/Services/page/1" 
+                onClick={() => handleClick('Services')}
+                activeClassName="selected">
                     Services
                 </NavLink>
-                <NavLink to="/thing5" activeClassName="selected">
+                <NavLink to="/category/Misc/page/1" 
+                onClick={() => handleClick('Misc')}
+                activeClassName="selected">
                     Misc
                 </NavLink>
                 {
@@ -111,10 +127,12 @@ function Navbar() {
                 ?
                 <>
                 <span>|</span>
-                <NavLink to="/thing6" activeClassName="selected">
+                <NavLink to="/category/Bookmarks/page/1" 
+                onClick={() => handleClick('Bookmarks')}
+                activeClassName="selected">
                     Bookmarks
                 </NavLink>
-                <NavLink to="/thing7" activeClassName="selected">
+                <NavLink to="/contributions/page/1" activeClassName="selected">
                     Contributed
                 </NavLink>
                 </>

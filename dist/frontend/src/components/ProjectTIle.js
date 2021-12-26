@@ -1,0 +1,38 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(require("react"));
+var LinearProgress_1 = __importDefault(require("@mui/material/LinearProgress"));
+require("../compStyles/ProjectTile.css");
+function ProjectTile(props) {
+    var project = props.props.project;
+    var percentFunded = project.percentFunded > 1
+        ?
+            100
+        :
+            project.percentFunded * 100;
+    var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
+    console.log('GOTTEN: ', category);
+    var openInNewTab = function (url) {
+        var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (newWindow)
+            newWindow.opener = null;
+    };
+    return (react_1.default.createElement("div", { className: 'project-tile' },
+        react_1.default.createElement("img", { src: project.screenShot }),
+        react_1.default.createElement(LinearProgress_1.default, { variant: "determinate", value: percentFunded }),
+        react_1.default.createElement("section", { className: 'text-content' },
+            react_1.default.createElement("div", { className: 'projects-title' },
+                react_1.default.createElement("span", null, project.title)),
+            react_1.default.createElement("div", { className: 'projects-summary' },
+                react_1.default.createElement("span", null, project.summary)),
+            react_1.default.createElement("div", { className: 'projects-creatorName' },
+                react_1.default.createElement("span", null,
+                    "By ",
+                    project.creatorName))),
+        react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab("/category/".concat(category, "/project/").concat(project.id)); } }, "More Details")));
+}
+;
+exports.default = ProjectTile;

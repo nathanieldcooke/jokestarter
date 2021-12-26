@@ -26,10 +26,18 @@ var react_1 = __importStar(require("react"));
 var react_redux_1 = require("react-redux");
 var sessionActions = __importStar(require("./store/session"));
 var Navbar_1 = __importDefault(require("./components/Navbar"));
+var react_router_dom_1 = require("react-router-dom");
+var Main_1 = __importDefault(require("./components/Main"));
 function App() {
+    var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_1.useState)(false), isLoaded = _a[0], setIsLoaded = _a[1];
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
+    (0, react_1.useEffect)(function () {
+        if (window.location.pathname === '/') {
+            history.push('/category/Top/page/1');
+        }
+    }, []);
     (0, react_1.useEffect)(function () {
         setIsLoaded(true);
     }, [sessionUser]);
@@ -38,7 +46,9 @@ function App() {
     }, [dispatch]);
     return ((isLoaded &&
         react_1.default.createElement("div", null,
-            react_1.default.createElement(Navbar_1.default, null))) || null);
+            react_1.default.createElement("header", null,
+                react_1.default.createElement(Navbar_1.default, null)),
+            react_1.default.createElement(Main_1.default, { props: {} }))) || null);
 }
 ;
 exports.default = App;

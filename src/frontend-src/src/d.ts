@@ -46,4 +46,53 @@ export interface IActionUser {
 }
 
 
+/////////////////////// projects interfaces and types
 
+
+export interface IProjects {
+    id:number
+    screenShot:string|undefined,
+    title:string|null,
+    summary:string|null,
+    creatorName:string|null,
+    percentFunded:number,
+    pageNums:number,
+}
+
+export interface IActionProjects {
+    type:string,
+    payload:IProjects[]
+}
+
+
+/////////////////////// project interfaces and types
+
+export interface ISupportTier {
+    amount:number|null,
+    name:string|null,
+    summary:string|null,
+    shipsTo:string|null,
+    backers:number|null,
+    amountLeft:number|null,
+    estimatedDelivery:string|null,
+} 
+
+export interface IProject {
+    id:number|null,
+    goal:number|null,
+    screenShot:string|undefined,
+    videoSrc:string|undefined,
+    title:string|null,
+    summary:string|null,
+    creatorName:string|null,
+    fundsCollected:number|null,
+    percentFunded:number,
+    numOfBackers:number
+    supportTiers:ISupportTier[],
+    daysToGo:number
+}
+
+export interface IActionProject {
+    type:string,
+    payload:IProject
+}

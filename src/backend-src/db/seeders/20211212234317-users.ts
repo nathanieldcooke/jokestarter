@@ -6,11 +6,18 @@ const bcrypt = require('bcryptjs');
 module.exports = {
   up: (queryInterface: QueryInterface) => {
 
-    return queryInterface.bulkInsert('Users', [{
+    return queryInterface.bulkInsert('Users', [
+    {
       username: 'Demo User',
       email: 'demo@user.com',
       hashedPassword: bcrypt.hashSync('password')
-    }], {});
+    },
+    {
+      username: 'Other User',
+      email: 'other@user.com',
+      hashedPassword: bcrypt.hashSync('password')
+    }
+    ], {});
   },
 
   down: (queryInterface: QueryInterface) => {

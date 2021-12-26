@@ -1,9 +1,9 @@
+'use strict';
+export {}
 const bcrypt = require('bcryptjs')
 import { IUserSecure, IUserSignUp } from "../../custom-types";
-// const path = require('path');
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
-'use strict';
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -49,7 +49,26 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     }
   });
   User.associate = function(models:any) { // mabey try to destructure other models.
-    // associations can be defined here
+    const columnMapping1 = {
+      through: 'HideList',
+      otherKey: 'projectId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.Project, columnMapping1);
+
+     const columnMapping2 = {
+      through: 'Bookmark',
+      otherKey: 'projectId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.Project, columnMapping2);
+
+     const columnMapping3 = {
+      through: 'UsersToSupportTier',
+      otherKey: 'supportTierId',
+      foreignKey: 'userId'
+     }
+     User.belongsToMany(models.SupportTier, columnMapping3);
   };
 
   User.prototype.toSafeObject = function() { // remember, this cannot be an arrow function
@@ -64,6 +83,15 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   User.getCurrentUserById = async function (id:number|string) {
     return await User.scope('currentUser').findByPk(id);
   };
+
+  User.getUserId = async function (username:string) {
+    const user = await User.findOne({
+      where: {
+        username
+      }
+    })
+    return user.id
+  }
 
   User.login = async function ({ credential, password }:IUserSecure) {
     let user = await User.scope('loginUser').findOne({

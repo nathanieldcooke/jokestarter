@@ -27,7 +27,6 @@ var sessionActions = __importStar(require("../store/session"));
 var react_redux_1 = require("react-redux");
 var Button_1 = __importDefault(require("@material-ui/core/Button"));
 require("../compStyles/Form.css");
-// props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
 var LoginForm = react_1.default.forwardRef(function (props, ref) {
     var setSelectedForm = props.props.setSelectedForm;
     var dispatch = (0, react_redux_1.useDispatch)();
