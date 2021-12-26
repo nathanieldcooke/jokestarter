@@ -38,12 +38,19 @@ function Projects() {
 
   return (
     <>
+      <div className='page-dial-container'>
+        <Stack spacing={2}>
+          <Pagination count={pageNums} page={page} onChange={handleChange} />
+        </Stack>    
+      </div>
       <div id='projects'>
           {projects.map(((project:IProjects) => <ProjectTile key={`project-tile-${project.title}`} props={{ project }}/>))}
       </div>
-      <Stack spacing={2}>
-        <Pagination count={pageNums} page={page} onChange={handleChange} />
-      </Stack>
+      <div className='page-dial-container'>
+        <Stack spacing={2}>
+          <Pagination count={pageNums} page={page} onChange={handleChange} />
+        </Stack>
+      </div>
     </>
   )
 };
