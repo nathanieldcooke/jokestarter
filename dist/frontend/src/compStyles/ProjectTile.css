@@ -94,3 +94,18 @@ div.hidden-icons > div > svg:hover {
     transition: .5s;
 }
 
+#circle-undo {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.509);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#circle-undo > div {
+    font-size: 1.25em;
+    font-weight: bold;
+    padding-top: 1em;
+}

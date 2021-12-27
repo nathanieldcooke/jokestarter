@@ -47,7 +47,7 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
         },
         where: {
             categoryId: categoryId,
-            projectId: {
+            id: {
                 [Op.not]: hideLists
             }
         },
@@ -121,7 +121,7 @@ const getTop = async (pageNumber:string, user:any) => {
             categoryId: {
                 [Op.or]: categoryIds
             },
-            projectId: {
+            id: {
                 [Op.not]: hideLists
             }
         },
@@ -134,7 +134,7 @@ const getTop = async (pageNumber:string, user:any) => {
             sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
         })
         percentFunded = sum / project.goal * 100
-
+        // console.log('PAGE NUMS: ', )
         return {
             id: project.id,
             screenShot: project.screenShot,
@@ -142,7 +142,7 @@ const getTop = async (pageNumber:string, user:any) => {
             summary: project.summary,
             creatorName: project.creatorName,
             percentFunded,
-            pageNums: projects.length / 4,
+            pageNums: Math.ceil(projects.length / 4),
             bookmarked: bookmarkedProjectsSet.has(project.id)
         }
     })

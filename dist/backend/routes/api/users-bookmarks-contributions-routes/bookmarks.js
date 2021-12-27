@@ -126,10 +126,14 @@ var removeBookmark = function (projectId, user) { return __awaiter(void 0, void 
     var bookmark;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Bookmark.findOne({
-                    projectId: projectId,
-                    userId: user.id
-                })];
+            case 0:
+                console.log("BACK-PU: ", projectId, user.id);
+                return [4 /*yield*/, Bookmark.findOne({
+                        where: {
+                            projectId: projectId,
+                            userId: user.id
+                        }
+                    })];
             case 1:
                 bookmark = _a.sent();
                 if (!bookmark) return [3 /*break*/, 3];

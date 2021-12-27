@@ -85,7 +85,7 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
                         },
                         where: {
                             categoryId: categoryId,
-                            projectId: (_a = {},
+                            id: (_a = {},
                                 _a[Op.not] = hideLists,
                                 _a)
                         },
@@ -162,7 +162,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                             categoryId: (_b = {},
                                 _b[Op.or] = categoryIds,
                                 _b),
-                            projectId: (_c = {},
+                            id: (_c = {},
                                 _c[Op.not] = hideLists,
                                 _c)
                         },
@@ -176,6 +176,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
                     });
                     percentFunded = sum / project.goal * 100;
+                    // console.log('PAGE NUMS: ', )
                     return {
                         id: project.id,
                         screenShot: project.screenShot,
@@ -183,7 +184,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         summary: project.summary,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
-                        pageNums: projects.length / 4,
+                        pageNums: Math.ceil(projects.length / 4),
                         bookmarked: bookmarkedProjectsSet.has(project.id)
                     };
                 });

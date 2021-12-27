@@ -56,23 +56,15 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBookmark = exports.getBookmarks = exports.getProjects = void 0;
+exports.updateBookmark = exports.hideProject = exports.getBookmarks = exports.getProjects = void 0;
 var csrf_1 = require("./csrf");
 var SET_PROJECTS = 'projects/setProjects';
-// const ADD_BOOKMARK = 'projects/addBookmark'
-// const projects:IProjects[] = useSelector((state: RootState) => state.projects);
 var setProjects = function (projects) {
     return {
         type: SET_PROJECTS,
         payload: projects,
     };
 };
-// const addBookmark = (bookmark:IBookmark) => {
-//     return {
-//         type: ADD_BOOKMARK,
-//         payload: bookmark,
-//     }
-// }
 var getProjects = function (category, page) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
@@ -105,6 +97,40 @@ var getBookmarks = function (page, userId) { return function (dispatch) { return
     });
 }); }; };
 exports.getBookmarks = getBookmarks;
+var hideProject = function (projectId, userId, category, page, bookmarked) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response1, response2, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/hide-project/").concat(projectId), {
+                    method: 'PUT',
+                    headers: {},
+                    body: JSON.stringify({}),
+                })];
+            case 1:
+                response1 = _a.sent();
+                if (!bookmarked) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/").concat(projectId), {
+                        method: 'POST',
+                        headers: {},
+                        body: JSON.stringify({
+                            bookmarked: false,
+                        }),
+                    })];
+            case 2:
+                _a.sent();
+                _a.label = 3;
+            case 3: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/projects/".concat(category, "/page/").concat(page))];
+            case 4:
+                response2 = _a.sent();
+                return [4 /*yield*/, response2.json()];
+            case 5:
+                data = _a.sent();
+                dispatch(setProjects(data));
+                return [2 /*return*/, response1];
+        }
+    });
+}); }; };
+exports.hideProject = hideProject;
 var removeBookmarkedProject = function (state, projectId) {
     var intProjectId = Number(projectId);
     return state.filter(function (project) {

@@ -48,6 +48,7 @@ var handleValidationErrors = require('../../utils/validation').handleValidationE
 var _a = require('../../utils/auth'), setTokenCookie = _a.setTokenCookie, restoreUser = _a.restoreUser, requireAuth = _a.requireAuth;
 var User = require('../../db/models').User;
 var bookmarksRouter = require('./users-bookmarks-contributions-routes/bookmarks');
+var hideprojectsRouter = require('./users-bookmarks-contributions-routes/hideprojects');
 var router = express_1.default.Router();
 var validateLogin = [
     check('credential')
@@ -83,6 +84,7 @@ var validateSignup = [
     handleValidationErrors
 ];
 router.use('/:userId/Bookmarks', bookmarksRouter);
+router.use('/:userId/hide-project', hideprojectsRouter);
 // Sign up
 router.post('/signup', validateSignup, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, password, username, email, user;
