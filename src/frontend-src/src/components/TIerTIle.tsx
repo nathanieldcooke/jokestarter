@@ -5,15 +5,23 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import Button from '@material-ui/core/Button';
 import '../compStyles/TierTile.css'
-import { ISupportTier } from '../d';
+import { ISupportTier, IUser } from '../d';
+import CustomizedSnackbars from './SnackBar';
+
 const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
-const {supportTier} = props.props
+    const {supportTier} = props.props
+    const sessionUser:IUser = useSelector((state: RootState) => state.session);
 
     const [focus, setFocus] = useState(false);
     const [tierAmount, setTierAmount] = useState(supportTier.amount)
+    const [showSnackBar, setShowSnackBar] = useState(false)
 
     const handleFocus = () => {
-        setFocus(true);
+        if (sessionUser.user.id) {
+            setFocus(true);
+        } else {
+            setShowSnackBar(true);
+        }
     }
 
     const handleBlur = () => {
@@ -85,11 +93,11 @@ const {supportTier} = props.props
                 </div>
             </>
             }
-
+            {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}
             <div className='select-reward-hidden' 
                 onClick={handleFocus}
                 style={{display: focus ? 'none' : ''}}>Select Reward</div>
-        </div>
+            </div>
     );
   
 }

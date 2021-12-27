@@ -95,10 +95,6 @@ function ProjectTile(props) {
             };
         }
     }, [hideTile]);
-    // if (progress === 100) {
-    //     setProgress(0)
-    //     dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked))
-    // }
     return (react_1.default.createElement("div", { className: 'project-tile' },
         hideTile
             ?
