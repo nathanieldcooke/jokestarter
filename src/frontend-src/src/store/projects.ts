@@ -5,9 +5,6 @@ import { IActionBookmark, IActionProjects, IBookmark, IProject, IProjects } from
 import { csrfFetch } from './csrf';
 
 const SET_PROJECTS = 'projects/setProjects'
-// const ADD_BOOKMARK = 'projects/addBookmark'
-
-// const projects:IProjects[] = useSelector((state: RootState) => state.projects);
 
 const setProjects = (projects:IProjects[]) => {
     return {
@@ -15,13 +12,6 @@ const setProjects = (projects:IProjects[]) => {
         payload: projects,
     };
 };
-
-// const addBookmark = (bookmark:IBookmark) => {
-//     return {
-//         type: ADD_BOOKMARK,
-//         payload: bookmark,
-//     }
-// }
 
 export const getProjects = (category:string, page:string) => async (dispatch: Dispatch<IActionProjects>) => {
     const response = await csrfFetch(`/api/projects/${category}/page/${page}`)
@@ -43,6 +33,33 @@ export const getBookmarks = (page:string, userId:number|null) => async (dispatch
     dispatch(setProjects(data))
 
     return response;
+};
+
+export const hideProject = (projectId:number, userId:number|null, category:string, page:string, bookmarked:boolean) => async (dispatch: Dispatch<IActionProjects>) => {
+    const response1 = await csrfFetch(`/api/users/${userId}/hide-project/${projectId}`, {
+        method: 'PUT',
+        headers: {}, 
+        body: JSON.stringify({
+        }),
+    })
+
+    if (bookmarked) {
+        await csrfFetch(`/api/users/${userId}/Bookmarks/${projectId}`, {
+            method: 'POST',
+            headers: {}, 
+            body: JSON.stringify({
+              bookmarked: false,
+            }),
+        })
+    }
+
+    const response2 = await csrfFetch(`/api/projects/${category}/page/${page}`)
+
+    const data:IProjects[] = await response2.json();
+
+    dispatch(setProjects(data))
+
+    return response1;
 };
 
 const removeBookmarkedProject = (state:IProjects[], projectId:string) => {

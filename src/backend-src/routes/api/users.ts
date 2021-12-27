@@ -15,6 +15,7 @@ const { User } = require('../../db/models');
 
 
 const bookmarksRouter = require('./users-bookmarks-contributions-routes/bookmarks')
+const hideprojectsRouter = require('./users-bookmarks-contributions-routes/hideprojects')
 
 const router = express.Router();
 
@@ -54,6 +55,7 @@ const validateSignup = [
 ];
 
 router.use('/:userId/Bookmarks', bookmarksRouter)
+router.use('/:userId/hide-project', hideprojectsRouter)
 
 // Sign up
 router.post(

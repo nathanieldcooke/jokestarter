@@ -86,9 +86,12 @@ const addBookmark = async (projectId:string, user:IUser) => {
 }
 
 const removeBookmark = async (projectId:string, user:IUser) => {
+    console.log("BACK-PU: ", projectId, user.id)
     const bookmark = await Bookmark.findOne({
-        projectId,
-        userId: user.id
+        where: {
+            projectId,
+            userId: user.id
+        }
     })
     if (bookmark) {
         await bookmark.destroy()
