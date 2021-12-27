@@ -30,6 +30,12 @@ div#project-details #bookmark-btn {
     border: rgb(208, 208, 208) solid 1px 
 }
 
+#bookmark-btn .MuiButton-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 div#project-details #back-this-project-btn:hover {
     transition: .5s;
     background-color: #005235;

@@ -6,7 +6,7 @@ import express, {
     NextFunction
 } from 'express';
 const { Op } = require("sequelize");
-import { ExpError } from '../../custom-types';
+import { ExpError, IUser } from '../../custom-types';
 const asyncHandler = require('express-async-handler');
 const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList } = require('../../db/models');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
@@ -168,7 +168,7 @@ const editSupportTier = (supportTier:any, usersToSupportTier:any) => {
     }
 }
 
-const getProjectDetails = async (projectId:string) => {
+const getProjectDetails = async (projectId:string, user:IUser) => {
 
 
     let project = await Project.findByPk(projectId, {
@@ -178,6 +178,20 @@ const getProjectDetails = async (projectId:string) => {
     let numOfBackers = 0
     let percentFunded = 0
     let supportTiers:any = []
+
+    let bookmarkedProjects = []
+    
+    if (user) {
+        bookmarkedProjects = await Bookmark.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+    }
+    
+    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
 
     for (let supportTier of project.SupportTiers) {
         let usersToSupportTier = await UsersToSupportTier.findAll({
@@ -216,7 +230,8 @@ const getProjectDetails = async (projectId:string) => {
         percentFunded,
         numOfBackers,
         supportTiers,
-        daysToGo: Math.floor(diffInDays)
+        daysToGo: Math.floor(diffInDays),
+        bookmarked: bookmarkedProjectsSet.has(project.id)
     }
 
 
@@ -224,10 +239,12 @@ const getProjectDetails = async (projectId:string) => {
 
 router.get('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     
+    const user = req.user;
+
     const { projectId } = req.params;
 
 
-    let projects = await getProjectDetails(projectId)
+    let projects = await getProjectDetails(projectId, user)
     res.json(projects)
     
 }))

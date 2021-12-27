@@ -23,7 +23,7 @@ export const getProject = (projectId:number) => async (dispatch: Dispatch<IActio
 
 const initialState:IProject = 
 {
-    id: null,
+    id: 0,
     screenShot: undefined,
     videoSrc: undefined,
     title: null,
@@ -35,6 +35,7 @@ const initialState:IProject =
     daysToGo: 0,
     goal: null,
     supportTiers: [],
+    bookmarked: false
 }
 
 const sessionReducer = (state = initialState, action:IActionProject) => {

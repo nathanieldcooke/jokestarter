@@ -208,8 +208,8 @@ var editSupportTier = function (supportTier, usersToSupportTier) {
         estimatedDelivery: "".concat(months[date.getMonth()], " ").concat(date.getFullYear())
     };
 };
-var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, void 0, function () {
-    var project, sum, numOfBackers, percentFunded, supportTiers, _i, _a, supportTier, usersToSupportTier, dictSupportTier, d1, d2, diffInTIme, diffInDays;
+var getProjectDetails = function (projectId, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var project, sum, numOfBackers, percentFunded, supportTiers, bookmarkedProjects, bookmarkedProjectsSet, _i, _a, supportTier, usersToSupportTier, dictSupportTier, d1, d2, diffInTIme, diffInDays;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, Project.findByPk(projectId, {
@@ -221,17 +221,30 @@ var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, 
                 numOfBackers = 0;
                 percentFunded = 0;
                 supportTiers = [];
-                _i = 0, _a = project.SupportTiers;
-                _b.label = 2;
+                bookmarkedProjects = [];
+                if (!user) return [3 /*break*/, 3];
+                return [4 /*yield*/, Bookmark.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
             case 2:
-                if (!(_i < _a.length)) return [3 /*break*/, 5];
+                bookmarkedProjects = _b.sent();
+                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
+                _b.label = 3;
+            case 3:
+                bookmarkedProjectsSet = new Set(bookmarkedProjects);
+                _i = 0, _a = project.SupportTiers;
+                _b.label = 4;
+            case 4:
+                if (!(_i < _a.length)) return [3 /*break*/, 7];
                 supportTier = _a[_i];
                 return [4 /*yield*/, UsersToSupportTier.findAll({
                         where: {
                             supportTierId: supportTier.id
                         }
                     })];
-            case 3:
+            case 5:
                 usersToSupportTier = _b.sent();
                 usersToSupportTier.forEach(function (uToSTier) {
                     sum += uToSTier.pledgeAmount;
@@ -239,11 +252,11 @@ var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, 
                 });
                 dictSupportTier = editSupportTier(supportTier, usersToSupportTier);
                 supportTiers.push(dictSupportTier);
-                _b.label = 4;
-            case 4:
+                _b.label = 6;
+            case 6:
                 _i++;
-                return [3 /*break*/, 2];
-            case 5:
+                return [3 /*break*/, 4];
+            case 7:
                 percentFunded = sum / project.goal;
                 d1 = new Date();
                 d2 = new Date(project.endDate);
@@ -261,18 +274,20 @@ var getProjectDetails = function (projectId) { return __awaiter(void 0, void 0, 
                         percentFunded: percentFunded,
                         numOfBackers: numOfBackers,
                         supportTiers: supportTiers,
-                        daysToGo: Math.floor(diffInDays)
+                        daysToGo: Math.floor(diffInDays),
+                        bookmarked: bookmarkedProjectsSet.has(project.id)
                     }];
         }
     });
 }); };
 router.get('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var projectId, projects;
+    var user, projectId, projects;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                user = req.user;
                 projectId = req.params.projectId;
-                return [4 /*yield*/, getProjectDetails(projectId)];
+                return [4 /*yield*/, getProjectDetails(projectId, user)];
             case 1:
                 projects = _a.sent();
                 res.json(projects);
