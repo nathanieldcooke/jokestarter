@@ -25,23 +25,47 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var LinearProgress_1 = __importDefault(require("@mui/material/LinearProgress"));
 var react_redux_1 = require("react-redux");
+var projectsActions = __importStar(require("./../store/projects"));
 var projectActions = __importStar(require("./../store/project"));
+var Bookmark_1 = __importDefault(require("@mui/icons-material/Bookmark"));
 var react_router_dom_1 = require("react-router-dom");
 require("../compStyles/Project.css");
 var core_1 = require("@material-ui/core");
 var TIerTIle_1 = __importDefault(require("./TIerTIle"));
+var SnackBar_1 = __importDefault(require("./SnackBar"));
 function Project() {
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_router_dom_1.useParams)(), categoryName = _a.categoryName, projectId = _a.projectId;
     var projectIdNum = Number(projectId);
+    var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
     var project = (0, react_redux_1.useSelector)(function (state) { return state.project; });
+    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
+    var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
     var percentFunded = project.percentFunded > 1
         ?
             100
         :
             project.percentFunded * 100;
-    // console.log("DIs It: ", project, project.videoSrc)
+    var _b = (0, react_1.useState)(project.bookmarked), bookmarked = _b[0], setBookmarked = _b[1];
+    var _c = (0, react_1.useState)(false), showSnackBar = _c[0], setShowSnackBar = _c[1];
+    var handleBookmarkClick = function (e) {
+        e.stopPropagation();
+        if (!sessionUser.user.id) {
+            setShowSnackBar(true);
+        }
+        else {
+            if (bookmarked) {
+                setBookmarked(false);
+                dispatch(projectsActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category));
+            }
+            else {
+                setBookmarked(true);
+                dispatch(projectsActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category));
+            }
+        }
+    };
+    (0, react_1.useEffect)(function () { setBookmarked(project.bookmarked); }, [project]);
     (0, react_1.useEffect)(function () {
         dispatch(projectActions.getProject(projectIdNum));
     }, [dispatch]);
@@ -80,8 +104,11 @@ function Project() {
                     react_1.default.createElement("div", null,
                         react_1.default.createElement("span", null, "days to go"))),
                 react_1.default.createElement(core_1.Button, { id: 'back-this-project-btn' }, "Back this project"),
-                react_1.default.createElement(core_1.Button, { id: 'bookmark-btn' }, "Bookmark"))),
-        react_1.default.createElement("section", { id: 'support-tiers' }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement(TIerTIle_1.default, { key: "support-tier-".concat(supportTier.name), props: { supportTier: supportTier } }); }))));
+                react_1.default.createElement(core_1.Button, { id: 'bookmark-btn', onClick: function (e) { return handleBookmarkClick(e); } },
+                    react_1.default.createElement(Bookmark_1.default, { style: { color: bookmarked ? 'yellow' : '' } }),
+                    "Bookmark"))),
+        react_1.default.createElement("section", { id: 'support-tiers' }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement(TIerTIle_1.default, { key: "support-tier-".concat(supportTier.name), props: { supportTier: supportTier } }); })),
+        showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } })));
 }
 ;
 exports.default = Project;

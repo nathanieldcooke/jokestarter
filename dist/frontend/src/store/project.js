@@ -62,7 +62,7 @@ var getProject = function (projectId) { return function (dispatch) { return __aw
 }); }; };
 exports.getProject = getProject;
 var initialState = {
-    id: null,
+    id: 0,
     screenShot: undefined,
     videoSrc: undefined,
     title: null,
@@ -74,6 +74,7 @@ var initialState = {
     daysToGo: 0,
     goal: null,
     supportTiers: [],
+    bookmarked: false
 };
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }

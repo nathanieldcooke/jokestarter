@@ -2,15 +2,16 @@ import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useSelector, useDispatch } from 'react-redux';
+import * as projectsActions from './../store/projects'
 import * as projectActions from './../store/project'
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { RootState } from './../store';
-import { IProject } from './../d';
+import { IProject, IProjects, IUser } from './../d';
 import { useHistory, useParams } from 'react-router-dom';
 import '../compStyles/Project.css'
 import { Button } from '@material-ui/core';
 import TierTile from './TIerTIle';
-
-// /category/:categoryName/project/:projectId
+import CustomizedSnackbars from './SnackBar';
 
 type urlParams = {
     categoryName:string,
@@ -22,13 +23,35 @@ function Project() {
     const dispatch = useDispatch();
     const { categoryName, projectId } = useParams<urlParams>();
     const projectIdNum = Number(projectId) 
+    const projects:IProjects[] = useSelector((state: RootState) => state.projects);
     const project:IProject = useSelector((state: RootState) => state.project);
+    const sessionUser:IUser = useSelector((state: RootState) => state.session);
+    const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
     const percentFunded = project.percentFunded > 1 
     ?
     100
     : 
     project.percentFunded * 100
-    // console.log("DIs It: ", project, project.videoSrc)
+ 
+    const [bookmarked, setBookmarked] = useState(project.bookmarked)
+    const [showSnackBar, setShowSnackBar] = useState(false)
+
+    const handleBookmarkClick = (e:React.MouseEvent) => {
+        e.stopPropagation()
+        if (!sessionUser.user.id) {
+            setShowSnackBar(true)
+        } else {
+            if (bookmarked) {
+                setBookmarked(false);
+                dispatch(projectsActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category))
+            } else {
+                setBookmarked(true);
+                dispatch(projectsActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category))
+            }
+        }
+    }
+
+    useEffect(() => {setBookmarked(project.bookmarked)}, [project])
 
     useEffect(() => {
         dispatch(projectActions.getProject(projectIdNum))
@@ -76,12 +99,18 @@ function Project() {
                         </div>
                     </section>
                     <Button id='back-this-project-btn'>Back this project</Button>
-                    <Button id='bookmark-btn'>Bookmark</Button>
+                    <Button 
+                        id='bookmark-btn'
+                        onClick={(e) => handleBookmarkClick(e)}
+                    ><BookmarkIcon
+                        style={{color: bookmarked ? 'yellow' : ''}}
+                    />Bookmark</Button>
             </div>
         </section>
         <section id='support-tiers'>
             {project.supportTiers.map(supportTier => <TierTile key={`support-tier-${supportTier.name}`} props={{supportTier}}/>)}
         </section>
+        {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}
     </div>
   )
 };
