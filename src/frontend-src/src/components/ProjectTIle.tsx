@@ -78,11 +78,6 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         };
     }
     }, [hideTile]);
- 
-    // if (progress === 100) {
-    //     setProgress(0)
-    //     dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked))
-    // }
 
   return (
     <div className='project-tile'>

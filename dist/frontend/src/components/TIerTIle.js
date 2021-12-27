@@ -23,14 +23,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
+var react_redux_1 = require("react-redux");
 var Button_1 = __importDefault(require("@material-ui/core/Button"));
 require("../compStyles/TierTile.css");
+var SnackBar_1 = __importDefault(require("./SnackBar"));
 var TierTile = function (props) {
     var supportTier = props.props.supportTier;
+    var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var _a = (0, react_1.useState)(false), focus = _a[0], setFocus = _a[1];
     var _b = (0, react_1.useState)(supportTier.amount), tierAmount = _b[0], setTierAmount = _b[1];
+    var _c = (0, react_1.useState)(false), showSnackBar = _c[0], setShowSnackBar = _c[1];
     var handleFocus = function () {
-        setFocus(true);
+        if (sessionUser.user.id) {
+            setFocus(true);
+        }
+        else {
+            setShowSnackBar(true);
+        }
     };
     var handleBlur = function () {
         setFocus(false);
@@ -85,6 +94,7 @@ var TierTile = function (props) {
                             react_1.default.createElement("span", { className: 'backers-tier' },
                                 "Backers: ",
                                 supportTier.backers)))),
+        showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } }),
         react_1.default.createElement("div", { className: 'select-reward-hidden', onClick: handleFocus, style: { display: focus ? 'none' : '' } }, "Select Reward")));
 };
 exports.default = TierTile;
