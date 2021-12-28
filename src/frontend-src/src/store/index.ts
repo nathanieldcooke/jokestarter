@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import projectsReducer from './projects';
 import projectReducer from './project';
+import contributionsReducer from './contributions';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   projects: projectsReducer,
   project: projectReducer,
+  contributions: contributionsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

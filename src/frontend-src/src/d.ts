@@ -29,20 +29,20 @@ export interface IUser {
 }
 
 export interface IUserSignup {
-    email:string,
-    username:string,
-    password:string,
+    email:string
+    username:string
+    password:string
     confirmPassword:string
 }
 
 export interface IUserSecure {
-    password:string,
+    password:string
     credential:string
 }
 
 export interface IActionUser {
-    type:string,
-    payload:IUser,
+    type:string
+    payload:IUser
 }
 
 
@@ -51,22 +51,22 @@ export interface IActionUser {
 
 export interface IProjects {
     id:number
-    screenShot:string|undefined,
-    title:string|null,
-    summary:string|null,
-    creatorName:string|null,
-    percentFunded:number,
-    pageNums:number,
-    bookmarked:boolean,
+    screenShot:string|undefined
+    title:string|null
+    summary:string|null
+    creatorName:string|null
+    percentFunded:number
+    pageNums:number
+    bookmarked:boolean
 }
 
 export interface IBookmark {
-    projectId:number,
+    projectId:number
     bool:boolean
 }
 
 export interface IActionProjects {
-    type:string,
+    type:string
     payload:IProjects[]
 }
 
@@ -80,32 +80,54 @@ export interface IActionBookmark {
 /////////////////////// project interfaces and types
 
 export interface ISupportTier {
-    amount:number,
-    name:string|null,
-    summary:string|null,
-    shipsTo:string|null,
-    backers:number|null,
-    amountLeft:number|null,
-    estimatedDelivery:string|null,
+    id:number
+    amount:number
+    name:string|null
+    summary:string|null
+    shipsTo:string|null
+    backers:number|null
+    amountLeft:number|null
+    estimatedDelivery:string|null
 } 
 
 export interface IProject {
-    id:number,
-    goal:number|null,
-    screenShot:string|undefined,
-    videoSrc:string|undefined,
-    title:string|null,
-    summary:string|null,
-    creatorName:string|null,
-    fundsCollected:number|null,
-    percentFunded:number,
+    id:number
+    goal:number|null
+    screenShot:string|undefined
+    videoSrc:string|undefined
+    title:string|null
+    summary:string|null
+    creatorName:string|null
+    fundsCollected:number|null
+    percentFunded:number
     numOfBackers:number
-    supportTiers:ISupportTier[],
-    daysToGo:number,
+    supportTiers:ISupportTier[]
+    daysToGo:number
     bookmarked:boolean
 }
 
 export interface IActionProject {
-    type:string,
+    type:string
     payload:IProject
+}
+
+
+/////////////////////// contributions interfaces and types
+
+export interface IReciept {
+    amountPledged:number|null
+    nameOfTier:string|null
+    summaryOfTier:string|null
+    etaDelivery:string|null
+    shipsTo:string|null
+}
+
+export interface IContribution {
+    recieptTile:IReciept
+    projectTile:IProjects
+}
+
+export interface IActionContribution {
+    type:string
+    payload:IContribution[]
 }

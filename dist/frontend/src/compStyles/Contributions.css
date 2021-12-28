@@ -1,0 +1,36 @@
+
+
+.page-dial-container-top, .page-dial-container-bottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.page-dial-container-top {
+    margin-top: 5em;
+}
+
+.page-dial-container-bottom {
+    margin-bottom: 5em;
+}
+
+.cont-tier-tile {
+    display: flex;
+    justify-content: center;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.sub-cont-tier-tile {
+    display: flex;
+}
+
+.sub-cont-tier-tile > div {
+    margin-right: 5em;
+}
+
+.sub-cont-tier-tile > div.support-tier {
+    width: 10em;
+    height: 100%;
+    margin-top: 0;
+}

@@ -35,6 +35,7 @@ function ProjectTile(props) {
     var dispatch = (0, react_redux_1.useDispatch)();
     var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
+    var isContribution = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 3] === 'contributions');
     var project = props.props.project;
     var percentFunded = project.percentFunded > 1
         ?
@@ -118,8 +119,8 @@ function ProjectTile(props) {
                         react_1.default.createElement("span", null, "More Details"),
                         react_1.default.createElement("div", { className: 'hidden-icons' },
                             react_1.default.createElement("div", null,
-                                react_1.default.createElement(Bookmark_1.default, { onClick: function (e) { return handleBookmarkClick(e); }, style: { color: bookmarked ? 'yellow' : '' } })),
-                            react_1.default.createElement("div", { style: { display: category === 'Bookmarks' ? 'none' : '' } },
+                                react_1.default.createElement(Bookmark_1.default, { onClick: function (e) { return handleBookmarkClick(e); }, style: { color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : '' } })),
+                            react_1.default.createElement("div", { style: { display: (category === 'Bookmarks' || isContribution) ? 'none' : '' } },
                                 react_1.default.createElement(ThumbDown_1.default, { onClick: function (e) { return handleThumbClick(e); } }))))),
         showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } })));
 }
