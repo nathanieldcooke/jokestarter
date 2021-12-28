@@ -20,13 +20,12 @@ export default function Contributions() {
     const { pageNumber } = useParams<urlParams>();
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
     const contributions:IContribution[] = useSelector((state: RootState) => state.contributions);
-
+    console.log("CZ: ", contributions)
     const pageNums = contributions[0] && contributions[0].projectTile.id ? contributions[0].projectTile.pageNums : 0;
     const pageNumberNum:number = Number(pageNumber)
     const [page, setPage] = useState(pageNumberNum);
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-
       dispatch(contributionsActions.getContributions(sessionUser.user.id, `${value}`))
       setPage(value);
       history.push(`/contributions/page/${value}`)
@@ -43,6 +42,11 @@ export default function Contributions() {
             <Pagination count={pageNums} page={page} onChange={handleChange} />
           </Stack>    
         </div>
+        {
+          !contributions[0].projectTile.id
+          ?
+          null
+          :
         <div className='cont-tier-tile'>
             {contributions.map((contribution:IContribution) => {
                 return (
@@ -53,6 +57,7 @@ export default function Contributions() {
                 )
             })}
         </div>
+        }
         <div className='page-dial-container-bottom'>
         <Stack spacing={2}>
           <Pagination count={pageNums} page={page} onChange={handleChange} />
