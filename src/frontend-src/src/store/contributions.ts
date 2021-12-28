@@ -22,19 +22,23 @@ export const makeContributionThunk = (supportTierId:number, amountPledged:number
             curr_url
         }),
     })
-
-    // const data:{contribution:IContribution} = await response.json();
-
-    // contributions.unshift(data.contribution)
-
-    // dispatch(setContribution(contributions))
     const data:{url:string} = await response.json()
-
-    console.log("data", data)
 
     window.location.href = data.url
 
     return data.url;
+};
+
+export const getContributions = (userId:number|null, page:string) => async (dispatch: Dispatch<IActionContribution>) => {
+    const response = await csrfFetch(`/api/users/${userId}/contributions/page/${page}`)
+
+    const data:{contributions:IContribution[]} = await response.json();
+
+    console.log('THUNK!!!!: ', data)
+
+    dispatch(setContribution(data.contributions))
+
+    return response;
 };
 
 const initialState:IContribution = 
@@ -58,7 +62,7 @@ const initialState:IContribution =
     }
 }
 
-const sessionReducer = (state = initialState, action:IActionProject) => {
+const contributionsReducer = (state = initialState, action:IActionProject) => {
     let newState;
     switch (action.type) {
         case SET_CONTRIBUTION:
@@ -69,4 +73,4 @@ const sessionReducer = (state = initialState, action:IActionProject) => {
     };
 };
 
-export default sessionReducer
+export default contributionsReducer

@@ -17,6 +17,61 @@ const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList }
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
+const formatData = async (data:any, pageNumber:string, user:IUser) => {
+    const zeroIndexPage = Number(pageNumber) - 1
+
+    let bookmarkedProjects = []
+
+    if (user) {
+        bookmarkedProjects = await Bookmark.findAll({
+            where: {
+                userId: user.id
+            }
+        })
+    
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+    }
+
+    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
+
+    let reciepts = data.map((dataPoint:any) => {
+        const supportTier = dataPoint.SupportTier
+        const project = supportTier.Project
+        const supportTiers = project.SupportTiers
+        
+        let sum = 0
+        let percentFunded = 0
+        supportTiers.forEach((supportTier:any) => {
+            sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
+        })
+        percentFunded = sum / project.goal * 100
+
+        return {
+            recieptTile:{
+                amountPledged: dataPoint.pledgeAmount,
+                nameOfTier: supportTier.name,
+                summaryOfTier: supportTier.summary,
+                etaDelivery: supportTier.estimatedDelivery,
+                shipsTo: supportTier.shipsTo
+            },
+            projectTile:{
+                id: project.id,
+                screenShot: project.screenShot,
+                title: project.title,
+                summary: project.summary,
+                creatorName: project.creatorName,
+                percentFunded,
+                pageNums: Math.ceil(data.length / 2),
+                bookmarked: bookmarkedProjectsSet.has(project.id)
+            }
+        }
+    })
+
+    return reciepts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2)
+}
+
+
+// uses posted information to initiate payment through stripe API
 router.post('/', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     const { supportTierId, amountPledged, curr_url } = req.body;
     const user = req.user
@@ -52,6 +107,29 @@ router.post('/', restoreUser, asyncHandler( async (req: Request, res: Response) 
         return
     }
     res.json({url: curr_url})
+}))
+
+router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, res: Response) => {
+    const {pageNumber} = req.params
+    const user = req.user
+
+    const data = await UsersToSupportTier.findAll({
+        where: {
+            userId: user.id
+        },
+        include: {
+            model: SupportTier,
+            include: {
+                model: Project,
+                include: {
+                    model: SupportTier,
+                    include: UsersToSupportTier
+                }
+            }
+        }
+    })
+    const formattedData = await formatData(data, pageNumber, user)
+    res.json({contributions: formattedData})
 }))
 
 module.exports = router;

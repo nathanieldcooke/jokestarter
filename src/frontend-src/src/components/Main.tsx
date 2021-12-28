@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 // import { RootState } from '../store';
 // import Button from '@material-ui/core/Button';
 import '../compStyles/Main.css'
+import Contributions from './Contributions';
 import Project from './Project';
 import Projects from './Projects';
 // props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
@@ -27,7 +28,7 @@ const Main = (props:{props: {}}|React.ReactNode) => {
           ><Project/></Route>
           <Route
             path="/contributions/page/:pageNumber"
-          ><div>Contributions and Page</div></Route>
+          ><Contributions/></Route>
         </Switch>
     </div>
     );

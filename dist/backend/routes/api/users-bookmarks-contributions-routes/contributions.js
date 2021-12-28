@@ -47,6 +47,60 @@ var _a = require('../../../utils/auth'), setTokenCookie = _a.setTokenCookie, res
 var _b = require('../../../db/models'), Project = _b.Project, Category = _b.Category, SupportTier = _b.SupportTier, UsersToSupportTier = _b.UsersToSupportTier, Bookmark = _b.Bookmark, HideList = _b.HideList;
 var router = express_1.default.Router();
 var stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
+var formatData = function (data, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
+    var zeroIndexPage, bookmarkedProjects, bookmarkedProjectsSet, reciepts;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                zeroIndexPage = Number(pageNumber) - 1;
+                bookmarkedProjects = [];
+                if (!user) return [3 /*break*/, 2];
+                return [4 /*yield*/, Bookmark.findAll({
+                        where: {
+                            userId: user.id
+                        }
+                    })];
+            case 1:
+                bookmarkedProjects = _a.sent();
+                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
+                _a.label = 2;
+            case 2:
+                bookmarkedProjectsSet = new Set(bookmarkedProjects);
+                reciepts = data.map(function (dataPoint) {
+                    var supportTier = dataPoint.SupportTier;
+                    var project = supportTier.Project;
+                    var supportTiers = project.SupportTiers;
+                    var sum = 0;
+                    var percentFunded = 0;
+                    supportTiers.forEach(function (supportTier) {
+                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                    });
+                    percentFunded = sum / project.goal * 100;
+                    return {
+                        recieptTile: {
+                            amountPledged: dataPoint.pledgeAmount,
+                            nameOfTier: supportTier.name,
+                            summaryOfTier: supportTier.summary,
+                            etaDelivery: supportTier.estimatedDelivery,
+                            shipsTo: supportTier.shipsTo
+                        },
+                        projectTile: {
+                            id: project.id,
+                            screenShot: project.screenShot,
+                            title: project.title,
+                            summary: project.summary,
+                            creatorName: project.creatorName,
+                            percentFunded: percentFunded,
+                            pageNums: Math.ceil(data.length / 2),
+                            bookmarked: bookmarkedProjectsSet.has(project.id)
+                        }
+                    };
+                });
+                return [2 /*return*/, reciepts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2)];
+        }
+    });
+}); };
+// uses posted information to initiate payment through stripe API
 router.post('/', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, supportTierId, amountPledged, curr_url, user, supportTier, session;
     return __generator(this, function (_b) {
@@ -88,6 +142,38 @@ router.post('/', restoreUser, asyncHandler(function (req, res) { return __awaite
                 return [2 /*return*/];
             case 3:
                 res.json({ url: curr_url });
+                return [2 /*return*/];
+        }
+    });
+}); }));
+router.get('/page/:pageNumber', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var pageNumber, user, data, formattedData;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                pageNumber = req.params.pageNumber;
+                user = req.user;
+                return [4 /*yield*/, UsersToSupportTier.findAll({
+                        where: {
+                            userId: user.id
+                        },
+                        include: {
+                            model: SupportTier,
+                            include: {
+                                model: Project,
+                                include: {
+                                    model: SupportTier,
+                                    include: UsersToSupportTier
+                                }
+                            }
+                        }
+                    })];
+            case 1:
+                data = _a.sent();
+                return [4 /*yield*/, formatData(data, pageNumber, user)];
+            case 2:
+                formattedData = _a.sent();
+                res.json({ contributions: formattedData });
                 return [2 /*return*/];
         }
     });

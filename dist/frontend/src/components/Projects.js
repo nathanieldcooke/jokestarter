@@ -31,7 +31,6 @@ var Pagination_1 = __importDefault(require("@mui/material/Pagination"));
 var Stack_1 = __importDefault(require("@mui/material/Stack"));
 require("../compStyles/Projects.css");
 function Projects() {
-    console.log('HELLOOOOOOOOOOOOOO');
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_router_dom_1.useParams)(), categoryName = _a.categoryName, pageNumber = _a.pageNumber;

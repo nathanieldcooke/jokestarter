@@ -16,7 +16,7 @@ type urlParams = {
 }
 
 function Projects() {
-  console.log('HELLOOOOOOOOOOOOOO')
+
   const history = useHistory();
   const dispatch = useDispatch();
   const {categoryName, pageNumber} = useParams<urlParams>();

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeContributionThunk = void 0;
+exports.getContributions = exports.makeContributionThunk = void 0;
 var csrf_1 = require("./csrf");
 var SET_CONTRIBUTION = 'project/setContribution';
 var setContribution = function (contribution) {
@@ -57,23 +57,35 @@ var makeContributionThunk = function (supportTierId, amountPledged, userId, cont
                         amountPledged: amountPledged,
                         curr_url: curr_url
                     }),
-                })
-                // const data:{contribution:IContribution} = await response.json();
-                // contributions.unshift(data.contribution)
-                // dispatch(setContribution(contributions))
-            ];
+                })];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                console.log("data", data);
                 window.location.href = data.url;
                 return [2 /*return*/, data.url];
         }
     });
 }); }; };
 exports.makeContributionThunk = makeContributionThunk;
+var getContributions = function (userId, page) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/contributions/page/").concat(page))];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                data = _a.sent();
+                console.log('THUNK!!!!: ', data);
+                dispatch(setContribution(data.contributions));
+                return [2 /*return*/, response];
+        }
+    });
+}); }; };
+exports.getContributions = getContributions;
 var initialState = {
     recieptTile: {
         amountPledged: null,
@@ -93,7 +105,7 @@ var initialState = {
         bookmarked: false,
     }
 };
-var sessionReducer = function (state, action) {
+var contributionsReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;
     switch (action.type) {
@@ -105,4 +117,4 @@ var sessionReducer = function (state, action) {
     }
     ;
 };
-exports.default = sessionReducer;
+exports.default = contributionsReducer;
