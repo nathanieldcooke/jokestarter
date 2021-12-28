@@ -50,7 +50,7 @@ export default function Contributions() {
         <div className='cont-tier-tile'>
             {contributions.map((contribution:IContribution) => {
                 return (
-                    <section className='sub-cont-tier-tile' key={contribution.projectTile.id}>
+                    <section className='sub-cont-tier-tile' key={`${contribution.projectTile.id}${Math.random()}`}>
                         <ProjectTile props={{project: contribution.projectTile}}/>
                         <ContTierTile props={{supportTier: contribution.recieptTile}}/>
                     </section>
