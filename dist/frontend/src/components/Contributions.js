@@ -37,6 +37,7 @@ function Contributions() {
     var pageNumber = (0, react_router_dom_1.useParams)().pageNumber;
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var contributions = (0, react_redux_1.useSelector)(function (state) { return state.contributions; });
+    console.log("CZ: ", contributions);
     var pageNums = contributions[0] && contributions[0].projectTile.id ? contributions[0].projectTile.pageNums : 0;
     var pageNumberNum = Number(pageNumber);
     var _a = (0, react_1.useState)(pageNumberNum), page = _a[0], setPage = _a[1];
@@ -52,11 +53,15 @@ function Contributions() {
         react_1.default.createElement("div", { className: 'page-dial-container-top' },
             react_1.default.createElement(material_1.Stack, { spacing: 2 },
                 react_1.default.createElement(material_1.Pagination, { count: pageNums, page: page, onChange: handleChange }))),
-        react_1.default.createElement("div", { className: 'cont-tier-tile' }, contributions.map(function (contribution) {
-            return (react_1.default.createElement("section", { className: 'sub-cont-tier-tile', key: contribution.projectTile.id },
-                react_1.default.createElement(ProjectTIle_1.default, { props: { project: contribution.projectTile } }),
-                react_1.default.createElement(ContTierTile_1.default, { props: { supportTier: contribution.recieptTile } })));
-        })),
+        !contributions[0].projectTile.id
+            ?
+                null
+            :
+                react_1.default.createElement("div", { className: 'cont-tier-tile' }, contributions.map(function (contribution) {
+                    return (react_1.default.createElement("section", { className: 'sub-cont-tier-tile', key: "".concat(contribution.projectTile.id).concat(Math.random()) },
+                        react_1.default.createElement(ProjectTIle_1.default, { props: { project: contribution.projectTile } }),
+                        react_1.default.createElement(ContTierTile_1.default, { props: { supportTier: contribution.recieptTile } })));
+                })),
         react_1.default.createElement("div", { className: 'page-dial-container-bottom' },
             react_1.default.createElement(material_1.Stack, { spacing: 2 },
                 react_1.default.createElement(material_1.Pagination, { count: pageNums, page: page, onChange: handleChange })))));
