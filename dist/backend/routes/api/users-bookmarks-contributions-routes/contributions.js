@@ -76,12 +76,14 @@ var formatData = function (data, pageNumber, user) { return __awaiter(void 0, vo
                         sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
                     });
                     percentFunded = sum / project.goal * 100;
+                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    var date = new Date(supportTier.estimatedDelivery);
                     return {
                         recieptTile: {
                             amountPledged: dataPoint.pledgeAmount,
                             nameOfTier: supportTier.name,
                             summaryOfTier: supportTier.summary,
-                            etaDelivery: supportTier.estimatedDelivery,
+                            etaDelivery: "".concat(months[date.getMonth()], " ").concat(date.getFullYear()),
                             shipsTo: supportTier.shipsTo
                         },
                         projectTile: {

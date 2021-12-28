@@ -16,6 +16,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     const dispatch = useDispatch();
     const projects:IProjects[] = useSelector((state: RootState) => state.projects);
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
+    const isContribution = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 3] === 'contributions')
     const project = props.props.project
     const percentFunded = project.percentFunded > 1 
     ?
@@ -115,10 +116,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                 <div>
                     <BookmarkIcon
                         onClick={(e) => handleBookmarkClick(e)}
-                        style={{color: bookmarked ? 'yellow' : ''}}
+                        style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
                     />
                 </div>
-                <div style={{display: category === 'Bookmarks' ? 'none' : ''}}>
+                <div style={{display: (category === 'Bookmarks' || isContribution) ? 'none' : ''}}>
                     <ThumbDownIcon
                         onClick={(e) => handleThumbClick(e)}
                     />

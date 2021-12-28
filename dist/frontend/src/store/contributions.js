@@ -86,25 +86,27 @@ var getContributions = function (userId, page) { return function (dispatch) { re
     });
 }); }; };
 exports.getContributions = getContributions;
-var initialState = {
-    recieptTile: {
-        amountPledged: null,
-        nameOfTier: null,
-        summaryOfTier: null,
-        etaDelivery: null,
-        shipsTo: null,
-    },
-    projectTile: {
-        id: 0,
-        screenShot: undefined,
-        title: null,
-        summary: null,
-        creatorName: null,
-        percentFunded: 0,
-        pageNums: 0,
-        bookmarked: false,
+var initialState = [
+    {
+        recieptTile: {
+            amountPledged: null,
+            nameOfTier: null,
+            summaryOfTier: null,
+            etaDelivery: null,
+            shipsTo: null,
+        },
+        projectTile: {
+            id: 0,
+            screenShot: undefined,
+            title: null,
+            summary: null,
+            creatorName: null,
+            percentFunded: 0,
+            pageNums: 0,
+            bookmarked: false,
+        }
     }
-};
+];
 var contributionsReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;

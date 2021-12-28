@@ -41,26 +41,27 @@ export const getContributions = (userId:number|null, page:string) => async (disp
     return response;
 };
 
-const initialState:IContribution = 
-{
-    recieptTile:{
-        amountPledged:null,
-        nameOfTier:null,
-        summaryOfTier:null,
-        etaDelivery:null,
-        shipsTo:null,
-    },
-    projectTile:{
-        id:0,
-        screenShot:undefined,
-        title:null,
-        summary:null,
-        creatorName:null,
-        percentFunded:0,
-        pageNums:0,
-        bookmarked:false,
+const initialState:IContribution[] = [
+    {
+        recieptTile:{
+            amountPledged:null,
+            nameOfTier:null,
+            summaryOfTier:null,
+            etaDelivery:null,
+            shipsTo:null,
+        },
+        projectTile:{
+            id:0,
+            screenShot:undefined,
+            title:null,
+            summary:null,
+            creatorName:null,
+            percentFunded:0,
+            pageNums:0,
+            bookmarked:false,
+        }
     }
-}
+] 
 
 const contributionsReducer = (state = initialState, action:IActionProject) => {
     let newState;

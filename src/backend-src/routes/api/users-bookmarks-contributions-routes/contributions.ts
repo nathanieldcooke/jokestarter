@@ -46,12 +46,15 @@ const formatData = async (data:any, pageNumber:string, user:IUser) => {
         })
         percentFunded = sum / project.goal * 100
 
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        let date = new Date(supportTier.estimatedDelivery) 
+
         return {
             recieptTile:{
                 amountPledged: dataPoint.pledgeAmount,
                 nameOfTier: supportTier.name,
                 summaryOfTier: supportTier.summary,
-                etaDelivery: supportTier.estimatedDelivery,
+                etaDelivery: `${months[date.getMonth()]} ${date.getFullYear()}`,
                 shipsTo: supportTier.shipsTo
             },
             projectTile:{
