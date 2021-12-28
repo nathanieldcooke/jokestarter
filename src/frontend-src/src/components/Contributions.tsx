@@ -21,16 +21,15 @@ export default function Contributions() {
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
     const contributions:IContribution[] = useSelector((state: RootState) => state.contributions);
 
-    const pageNums = contributions[0].projectTile.id ? contributions[0].projectTile.pageNums : 0
+    const pageNums = contributions[0] && contributions[0].projectTile.id ? contributions[0].projectTile.pageNums : 0;
     const pageNumberNum:number = Number(pageNumber)
     const [page, setPage] = useState(pageNumberNum);
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
 
-        dispatch(contributionsActions.getContributions(sessionUser.user.id, `${value}`))
-
+      dispatch(contributionsActions.getContributions(sessionUser.user.id, `${value}`))
       setPage(value);
-      history.push(`/category/contributions/page/${value}`)
+      history.push(`/contributions/page/${value}`)
     };
 
     useEffect(() => {

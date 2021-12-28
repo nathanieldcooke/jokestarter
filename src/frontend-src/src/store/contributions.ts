@@ -63,7 +63,7 @@ const initialState:IContribution[] = [
     }
 ] 
 
-const contributionsReducer = (state = initialState, action:IActionProject) => {
+const contributionsReducer = (state = initialState, action:IActionContribution) => {
     let newState;
     switch (action.type) {
         case SET_CONTRIBUTION:
