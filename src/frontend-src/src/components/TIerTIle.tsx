@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as sessionActions from '../store/session';
+import * as contributionsActions from '../store/contributions'
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { RootState } from '../store';
@@ -9,6 +10,7 @@ import { ISupportTier, IUser } from '../d';
 import CustomizedSnackbars from './SnackBar';
 
 const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
+    const dispatch = useDispatch();
     const {supportTier} = props.props
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
 
@@ -33,7 +35,10 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
         setTierAmount(currAmount);
     }
 
-
+    const handleContribution = async () => {
+        console.log('CONTRIBUTION FRONT')
+        dispatch(contributionsActions.makeContributionThunk(supportTier.id, tierAmount, sessionUser.user.id, null, window.location.pathname))
+    }
 
     return (
         <div className='support-tier'
@@ -71,7 +76,11 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
                         onChange={handleAmountChange}
                         value={tierAmount}
                         type='number'></input></span>
-                    <Button disabled={tierAmount < supportTier.amount} id='continue-pledge-amount'>Continue</Button>
+                    <Button 
+                        disabled={tierAmount < supportTier.amount} 
+                        id='continue-pledge-amount'
+                        onClick={handleContribution}    
+                    >Continue</Button>
                 </div>
                 :
             <>

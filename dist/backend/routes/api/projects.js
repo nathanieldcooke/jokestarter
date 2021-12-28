@@ -199,6 +199,7 @@ var editSupportTier = function (supportTier, usersToSupportTier) {
     var amountLeft = supportTier.amountAvailable - backers;
     var date = new Date(supportTier.estimatedDelivery);
     return {
+        id: supportTier.id,
         amount: supportTier.minPledge,
         name: supportTier.name,
         summary: supportTier.summary,

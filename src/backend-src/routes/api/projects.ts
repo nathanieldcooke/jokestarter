@@ -158,6 +158,7 @@ const editSupportTier = (supportTier:any, usersToSupportTier:any) => {
     let amountLeft = supportTier.amountAvailable - backers
     let date = new Date(supportTier.estimatedDelivery) 
     return {
+        id: supportTier.id,
         amount: supportTier.minPledge,
         name: supportTier.name,
         summary: supportTier.summary,
