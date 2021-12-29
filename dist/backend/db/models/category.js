@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var db = require('./../models');
 var Sequelize = require('sequelize');
 var DataTypes = require("sequelize").DataTypes;
 module.exports = function (sequelize, dataTypes) {

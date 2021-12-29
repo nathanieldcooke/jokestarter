@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose, StoreEnhancer } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import projectsReducer from './projects';
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-let enhancer:any;
+let enhancer: StoreEnhancer<unknown, {}> | undefined;
 
 if (process.env.NODE_ENV === 'production') {
   enhancer = applyMiddleware(thunk);

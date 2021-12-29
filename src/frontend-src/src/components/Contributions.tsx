@@ -21,7 +21,7 @@ export default function Contributions() {
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
     const contributions:IContribution[] = useSelector((state: RootState) => state.contributions);
     console.log("CZ: ", contributions)
-    const pageNums = contributions[0] && contributions[0].projectTile.id ? contributions[0].projectTile.pageNums : 0;
+    const pageNums = (contributions[0] && contributions[0].projectTile.id) ? contributions[0].projectTile.pageNums : 0;
     const pageNumberNum:number = Number(pageNumber)
     const [page, setPage] = useState(pageNumberNum);
 
@@ -43,7 +43,7 @@ export default function Contributions() {
           </Stack>    
         </div>
         {
-          !contributions[0].projectTile.id
+          (!contributions[0] || !contributions[0].projectTile.id)
           ?
           null
           :

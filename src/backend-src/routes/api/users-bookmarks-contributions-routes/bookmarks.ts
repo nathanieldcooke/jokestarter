@@ -9,6 +9,7 @@ import express, {
 const { Op } = require("sequelize");
 
 import { ExpError, IUser } from '../../../custom-types';
+import { IProjects } from '../../../types/d';
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../../utils/auth');
 
@@ -16,7 +17,7 @@ const { Project, Category, SupportTier, UsersToSupportTier, Bookmark } = require
 
 const router = express.Router();
 
-const getBookmarks = async (pageNumber:string, user:any) => {
+const getBookmarks = async (pageNumber:string, user:IUser) => {
     const zeroIndexPage = Number(pageNumber) - 1
 
     let userBookmarks = await Bookmark.findAll({
@@ -25,8 +26,7 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         }
     })
 
-
-    userBookmarks = userBookmarks.map((bookmark:any) => bookmark.projectId)
+    userBookmarks = userBookmarks.map((bookmark: typeof Bookmark) => bookmark.projectId)
 
     let projects = await Project.findAll({
         include: {
@@ -40,25 +40,10 @@ const getBookmarks = async (pageNumber:string, user:any) => {
         }
     })
 
-    let bookmarkedProjects = []
-    
-    if (user) {
-        bookmarkedProjects = await Bookmark.findAll({
-            where: {
-                userId: user.id
-            }
-        })
-    
-        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
-
-    }
-    
-    let bookmarkedProjectsSet = new Set(bookmarkedProjects)
-
-    projects = projects.map((project:any) => {
+    const projectsDict:IProjects[] = projects.map((project: typeof Project) => {
         let sum = 0
         let percentFunded = 0
-        project.SupportTiers.forEach((supportTier:any) => {
+        project.SupportTiers.forEach((supportTier: typeof SupportTier) => {
             sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
         })
         percentFunded = sum / project.goal * 100
@@ -71,11 +56,11 @@ const getBookmarks = async (pageNumber:string, user:any) => {
             creatorName: project.creatorName,
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
-            bookmarked: bookmarkedProjectsSet.has(project.id)
+            bookmarked: true
         }
     })
 
-    return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
+    return projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
 }
 
 const addBookmark = async (projectId:string, user:IUser) => {
@@ -86,7 +71,6 @@ const addBookmark = async (projectId:string, user:IUser) => {
 }
 
 const removeBookmark = async (projectId:string, user:IUser) => {
-    console.log("BACK-PU: ", projectId, user.id)
     const bookmark = await Bookmark.findOne({
         where: {
             projectId,
@@ -100,7 +84,7 @@ const removeBookmark = async (projectId:string, user:IUser) => {
 
 router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     const { category, pageNumber } = req.params;
-    const user = req.user
+    const user:IUser = req.user
 
     let projects = []
 
@@ -111,7 +95,7 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, 
 router.post('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     const { projectId } = req.params;
     const { bookmarked } = req.body;
-    const user = req.user
+    const user:IUser = req.user
 
     if (bookmarked) {
         await addBookmark(projectId, user)
