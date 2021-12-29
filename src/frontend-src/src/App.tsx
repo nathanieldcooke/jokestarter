@@ -6,6 +6,7 @@ import { IUser } from './d';
 import Navbar from './components/Navbar';
 import { useHistory } from 'react-router-dom';
 import Main from './components/Main';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <img id='right-img' src='https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png'/>
         <img id='bottom-img' src='https://ksr-static.imgix.net/c51lnrg9-doodle_continue.png?ixlib=rb-2.1.0&auto=compress%2Cformat&w=1000&fit=min&s=dc34091fa7d24f5d676e0e0201337f9b'/>
       </div>
+      <Footer/>
     </div>) || null
   )
 };

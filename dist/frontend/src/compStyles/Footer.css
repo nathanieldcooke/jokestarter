@@ -1,0 +1,39 @@
+footer.links {
+    margin-top: 5em;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    background-color: rgba(255, 255, 255, 0.571);
+    border-top: rgb(220, 220, 220) solid 1px;
+}
+
+footer.links span {
+    font-weight: bolder;
+}
+
+footer.links label {
+    padding-left: 1em;
+    padding-right: .25em;
+}
+
+footer.links a {
+    text-decoration: none;
+    color: black;
+    margin: .5em;
+    border-radius: 15px;
+    padding-right: .25em;
+    padding-left: .25em;
+    display: flex;
+}
+footer.links a:hover {
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+footer.links label:hover {
+    cursor: pointer;
+}

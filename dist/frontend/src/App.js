@@ -28,6 +28,7 @@ var sessionActions = __importStar(require("./store/session"));
 var Navbar_1 = __importDefault(require("./components/Navbar"));
 var react_router_dom_1 = require("react-router-dom");
 var Main_1 = __importDefault(require("./components/Main"));
+var Footer_1 = __importDefault(require("./components/Footer"));
 function App() {
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
@@ -52,7 +53,8 @@ function App() {
             react_1.default.createElement("div", { id: 'background-lines' },
                 react_1.default.createElement("img", { id: 'left-img', src: 'https://cdn.optimizely.com/img/14069890047/72ae3620b85d48c1878cbe4d0866665d.png' }),
                 react_1.default.createElement("img", { id: 'right-img', src: 'https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png' }),
-                react_1.default.createElement("img", { id: 'bottom-img', src: 'https://ksr-static.imgix.net/c51lnrg9-doodle_continue.png?ixlib=rb-2.1.0&auto=compress%2Cformat&w=1000&fit=min&s=dc34091fa7d24f5d676e0e0201337f9b' })))) || null);
+                react_1.default.createElement("img", { id: 'bottom-img', src: 'https://ksr-static.imgix.net/c51lnrg9-doodle_continue.png?ixlib=rb-2.1.0&auto=compress%2Cformat&w=1000&fit=min&s=dc34091fa7d24f5d676e0e0201337f9b' })),
+            react_1.default.createElement(Footer_1.default, null))) || null);
 }
 ;
 exports.default = App;
