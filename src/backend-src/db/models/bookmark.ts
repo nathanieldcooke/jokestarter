@@ -1,5 +1,9 @@
 'use strict';
+
 export {}
+
+const db = require('./../models')
+
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
@@ -7,7 +11,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     userId: DataTypes.INTEGER,
     projectId: DataTypes.INTEGER
   }, {});
-  Bookmark.associate = function(models:any) {
+  Bookmark.associate = function(_models: typeof db) {
     // associations can be defined here
   };
   return Bookmark;

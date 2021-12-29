@@ -23,6 +23,7 @@ export interface IUserSignUp {
 }
 
 export interface IUser {
+    email:string,
     username:string,
     id:number,
     errors:string[]

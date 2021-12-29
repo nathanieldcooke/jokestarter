@@ -47,7 +47,7 @@ var _a = require('../../../utils/auth'), setTokenCookie = _a.setTokenCookie, res
 var _b = require('../../../db/models'), Project = _b.Project, Category = _b.Category, SupportTier = _b.SupportTier, UsersToSupportTier = _b.UsersToSupportTier, Bookmark = _b.Bookmark;
 var router = express_1.default.Router();
 var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, userBookmarks, projects, bookmarkedProjects, bookmarkedProjectsSet;
+    var zeroIndexPage, userBookmarks, projects, projectsDict;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -74,20 +74,7 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                     })];
             case 2:
                 projects = _b.sent();
-                bookmarkedProjects = [];
-                if (!user) return [3 /*break*/, 4];
-                return [4 /*yield*/, Bookmark.findAll({
-                        where: {
-                            userId: user.id
-                        }
-                    })];
-            case 3:
-                bookmarkedProjects = _b.sent();
-                bookmarkedProjects = bookmarkedProjects.map(function (bookmark) { return bookmark.projectId; });
-                _b.label = 4;
-            case 4:
-                bookmarkedProjectsSet = new Set(bookmarkedProjects);
-                projects = projects.map(function (project) {
+                projectsDict = projects.map(function (project) {
                     var sum = 0;
                     var percentFunded = 0;
                     project.SupportTiers.forEach(function (supportTier) {
@@ -102,10 +89,10 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
                         pageNums: Math.ceil(projects.length / 4),
-                        bookmarked: bookmarkedProjectsSet.has(project.id)
+                        bookmarked: true
                     };
                 });
-                return [2 /*return*/, projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
+                return [2 /*return*/, projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
         }
     });
 }); };
@@ -126,14 +113,12 @@ var removeBookmark = function (projectId, user) { return __awaiter(void 0, void 
     var bookmark;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                console.log("BACK-PU: ", projectId, user.id);
-                return [4 /*yield*/, Bookmark.findOne({
-                        where: {
-                            projectId: projectId,
-                            userId: user.id
-                        }
-                    })];
+            case 0: return [4 /*yield*/, Bookmark.findOne({
+                    where: {
+                        projectId: projectId,
+                        userId: user.id
+                    }
+                })];
             case 1:
                 bookmark = _a.sent();
                 if (!bookmark) return [3 /*break*/, 3];

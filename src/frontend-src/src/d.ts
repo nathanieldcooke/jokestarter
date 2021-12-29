@@ -1,9 +1,16 @@
+import { Store, EmptyObject } from "redux";
+
 /////////////////////// general interfaces and types
 declare global {
     interface Window { 
-        csrfFetch:any,
-        store:any,
-        sessionActions:any
+        csrfFetch: (////////////////////// general interfaces and types
+            url /////////////////// general interfaces and types
+                : string /////////// general interfaces and types
+            , ////////// general interfaces and types
+            options // general interfaces and types
+                ?: IOptions) => Promise<any>,
+        store:any
+        sessionActions: typeof import("./store/session")
     }
 }
 

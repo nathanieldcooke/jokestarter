@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _a = require('./../models'), Project = _a.Project, User = _a.User, SupportTier = _a.SupportTier;
 module.exports = {
     up: function (queryInterface) { return __awaiter(void 0, void 0, void 0, function () {
-        var getRandomNumber, generateUsersToTiers, usersToTiers, projects, _i, projects_1, project, projectUserToSupport;
+        var getRandomNumber, generateUsersToTiers, projects, usersToTiers, _i, projects_1, project, projectUserToSupport;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -92,10 +92,10 @@ module.exports = {
                             }
                         });
                     }); };
-                    usersToTiers = [];
                     return [4 /*yield*/, Project.findAll()];
                 case 1:
                     projects = _a.sent();
+                    usersToTiers = [];
                     _i = 0, projects_1 = projects;
                     _a.label = 2;
                 case 2:

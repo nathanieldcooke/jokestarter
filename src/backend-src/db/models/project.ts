@@ -1,7 +1,10 @@
 // 'use strict';
 export {}
+
+const db = require('./../models')
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const Project = sequelize.define('Project', {
     goal: dataTypes.INTEGER,
@@ -13,7 +16,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
     creatorName: dataTypes.STRING(25),
     categoryId: dataTypes.INTEGER
   }, {});
-  Project.associate = function(models:any) {
+  Project.associate = function(models:typeof db) {
     Project.belongsTo(models.Category, { foreignKey: 'categoryId' });
     Project.hasMany(models.SupportTier, { foreignKey: 'projectId' });
 

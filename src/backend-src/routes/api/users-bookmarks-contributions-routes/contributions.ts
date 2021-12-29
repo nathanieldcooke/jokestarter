@@ -9,6 +9,7 @@ import express, {
 const { Op } = require("sequelize");
 
 import { ExpError, IUser } from '../../../custom-types';
+import { IProjects, IReciept } from '../../../types/d';
 const asyncHandler = require('express-async-handler');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../../utils/auth');
 
@@ -17,7 +18,7 @@ const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList }
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
-const formatData = async (data:any, pageNumber:string, user:IUser) => {
+const formatData = async (data:typeof UsersToSupportTier[], pageNumber:string, user:IUser) => {
     const zeroIndexPage = Number(pageNumber) - 1
 
     let bookmarkedProjects = []
@@ -29,19 +30,19 @@ const formatData = async (data:any, pageNumber:string, user:IUser) => {
             }
         })
     
-        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:typeof Bookmark) => bookmark.projectId)
     }
 
     let bookmarkedProjectsSet = new Set(bookmarkedProjects)
 
-    let reciepts = data.map((dataPoint:any) => {
+    let reciepts:{recieptTile:IReciept,projectTile:IProjects}[] = data.map((dataPoint:typeof UsersToSupportTier) => {
         const supportTier = dataPoint.SupportTier
         const project = supportTier.Project
         const supportTiers = project.SupportTiers
         
         let sum = 0
         let percentFunded = 0
-        supportTiers.forEach((supportTier:any) => {
+        supportTiers.forEach((supportTier: typeof SupportTier) => {
             sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
         })
         percentFunded = sum / project.goal * 100

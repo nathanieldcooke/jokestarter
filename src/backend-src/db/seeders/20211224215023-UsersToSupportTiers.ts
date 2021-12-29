@@ -1,5 +1,6 @@
 'use strict';
 import { QueryInterface } from "sequelize/types";
+import { IUsersToTiersProject } from "../../types/d";
 const { Project, User, SupportTier } = require('./../models')
 
 module.exports = {
@@ -10,8 +11,8 @@ module.exports = {
       return Math.random() * (max - min) + min;
     }
 
-    const generateUsersToTiers = async (project:any) => {
-      const usersToTiersProject:any = []
+    const generateUsersToTiers = async (project:typeof Project) => {
+      const usersToTiersProject:IUsersToTiersProject[] = []
       const percent = getRandomNumber(5, 70) / 100
       const amountOfGoalToHit = project.goal * percent
       let amountRaised = 0;
@@ -49,8 +50,8 @@ module.exports = {
     }
 
     
-    const usersToTiers:any = []
     const projects = await Project.findAll();
+    const usersToTiers:typeof Project[] = []
     
     for (let project of projects) {
       let projectUserToSupport = await generateUsersToTiers(project)

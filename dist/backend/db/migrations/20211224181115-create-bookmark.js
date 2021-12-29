@@ -1,4 +1,6 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
+var SequelizeType = require('sequelize');
 module.exports = {
     up: function (queryInterface, Sequelize) {
         return queryInterface.createTable('Bookmarks', {

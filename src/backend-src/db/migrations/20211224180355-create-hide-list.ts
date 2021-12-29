@@ -1,6 +1,9 @@
 'use strict';
+import { QueryInterface } from "sequelize/types";
+const SequelizeType = require('sequelize');
+
 module.exports = {
-  up: (queryInterface:any, Sequelize:any) => {
+  up: (queryInterface: QueryInterface, Sequelize: typeof SequelizeType) => {
     return queryInterface.createTable('HideLists', {
       id: {
         allowNull: false,
@@ -28,7 +31,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface:any, Sequelize:any) => {
+  down: (queryInterface: QueryInterface, Sequelize: typeof SequelizeType) => {
     return queryInterface.dropTable('HideLists');
   }
 };

@@ -1,13 +1,16 @@
 'use strict'
 export {}
+
+const db = require('./../models')
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const Category = sequelize.define('Category', {
     name: dataTypes.STRING(25),
     loggedIn: dataTypes.BOOLEAN
   }, {});
-  Category.associate = function(models:any) {
+  Category.associate = function(models:typeof db) {
     Category.hasMany(models.Project, { foreignKey: 'categoryId' });
   };
 

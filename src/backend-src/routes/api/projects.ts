@@ -7,19 +7,20 @@ import express, {
 } from 'express';
 const { Op } = require("sequelize");
 import { ExpError, IUser } from '../../custom-types';
+import { IProjects, ISupportTier2 } from '../../types/d';
 const asyncHandler = require('express-async-handler');
 const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList } = require('../../db/models');
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 
-const getOtherCategory = async (category:string, pageNumber:string, user:any) => {
+const getOtherCategory = async (category:string, pageNumber:string, user:IUser) => {
     const zeroIndexPage = Number(pageNumber) - 1
     
     const categoryId = await Category.getCategoryId(category)
     
-    let bookmarkedProjects = []
-    let hideLists = []
+    let bookmarkedProjects:typeof Project[]|number[] = []
+    let hideLists:typeof Project[]|number[] = []
     
     if (user) {
         bookmarkedProjects = await Bookmark.findAll({
@@ -34,8 +35,8 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
             }
         })
     
-        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
-        hideLists = hideLists.map((hide:any) => hide.projectId)
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:typeof Project) => bookmark.projectId)
+        hideLists = hideLists.map((hide:typeof Project) => hide.projectId)
     }
 
     let bookmarkedProjectsSet = new Set(bookmarkedProjects)
@@ -54,10 +55,10 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
     });
 
 
-    projects = projects.map((project:any) => {
+    const projectsDict:IProjects[] = projects.map((project:typeof Project) => {
         let sum = 0
         let percentFunded = 0
-        project.SupportTiers.forEach((supportTier:any) => {
+        project.SupportTiers.forEach((supportTier:typeof SupportTier) => {
             sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
         })
         percentFunded = sum / project.goal * 100
@@ -74,11 +75,11 @@ const getOtherCategory = async (category:string, pageNumber:string, user:any) =>
         }
     })
 
-    return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
+    return projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
 
 }
 
-const getTop = async (pageNumber:string, user:any) => {
+const getTop = async (pageNumber:string, user:IUser) => {
     const zeroIndexPage = Number(pageNumber) - 1
 
     const categories = await Category.findAll({
@@ -88,10 +89,10 @@ const getTop = async (pageNumber:string, user:any) => {
             }
         }
     })
-    const categoryIds = categories.map((category:any) => category.id)
+    const categoryIds = categories.map((category:typeof Category) => category.id)
 
-    let bookmarkedProjects = []
-    let hideLists = []
+    let bookmarkedProjects:typeof Project[]|number[] = []
+    let hideLists:typeof Project[]|number[] = []
     
     if (user) {
         bookmarkedProjects = await Bookmark.findAll({
@@ -106,8 +107,8 @@ const getTop = async (pageNumber:string, user:any) => {
             }
         })
     
-        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
-        hideLists = hideLists.map((hide:any) => hide.projectId)
+        bookmarkedProjects = bookmarkedProjects.map((bookmark:typeof Project) => bookmark.projectId)
+        hideLists = hideLists.map((hide:typeof Project) => hide.projectId)
     }
     
     let bookmarkedProjectsSet = new Set(bookmarkedProjects)
@@ -127,14 +128,13 @@ const getTop = async (pageNumber:string, user:any) => {
         },
     });
 
-    projects = projects.map((project:any) => {
+    let projectsDict:IProjects[] = projects.map((project: typeof Project) => {
         let sum = 0
         let percentFunded = 0
-        project.SupportTiers.forEach((supportTier:any) => {
+        project.SupportTiers.forEach((supportTier:typeof SupportTier) => {
             sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge 
         })
         percentFunded = sum / project.goal * 100
-        // console.log('PAGE NUMS: ', )
         return {
             id: project.id,
             screenShot: project.screenShot,
@@ -147,12 +147,12 @@ const getTop = async (pageNumber:string, user:any) => {
         }
     })
 
-    projects.sort((a:any, b:any) => b.percentFunded - a.percentFunded)
+    projectsDict.sort((a:IProjects, b:IProjects) => b.percentFunded - a.percentFunded)
 
-    return projects.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
+    return projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)
 }
 
-const editSupportTier = (supportTier:any, usersToSupportTier:any) => {
+const editSupportTier = (supportTier: typeof SupportTier, usersToSupportTier: typeof UsersToSupportTier) => {
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     let backers = usersToSupportTier.length
     let amountLeft = supportTier.amountAvailable - backers
@@ -178,7 +178,7 @@ const getProjectDetails = async (projectId:string, user:IUser) => {
     let sum = 0
     let numOfBackers = 0
     let percentFunded = 0
-    let supportTiers:any = []
+    let supportTiers:ISupportTier2[] = []
 
     let bookmarkedProjects = []
     
@@ -189,7 +189,7 @@ const getProjectDetails = async (projectId:string, user:IUser) => {
             }
         })
     
-        bookmarkedProjects = bookmarkedProjects.map((bookmark:any) => bookmark.projectId)
+        bookmarkedProjects = bookmarkedProjects.map((bookmark: { projectId: number; }) => bookmark.projectId)
     }
     
     let bookmarkedProjectsSet = new Set(bookmarkedProjects)
@@ -201,7 +201,7 @@ const getProjectDetails = async (projectId:string, user:IUser) => {
             }
         })
 
-        usersToSupportTier.forEach((uToSTier:any) => {
+        usersToSupportTier.forEach((uToSTier: typeof UsersToSupportTier) => {
             sum += uToSTier.pledgeAmount;
             numOfBackers += 1;
         })
@@ -252,8 +252,8 @@ router.get('/:projectId', restoreUser, asyncHandler( async (req: Request, res: R
 
 router.get('/:category/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, res: Response) => {
     const { category, pageNumber } = req.params;
-    const user = req.user
-
+    const user:IUser = req.user
+    // console.log(user)
 
     let projects = []
     if (category === 'Top') {

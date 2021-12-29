@@ -12,7 +12,7 @@ export async function csrfFetch(url:string, options:IOptions = { method: 'GET', 
       options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
     }
     // call the default window's fetch with the url and the options passed in
-    let res:any;
+    let res;
     if (options.method.toUpperCase() === 'GET') {
       res = await window.fetch(url)
     } else {

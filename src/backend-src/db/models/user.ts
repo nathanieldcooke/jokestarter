@@ -1,9 +1,12 @@
 'use strict';
 export {}
-const bcrypt = require('bcryptjs')
 import { IUserSecure, IUserSignUp } from "../../custom-types";
+
+const db = require('./../models')
+const bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize');
 const { DataTypes } = require("sequelize");
+
 module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -48,7 +51,7 @@ module.exports = (sequelize: typeof Sequelize, dataTypes: typeof DataTypes) => {
       }
     }
   });
-  User.associate = function(models:any) { // mabey try to destructure other models.
+  User.associate = function(models: typeof db) { // mabey try to destructure other models.
     const columnMapping1 = {
       through: 'HideList',
       otherKey: 'projectId',
