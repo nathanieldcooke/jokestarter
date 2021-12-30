@@ -88,7 +88,6 @@ var TierTile = function (props) {
     };
     var handleContribution = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            console.log('CONTRIBUTION FRONT');
             dispatch(contributionsActions.makeContributionThunk(supportTier.id, tierAmount, sessionUser.user.id, null, window.location.pathname));
             return [2 /*return*/];
         });

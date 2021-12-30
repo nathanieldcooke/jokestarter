@@ -34,7 +34,6 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
     }
 
     const handleContribution = async () => {
-        console.log('CONTRIBUTION FRONT')
         dispatch(contributionsActions.makeContributionThunk(supportTier.id, tierAmount, sessionUser.user.id, null, window.location.pathname))
     }
 

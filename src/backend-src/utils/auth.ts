@@ -1,10 +1,10 @@
-// packages
 import {
     Request,
     Response, 
     NextFunction
 } from 'express';
-import { ExpError } from '../custom-types';
+import { ExpError } from '../types/d';
+
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
 const { User } = require('../db/models');
@@ -49,7 +49,7 @@ const restoreUser = (req: Request, res: Response, next: NextFunction) => {
       } catch (e) {
         res.clearCookie('token');
         return next();
-      }
+      };
   
       if (!req.user) res.clearCookie('token');
   

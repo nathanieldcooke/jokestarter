@@ -5,6 +5,7 @@ import express, {
      Response, 
      NextFunction
 } from 'express';
+import { ExpError } from './types/d';
 const morgan = require('morgan');
 const cors = require('cors');
 const csurf = require('csurf')
@@ -14,7 +15,6 @@ const { ValidationError } = require('sequelize');
 // internal 
 const { environment } = require('./config');
 const routes = require('./routes');
-import { ExpError } from './custom-types';
 
 const isProduction: boolean = environment === 'production' 
 

@@ -1,3 +1,46 @@
+// extend errors
+
+export class ExpError extends Error {
+    title:string|undefined;
+    errors:string[]|undefined;
+    status:number|undefined;
+
+    constructor(message:string) {
+        super(message);
+        this.title = undefined;
+        this.errors = undefined;
+        this.status = undefined;
+    }
+}
+
+///////////////////// users
+
+export interface IUserSecure {
+    credential:string,
+    password:string
+}
+
+export interface IUserSignUp {
+    email:string,
+    username:string,
+    password:string
+}
+
+export interface IUser {
+    email:string,
+    username:string,
+    id:number,
+    errors:string[]
+}
+
+export interface IUsersToTiersProject {
+    userId:number
+    supportTierId:number
+    pledgeAmount:number
+}
+
+///////////////////// projects
+
 export interface ISupportTier1 {
     projectId:number
     name:string|undefined
@@ -17,12 +60,6 @@ export interface ISupportTier2 {
     backers:number
     amountLeft:number
     estimatedDelivery:string
-}
-
-export interface IUsersToTiersProject {
-    userId:number
-    supportTierId:number
-    pledgeAmount:number
 }
 
 export interface IProjects {
