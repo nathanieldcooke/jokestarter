@@ -79,7 +79,6 @@ var getContributions = function (userId, page) { return function (dispatch) { re
                 return [4 /*yield*/, response.json()];
             case 2:
                 data = _a.sent();
-                console.log('THUNK!!!!: ', data);
                 dispatch(setContribution(data.contributions));
                 return [2 /*return*/, response];
         }

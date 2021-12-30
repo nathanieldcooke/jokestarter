@@ -1,6 +1,9 @@
 'use strict';
+
 export {}
-import { IUserSecure, IUserSignUp } from "../../custom-types";
+
+import { IUserSecure, IUserSignUp } from "../../types/d";
+
 
 const db = require('./../models')
 const bcrypt = require('bcryptjs')

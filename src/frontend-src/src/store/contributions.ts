@@ -34,8 +34,6 @@ export const getContributions = (userId:number|null, page:string) => async (disp
 
     const data:{contributions:IContribution[]} = await response.json();
 
-    console.log('THUNK!!!!: ', data)
-
     dispatch(setContribution(data.contributions))
 
     return response;

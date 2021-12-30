@@ -41,49 +41,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // packages
 var express_1 = __importDefault(require("express"));
-var custom_types_1 = require("../../custom-types");
+var d_1 = require("../../types/d");
+var _a = require('../../utils/validation'), validateLogin = _a.validateLogin, validateSignup = _a.validateSignup;
 var asyncHandler = require('express-async-handler');
-var check = require('express-validator').check;
-var handleValidationErrors = require('../../utils/validation').handleValidationErrors;
-var _a = require('../../utils/auth'), setTokenCookie = _a.setTokenCookie, restoreUser = _a.restoreUser, requireAuth = _a.requireAuth;
+var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser;
 var User = require('../../db/models').User;
-var bookmarksRouter = require('./users-bookmarks-contributions-routes/bookmarks');
-var hideprojectsRouter = require('./users-bookmarks-contributions-routes/hideprojects');
-var contributionsRouter = require('./users-bookmarks-contributions-routes/contributions');
+var bookmarksRouter = require('./users-bookmarks-contributions-hide-routes/bookmarks');
+var hideprojectsRouter = require('./users-bookmarks-contributions-hide-routes/hideprojects');
+var contributionsRouter = require('./users-bookmarks-contributions-hide-routes/contributions');
 var router = express_1.default.Router();
-var validateLogin = [
-    check('credential')
-        .exists({ checkFalsy: true })
-        .notEmpty()
-        .withMessage('Please provide a valid username or email.'),
-    check('password')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a password.'),
-    handleValidationErrors
-];
-var validateSignup = [
-    check('username')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
-        .exists({ checkFalsy: true })
-        .isLength({ max: 50 })
-        .withMessage('Please provide a username with less than 51 characters.'),
-    check('email')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 4 })
-        .withMessage('Please provide a email with at least 4 characters.'),
-    check('email')
-        .exists({ checkFalsy: true })
-        .isLength({ max: 50 })
-        .withMessage('Please provide a email with less than 51 characters.'),
-    check('password')
-        .exists({ checkFalsy: true })
-        .isLength({ min: 6 })
-        .withMessage('Password must be 6 characters or more.'),
-    handleValidationErrors
-];
 router.use('/:userId/Bookmarks', bookmarksRouter);
 router.use('/:userId/hide-project', hideprojectsRouter);
 router.use('/:userId/contributions', contributionsRouter);
@@ -119,7 +85,7 @@ router.put('/login', validateLogin, asyncHandler(function (req, res, next) { ret
             case 1:
                 user = _b.sent();
                 if (!user) {
-                    err = new custom_types_1.ExpError('Login failed');
+                    err = new d_1.ExpError('Login failed');
                     err.status = 401;
                     err.title = 'Login failed';
                     err.errors = ['The provided credentials were invalid.'];
@@ -146,7 +112,7 @@ router.put('/demo', asyncHandler(function (req, res, next) { return __awaiter(vo
             case 1:
                 user = _a.sent();
                 if (!user) {
-                    err = new custom_types_1.ExpError('Login failed');
+                    err = new d_1.ExpError('Login failed');
                     err.status = 401;
                     err.title = 'Login failed';
                     err.errors = ['The provided credentials were invalid.'];

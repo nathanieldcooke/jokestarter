@@ -4,11 +4,13 @@ import {
     Response, 
     NextFunction
 } from 'express';
-import { ExpError } from '../custom-types';
+import { ExpError } from '../types/d';
+
+const { check } = require('express-validator');
+
 const { validationResult } = require('express-validator');
 
 // middleware for formatting errors from express-validator middleware
-// (to customize, see express-validator's documentation)
 const handleValidationErrors = (req: Request, _res: Response, next: NextFunction) => {
   const validationErrors = validationResult(req);
 
@@ -26,6 +28,45 @@ const handleValidationErrors = (req: Request, _res: Response, next: NextFunction
   next();
 };
 
-module.exports = {
+//////////////////////////route: users
+
+const validateLogin =[
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid username or email.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password.'),
   handleValidationErrors
+];
+
+const validateSignup = [
+  check('username')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Please provide a username with at least 4 characters.'),
+  check('username')
+    .exists({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage('Please provide a username with less than 51 characters.'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    .withMessage('Please provide a email with at least 4 characters.'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage('Please provide a email with less than 51 characters.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 6 })
+    .withMessage('Password must be 6 characters or more.'),
+  handleValidationErrors
+];
+
+module.exports = {
+  handleValidationErrors,
+  validateLogin,
+  validateSignup
 };

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // packages
 var express_1 = __importDefault(require("express"));
+var d_1 = require("./types/d");
 var morgan = require('morgan');
 var cors = require('cors');
 var csurf = require('csurf');
@@ -14,7 +15,6 @@ var ValidationError = require('sequelize').ValidationError;
 // internal 
 var environment = require('./config').environment;
 var routes = require('./routes');
-var custom_types_1 = require("./custom-types");
 var isProduction = environment === 'production';
 var app = (0, express_1.default)();
 app.use(morgan('dev'));
@@ -41,7 +41,7 @@ app.use(csurf({
 app.use(routes);
 // Catch unhandled requests and forward to error handler.
 app.use(function (_req, _res, next) {
-    var err = new custom_types_1.ExpError("The requested resource couldn't be found.");
+    var err = new d_1.ExpError("The requested resource couldn't be found.");
     err.title = "Resource Not Found";
     err.errors = ["The requested resource couldn't be found."];
     err.status = 404;

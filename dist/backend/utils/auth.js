@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var custom_types_1 = require("../custom-types");
+var d_1 = require("../types/d");
 var jwt = require('jsonwebtoken');
 var jwtConfig = require('../config').jwtConfig;
 var User = require('../db/models').User;
@@ -81,6 +81,7 @@ var restoreUser = function (req, res, next) {
                     res.clearCookie('token');
                     return [2 /*return*/, next()];
                 case 4:
+                    ;
                     if (!req.user)
                         res.clearCookie('token');
                     return [2 /*return*/, next()];
@@ -94,7 +95,7 @@ var requireAuth = [
     function (req, _res, next) {
         if (req.user)
             return next();
-        var err = new custom_types_1.ExpError('Unauthorized');
+        var err = new d_1.ExpError('Unauthorized');
         err.title = 'Unauthorized';
         err.errors = ['Unauthorized'];
         err.status = 401;
