@@ -1,4 +1,3 @@
-"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -55,6 +54,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateBookmark = exports.hideProject = exports.getBookmarks = exports.getProjects = void 0;
 var csrf_1 = require("./csrf");
@@ -65,7 +65,7 @@ var setProjects = function (projects) {
         payload: projects,
     };
 };
-var getProjects = function (category, page) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var getProjects = function (category, page) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -81,7 +81,7 @@ var getProjects = function (category, page) { return function (dispatch) { retur
     });
 }); }; };
 exports.getProjects = getProjects;
-var getBookmarks = function (page, userId) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var getBookmarks = function (page, userId) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -97,7 +97,7 @@ var getBookmarks = function (page, userId) { return function (dispatch) { return
     });
 }); }; };
 exports.getBookmarks = getBookmarks;
-var hideProject = function (projectId, userId, category, page, bookmarked) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var hideProject = function (projectId, userId, category, page, bookmarked) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response1, response2, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -152,7 +152,7 @@ var updateBookmarkedProject = function (state, projectId) {
         }
     });
 };
-var updateBookmark = function (projectId, bookmarked, projects, userId, category) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var updateBookmark = function (projectId, bookmarked, projects, userId, category) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data, updatedProjects;
     return __generator(this, function (_a) {
         switch (_a.label) {

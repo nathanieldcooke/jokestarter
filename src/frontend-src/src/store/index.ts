@@ -1,9 +1,9 @@
-import { createStore, combineReducers, applyMiddleware, compose, StoreEnhancer } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import projectsReducer from './projects';
 import projectReducer from './project';
 import contributionsReducer from './contributions';
+import { createStore, combineReducers, applyMiddleware, compose, StoreEnhancer } from 'redux';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -12,7 +12,6 @@ const rootReducer = combineReducers({
   contributions: contributionsReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
 
 let enhancer: StoreEnhancer<unknown, {}> | undefined;
 
@@ -29,5 +28,8 @@ if (process.env.NODE_ENV === 'production') {
 const configureStore = (preloadedState?:any) => { 
     return createStore(rootReducer, preloadedState, enhancer);
 };
+
+export type RootState = ReturnType<typeof rootReducer>;
+
   
 export default configureStore;

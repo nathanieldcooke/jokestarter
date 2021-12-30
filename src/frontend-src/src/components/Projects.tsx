@@ -5,7 +5,6 @@ import { RootState } from './../store';
 import { IProjects, IUser } from './../d';
 import { useHistory, useParams } from 'react-router-dom';
 import ProjectTile from './ProjectTIle';
-import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import '../compStyles/Projects.css'
@@ -28,7 +27,7 @@ function Projects() {
 
   const [page, setPage] = useState(pageNumberNum);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     if (categoryName !== 'Bookmarks') {
       dispatch(projectActions.getProjects(categoryName, `${value}`))
     } else {

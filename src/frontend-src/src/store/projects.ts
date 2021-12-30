@@ -1,7 +1,5 @@
 import { Dispatch } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '.';
-import { IActionBookmark, IActionProjects, IBookmark, IProject, IProjects } from '../d';
+import { IActionProjects, IProjects } from '../d';
 import { csrfFetch } from './csrf';
 
 const SET_PROJECTS = 'projects/setProjects'

@@ -1,8 +1,8 @@
-import { Dispatch } from 'react';
-import { IActionContribution, IActionProject, IActionProjects, IContribution, IProject, IProjects } from '../d';
 import { csrfFetch } from './csrf';
+import { Dispatch } from 'react';
+import { IActionContribution, IContribution } from '../d';
 
-const SET_CONTRIBUTION = 'project/setContribution'
+const SET_CONTRIBUTION = 'project/setContribution';
 
 const setContribution = (contribution:IContribution[]) => {
     return {
@@ -74,4 +74,4 @@ const contributionsReducer = (state = initialState, action:IActionContribution) 
     };
 };
 
-export default contributionsReducer
+export default contributionsReducer;

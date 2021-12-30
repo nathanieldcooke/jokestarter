@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useSelector, useDispatch } from 'react-redux';
 import * as projectActions from './../store/projects'
 import { RootState } from './../store';
 import { IProjects, IUser } from './../d';
-import { useHistory, useParams } from 'react-router-dom';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import '../compStyles/ProjectTile.css'

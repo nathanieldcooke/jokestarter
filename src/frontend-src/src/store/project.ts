@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { IActionProject, IActionProjects, IProject, IProjects } from '../d';
+import { IActionProject, IProject  } from '../d';
 import { csrfFetch } from './csrf';
 
 const SET_PROJECT = 'project/setProject'
@@ -38,7 +38,7 @@ const initialState:IProject =
     bookmarked: false
 }
 
-const sessionReducer = (state = initialState, action:IActionProject) => {
+const projectReducer = (state = initialState, action:IActionProject) => {
     let newState;
     switch (action.type) {
         case SET_PROJECT:
@@ -49,4 +49,4 @@ const sessionReducer = (state = initialState, action:IActionProject) => {
     };
 };
 
-export default sessionReducer
+export default projectReducer

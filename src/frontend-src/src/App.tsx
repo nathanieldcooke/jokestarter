@@ -35,8 +35,7 @@ function App() {
       <header>
         <Navbar/>
       </header>
-      <Main props={{}}>
-      </Main>
+      <Main/>
       <div id='background-lines' >
         <img id='left-img' src='https://cdn.optimizely.com/img/14069890047/72ae3620b85d48c1878cbe4d0866665d.png'/>
         <img id='right-img' src='https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png'/>
