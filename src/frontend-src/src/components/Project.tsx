@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useSelector, useDispatch } from 'react-redux';
 import * as projectsActions from './../store/projects'
@@ -30,9 +30,15 @@ function Project() {
     100
     : 
     project.percentFunded * 100
+    const tiersRef = useRef(null);
  
     const [bookmarked, setBookmarked] = useState(project.bookmarked)
     const [showSnackBar, setShowSnackBar] = useState(false)
+
+    const handleScroll = async () => {
+        window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop })
+        
+    }
 
     const handleBookmarkClick = (e:React.MouseEvent) => {
         e.stopPropagation()
@@ -96,7 +102,10 @@ function Project() {
                             <span>days to go</span>
                         </div>
                     </section>
-                    <Button id='back-this-project-btn'>Back this project</Button>
+                    <Button 
+                        id='back-this-project-btn'
+                        onClick={handleScroll}
+                    >Back this project</Button>
                     <Button 
                         id='bookmark-btn'
                         onClick={(e) => handleBookmarkClick(e)}
@@ -105,7 +114,7 @@ function Project() {
                     />Bookmark</Button>
             </div>
         </section>
-        <section id='support-tiers'>
+        <section ref={tiersRef} id='support-tiers'>
             {project.supportTiers.map(supportTier => <TierTile key={`support-tier-${supportTier.name}`} props={{supportTier}}/>)}
         </section>
         {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}
