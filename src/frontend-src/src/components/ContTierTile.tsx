@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import * as sessionActions from '../store/session';
-import * as contributionsActions from '../store/contributions'
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
-import { RootState } from '../store';
-import Button from '@material-ui/core/Button';
+import React from 'react';
 import '../compStyles/TierTile.css'
-import { IReciept, ISupportTier, IUser } from '../d';
-import CustomizedSnackbars from './SnackBar';
+import { IReciept } from '../d';
 
 const ContTierTile = (props:{props:{supportTier:IReciept}}) => {
 

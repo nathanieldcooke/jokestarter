@@ -13,7 +13,7 @@ import * as projectActions from './../store/projects'
 
 function Navbar() {
   const [selectedForm, setSelectedForm] = useState('')
-  const [bottomNavDis, setBottomNavDis] = useState(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
+  const bottomNavDis = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
   ?
   'none'
   :
@@ -31,7 +31,6 @@ function Navbar() {
 
         
         const dispatch = useDispatch();
-        const [isLoaded, setIsLoaded] = useState(false);
         const sessionUser:IUser = useSelector((state: RootState) => state.session);
         
         useEffect(() => {
@@ -41,7 +40,6 @@ function Navbar() {
         }, [sessionUser])
 
     const handleClick = (category:string) => {
-        // dispatch(projectActions.getProjects(category, '1'))
         if (category !== 'Bookmarks') {
         dispatch(projectActions.getProjects(category, '1'))
         } else {

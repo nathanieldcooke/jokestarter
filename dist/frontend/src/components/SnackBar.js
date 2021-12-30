@@ -1,4 +1,3 @@
-"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -42,8 +41,8 @@ var Alert = React.forwardRef(function Alert(props, ref) {
 });
 function CustomizedSnackbars(props) {
     var _a = props.props, showSnackBar = _a.showSnackBar, setShowSnackBar = _a.setShowSnackBar;
-    var _b = React.useState(showSnackBar), open = _b[0], setOpen = _b[1];
-    var handleClose = function (event, reason) {
+    var open = showSnackBar;
+    var handleClose = function () {
         setShowSnackBar(false);
     };
     return (React.createElement(Stack_1.default, { spacing: 2, sx: { width: '100%' } },

@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import '../compStyles/Footer.css'
-import { Link } from 'react-router-dom';
 
 function Footer() {
   return (

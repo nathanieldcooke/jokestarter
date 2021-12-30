@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -34,9 +33,8 @@ var core_1 = require("@material-ui/core");
 var TIerTIle_1 = __importDefault(require("./TIerTIle"));
 var SnackBar_1 = __importDefault(require("./SnackBar"));
 function Project() {
-    var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
-    var _a = (0, react_router_dom_1.useParams)(), categoryName = _a.categoryName, projectId = _a.projectId;
+    var projectId = (0, react_router_dom_1.useParams)().projectId;
     var projectIdNum = Number(projectId);
     var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
     var project = (0, react_redux_1.useSelector)(function (state) { return state.project; });
@@ -47,8 +45,8 @@ function Project() {
             100
         :
             project.percentFunded * 100;
-    var _b = (0, react_1.useState)(project.bookmarked), bookmarked = _b[0], setBookmarked = _b[1];
-    var _c = (0, react_1.useState)(false), showSnackBar = _c[0], setShowSnackBar = _c[1];
+    var _a = (0, react_1.useState)(project.bookmarked), bookmarked = _a[0], setBookmarked = _a[1];
+    var _b = (0, react_1.useState)(false), showSnackBar = _b[0], setShowSnackBar = _b[1];
     var handleBookmarkClick = function (e) {
         e.stopPropagation();
         if (!sessionUser.user.id) {

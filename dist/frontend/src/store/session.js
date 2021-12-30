@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,23 +34,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.signup = exports.demo = exports.login = exports.restoreUser = void 0;
 var csrf_1 = require("./csrf");
 var SET_USER = 'session/setUser';
-// const REMOVE_USER = 'session/removeUser';
 var setUser = function (user) {
     return {
         type: SET_USER,
         payload: user,
     };
 };
-// const removeUser = () => {
-//   return {
-//     type: REMOVE_USER,
-//   };
-// };
-var restoreUser = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var restoreUser = function () { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -71,7 +65,7 @@ var restoreUser = function () { return function (dispatch) { return __awaiter(vo
     });
 }); }; };
 exports.restoreUser = restoreUser;
-var login = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var login = function (user) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var credential, password, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -113,7 +107,7 @@ var login = function (user) { return function (dispatch) { return __awaiter(void
     });
 }); }; };
 exports.login = login;
-var demo = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var demo = function () { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -137,7 +131,7 @@ var demo = function () { return function (dispatch) { return __awaiter(void 0, v
     });
 }); }; };
 exports.demo = demo;
-var signup = function (user) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var signup = function (user) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var email, username, password, confirmPassword, response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -183,7 +177,7 @@ var signup = function (user) { return function (dispatch) { return __awaiter(voi
     });
 }); }; };
 exports.signup = signup;
-var logout = function () { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var logout = function () { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -216,10 +210,6 @@ var sessionReducer = function (state, action) {
             newState = Object.assign({}, state);
             newState = action.payload;
             return newState;
-        // case REMOVE_USER:
-        //   newState = Object.assign({}, state);
-        //   newState.user = {username: null, id: null, errors: []};
-        //   return newState;
         default:
             return state;
     }

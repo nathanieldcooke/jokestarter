@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import * as sessionActions from '../store/session';
+import React, { useState } from 'react';
 import * as contributionsActions from '../store/contributions'
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
 import { RootState } from '../store';
 import Button from '@material-ui/core/Button';
 import '../compStyles/TierTile.css'

@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -39,7 +38,7 @@ function Projects() {
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var pageNums = projects[0] ? projects[0].pageNums : 0;
     var _b = (0, react_1.useState)(pageNumberNum), page = _b[0], setPage = _b[1];
-    var handleChange = function (event, value) {
+    var handleChange = function (_event, value) {
         if (categoryName !== 'Bookmarks') {
             dispatch(projectActions.getProjects(categoryName, "".concat(value)));
         }

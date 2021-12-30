@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -37,11 +36,10 @@ function Contributions() {
     var pageNumber = (0, react_router_dom_1.useParams)().pageNumber;
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     var contributions = (0, react_redux_1.useSelector)(function (state) { return state.contributions; });
-    console.log("CZ: ", contributions);
     var pageNums = (contributions[0] && contributions[0].projectTile.id) ? contributions[0].projectTile.pageNums : 0;
     var pageNumberNum = Number(pageNumber);
     var _a = (0, react_1.useState)(pageNumberNum), page = _a[0], setPage = _a[1];
-    var handleChange = function (event, value) {
+    var handleChange = function (_event, value) {
         dispatch(contributionsActions.getContributions(sessionUser.user.id, "".concat(value)));
         setPage(value);
         history.push("/contributions/page/".concat(value));

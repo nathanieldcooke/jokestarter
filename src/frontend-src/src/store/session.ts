@@ -2,7 +2,6 @@ import { Dispatch } from 'react';
 import { IUserSecure, IUser, IUserSignup, IActionUser } from '../d';
 import { csrfFetch } from './csrf';
 const SET_USER = 'session/setUser';
-// const REMOVE_USER = 'session/removeUser';
 
 const setUser = (user:IUser) => {
   return {
@@ -10,12 +9,6 @@ const setUser = (user:IUser) => {
     payload: user,
   };
 };
-
-// const removeUser = () => {
-//   return {
-//     type: REMOVE_USER,
-//   };
-// };
 
 export const restoreUser = () => async (dispatch: Dispatch<IActionUser>) => {
   const response = await csrfFetch('/api/users/profile');
@@ -148,10 +141,6 @@ const sessionReducer = (state = initialState, action:IActionUser) => {
       newState = Object.assign({}, state);
       newState = action.payload;
       return newState;
-    // case REMOVE_USER:
-    //   newState = Object.assign({}, state);
-    //   newState.user = {username: null, id: null, errors: []};
-    //   return newState;
     default:
       return state;
   };

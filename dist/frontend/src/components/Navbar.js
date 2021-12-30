@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -34,12 +33,12 @@ var SignupForm_1 = __importDefault(require("./SignupForm"));
 var projectActions = __importStar(require("./../store/projects"));
 function Navbar() {
     var _a = (0, react_1.useState)(''), selectedForm = _a[0], setSelectedForm = _a[1];
-    var _b = (0, react_1.useState)(window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
+    var bottomNavDis = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
         ?
             'none'
         :
-            ''), bottomNavDis = _b[0], setBottomNavDis = _b[1];
-    var _c = (0, react_1.useState)(false), open = _c[0], setOpen = _c[1];
+            '');
+    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
     var handleOpen = function (selectedForm) {
         setSelectedForm(selectedForm);
         setOpen(true);
@@ -49,7 +48,6 @@ function Navbar() {
         setOpen(false);
     };
     var dispatch = (0, react_redux_1.useDispatch)();
-    var _d = (0, react_1.useState)(false), isLoaded = _d[0], setIsLoaded = _d[1];
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
     (0, react_1.useEffect)(function () {
         if (sessionUser.user.username) {
@@ -57,7 +55,6 @@ function Navbar() {
         }
     }, [sessionUser]);
     var handleClick = function (category) {
-        // dispatch(projectActions.getProjects(category, '1'))
         if (category !== 'Bookmarks') {
             dispatch(projectActions.getProjects(category, '1'));
         }

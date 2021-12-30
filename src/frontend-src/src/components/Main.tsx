@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
-// import * as sessionActions from '../store/session';
-// import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
-// import { RootState } from '../store';
-// import Button from '@material-ui/core/Button';
+import React from 'react';
+
+import { Route, Switch } from 'react-router-dom';
+
 import '../compStyles/Main.css'
 import Contributions from './Contributions';
 import Project from './Project';
 import Projects from './Projects';
-// props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
-const Main = (props:{props: {}}|React.ReactNode) => {
-//   const { setSelectedForm } = props.props;
-//   const dispatch = useDispatch();
-//   const sessionUser = useSelector((state: RootState) => state.session);
-//   const [credential, setCredential] = useState('');
-//   const [password, setPassword] = useState('');
 
+const Main = () => {
 
     return (
     <div id='main'>

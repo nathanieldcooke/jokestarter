@@ -23,7 +23,7 @@ nav div#nav-top > p#nav-left {
 
 nav div#nav-top > div#nav-button-container {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 400px;
 }
 

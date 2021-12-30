@@ -1,14 +1,13 @@
-"use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var redux_1 = require("redux");
 var redux_thunk_1 = __importDefault(require("redux-thunk"));
 var session_1 = __importDefault(require("./session"));
 var projects_1 = __importDefault(require("./projects"));
 var project_1 = __importDefault(require("./project"));
 var contributions_1 = __importDefault(require("./contributions"));
+var redux_1 = require("redux");
 var rootReducer = (0, redux_1.combineReducers)({
     session: session_1.default,
     projects: projects_1.default,

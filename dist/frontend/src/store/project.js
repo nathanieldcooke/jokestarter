@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProject = void 0;
 var csrf_1 = require("./csrf");
@@ -45,7 +45,7 @@ var setProject = function (project) {
         payload: project,
     };
 };
-var getProject = function (projectId) { return function (dispatch) { return __awaiter(void 0, void 0, void 0, function () {
+var getProject = function (projectId) { return function (dispatch) { return __awaiter(_this, void 0, void 0, function () {
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -76,7 +76,7 @@ var initialState = {
     supportTiers: [],
     bookmarked: false
 };
-var sessionReducer = function (state, action) {
+var projectReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;
     switch (action.type) {
@@ -88,4 +88,4 @@ var sessionReducer = function (state, action) {
     }
     ;
 };
-exports.default = sessionReducer;
+exports.default = projectReducer;

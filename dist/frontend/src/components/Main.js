@@ -1,25 +1,14 @@
-"use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
-// import * as sessionActions from '../store/session';
-// import { useDispatch, useSelector } from 'react-redux';
 var react_router_dom_1 = require("react-router-dom");
-// import { RootState } from '../store';
-// import Button from '@material-ui/core/Button';
 require("../compStyles/Main.css");
 var Contributions_1 = __importDefault(require("./Contributions"));
 var Project_1 = __importDefault(require("./Project"));
 var Projects_1 = __importDefault(require("./Projects"));
-// props:{ props: {setSelectedForm: React.Dispatch<React.SetStateAction<string>>}} 
-var Main = function (props) {
-    //   const { setSelectedForm } = props.props;
-    //   const dispatch = useDispatch();
-    //   const sessionUser = useSelector((state: RootState) => state.session);
-    //   const [credential, setCredential] = useState('');
-    //   const [password, setPassword] = useState('');
+var Main = function () {
     return (react_1.default.createElement("div", { id: 'main' },
         react_1.default.createElement(react_router_dom_1.Switch, null,
             react_1.default.createElement(react_router_dom_1.Route, { path: "/category/:categoryName/page/:pageNumber" },

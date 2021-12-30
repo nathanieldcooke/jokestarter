@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -57,6 +56,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var contributionsActions = __importStar(require("../store/contributions"));
@@ -86,7 +86,7 @@ var TierTile = function (props) {
         var currAmount = Number(e.target.value);
         setTierAmount(currAmount);
     };
-    var handleContribution = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var handleContribution = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             console.log('CONTRIBUTION FRONT');
             dispatch(contributionsActions.makeContributionThunk(supportTier.id, tierAmount, sessionUser.user.id, null, window.location.pathname));

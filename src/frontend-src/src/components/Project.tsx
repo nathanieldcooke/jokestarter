@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useSelector, useDispatch } from 'react-redux';
 import * as projectsActions from './../store/projects'
@@ -7,7 +6,7 @@ import * as projectActions from './../store/project'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { RootState } from './../store';
 import { IProject, IProjects, IUser } from './../d';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../compStyles/Project.css'
 import { Button } from '@material-ui/core';
 import TierTile from './TIerTIle';
@@ -19,9 +18,8 @@ type urlParams = {
 }
 
 function Project() {
-    const history = useHistory();
     const dispatch = useDispatch();
-    const { categoryName, projectId } = useParams<urlParams>();
+    const { projectId } = useParams<urlParams>();
     const projectIdNum = Number(projectId) 
     const projects:IProjects[] = useSelector((state: RootState) => state.projects);
     const project:IProject = useSelector((state: RootState) => state.project);

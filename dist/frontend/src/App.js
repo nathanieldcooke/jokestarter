@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -49,7 +48,7 @@ function App() {
         react_1.default.createElement("div", { id: 'app-body' },
             react_1.default.createElement("header", null,
                 react_1.default.createElement(Navbar_1.default, null)),
-            react_1.default.createElement(Main_1.default, { props: {} }),
+            react_1.default.createElement(Main_1.default, null),
             react_1.default.createElement("div", { id: 'background-lines' },
                 react_1.default.createElement("img", { id: 'left-img', src: 'https://cdn.optimizely.com/img/14069890047/72ae3620b85d48c1878cbe4d0866665d.png' }),
                 react_1.default.createElement("img", { id: 'right-img', src: 'https://cdn.optimizely.com/img/14069890047/efeeb04eb14c4a70a1b3ac360ea795d2.png' }),
