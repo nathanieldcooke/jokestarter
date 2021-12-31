@@ -6,7 +6,6 @@ import { RootState } from '../store';
 import * as contributionsActions from './../store/contributions';
 import ContTierTile from './ContTierTile';
 import ProjectTile from './ProjectTIle'
-import '../compStyles/ContTierTile.css'
 import { Pagination, Stack } from '@mui/material';
 import '../compStyles/Contributions.css'
 

@@ -27,7 +27,6 @@ var react_router_dom_1 = require("react-router-dom");
 var contributionsActions = __importStar(require("./../store/contributions"));
 var ContTierTile_1 = __importDefault(require("./ContTierTile"));
 var ProjectTIle_1 = __importDefault(require("./ProjectTIle"));
-require("../compStyles/ContTierTile.css");
 var material_1 = require("@mui/material");
 require("../compStyles/Contributions.css");
 function Contributions() {

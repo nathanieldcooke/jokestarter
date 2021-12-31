@@ -1,5 +1,4 @@
 import React from 'react';
-import '../compStyles/TierTile.css'
 import { IReciept } from '../d';
 
 const ContTierTile = (props:{props:{supportTier:IReciept}}) => {
