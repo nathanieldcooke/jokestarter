@@ -21,12 +21,23 @@
     margin-bottom: 5em;
 }
 
-.sub-cont-tier-tile {
+.sub-cont-tier-tile {    
     display: flex;
 }
 
 .sub-cont-tier-tile > div {
     margin-right: 5em;
+}
+
+
+.sub-cont-tier-tile > div.support-tier {
+    margin-right: 0px;
+    border: none;
+}
+
+.sub-cont-tier-tile {
+    margin-right: 5em;
+    border: rgb(211, 211, 211) solid 1px;
 }
 
 .sub-cont-tier-tile > div.support-tier {

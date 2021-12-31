@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(require("react"));
-require("../compStyles/TierTile.css");
 var ContTierTile = function (props) {
     var supportTier = props.props.supportTier;
     return (react_1.default.createElement("div", { className: 'support-tier' },
