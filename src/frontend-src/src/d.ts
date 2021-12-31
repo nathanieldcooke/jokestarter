@@ -1,4 +1,11 @@
-
+/* 
+GLOSSARY:
+    general interfaces and types
+    user interfaces and types
+    projects interfaces and types
+    project interfaces and types
+    contributions interfaces and types
+*/
 
 /////////////////////// general interfaces and types
 declare global {

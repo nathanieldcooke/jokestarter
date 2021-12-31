@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import * as sessionActions from './../store/session'
 import { RootState } from './../store';
 import { IUser } from './../d';
@@ -12,6 +12,7 @@ import SignupForm from './SignupForm';
 import * as projectActions from './../store/projects'
 
 function Navbar() {
+  const history = useHistory();
   const [selectedForm, setSelectedForm] = useState('')
   const bottomNavDis = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
   ?
@@ -28,16 +29,27 @@ function Navbar() {
             setSelectedForm('');
             setOpen(false);
         };
+  const handleLogout = async () => {
+      await dispatch(sessionActions.logout())
+      history.push('/category/Top/page/1')
+  }
+
+  const checkActive = (nav:string) => {
+    const len = window.location.pathname.split('/').length
+    const path =  window.location.pathname.split('/')
+    const cat = path[len - 3]
+    return cat === nav
+  }
 
         
-        const dispatch = useDispatch();
-        const sessionUser:IUser = useSelector((state: RootState) => state.session);
-        
-        useEffect(() => {
-            if (sessionUser.user.username) {
-                handleClose()
-            }
-        }, [sessionUser])
+    const dispatch = useDispatch();
+    const sessionUser:IUser = useSelector((state: RootState) => state.session);
+    
+    useEffect(() => {
+        if (sessionUser.user.username) {
+            handleClose()
+        }
+    }, [sessionUser])
 
     const handleClick = (category:string) => {
         if (category !== 'Bookmarks') {
@@ -78,7 +90,7 @@ function Navbar() {
             <div id='nav-button-container'>
             <Button 
                 id='login'  
-                onClick={() => dispatch(sessionActions.logout())}
+                onClick={handleLogout}
             >Log Out</Button>
             </div>
             :
@@ -102,28 +114,33 @@ function Navbar() {
             <div id='nav-link-container'>
                 <NavLink to="/category/Top/page/1" 
                 onClick={() => handleClick('Top')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Top')}>
                     Top
                 </NavLink>
                 <br></br>
                 <NavLink to="/category/Toys/page/1" 
                 onClick={() => handleClick('Toys')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Toys')}>
                     Toys
                 </NavLink>
                 <NavLink to="/category/Food/page/1" 
                 onClick={() => handleClick('Food')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Food')}>
                     Food
                 </NavLink>
                 <NavLink to="/category/Services/page/1" 
                 onClick={() => handleClick('Services')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Services')}>
                     Services
                 </NavLink>
                 <NavLink to="/category/Misc/page/1" 
                 onClick={() => handleClick('Misc')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Misc')}>
                     Misc
                 </NavLink>
                 {
@@ -133,10 +150,13 @@ function Navbar() {
                 <span>|</span>
                 <NavLink to="/category/Bookmarks/page/1" 
                 onClick={() => handleClick('Bookmarks')}
-                activeClassName="selected">
+                activeClassName="selected"
+                isActive={() => checkActive('Bookmarks')}>
                     Bookmarks
                 </NavLink>
-                <NavLink to="/contributions/page/1" activeClassName="selected">
+                <NavLink to="/contributions/page/1" 
+                activeClassName="selected"
+                isActive={() => checkActive('contributions')}>
                     Contributed
                 </NavLink>
                 </>
