@@ -71,12 +71,12 @@ function Navbar() {
     var _this = this;
     var history = (0, react_router_dom_1.useHistory)();
     var _a = (0, react_1.useState)(''), selectedForm = _a[0], setSelectedForm = _a[1];
-    var bottomNavDis = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
+    var _b = (0, react_1.useState)((window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
         ?
             'none'
         :
-            '');
-    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
+            '')), bottomNavDis = _b[0], setBottomNavDis = _b[1];
+    var _c = (0, react_1.useState)(false), open = _c[0], setOpen = _c[1];
     var handleOpen = function (selectedForm) {
         setSelectedForm(selectedForm);
         setOpen(true);
@@ -94,6 +94,13 @@ function Navbar() {
                     history.push('/category/Top/page/1');
                     return [2 /*return*/];
             }
+        });
+    }); };
+    var handleGoHome = function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            setBottomNavDis('');
+            history.push('/category/Top/page/1');
+            return [2 /*return*/];
         });
     }); };
     var checkActive = function (nav) {
@@ -131,7 +138,7 @@ function Navbar() {
                         react_1.default.createElement("span", null, sessionUser.user.username))
                 :
                     react_1.default.createElement("p", { id: "nav-left" }, "Log in to get started!"),
-            react_1.default.createElement("p", { id: 'site-title' },
+            react_1.default.createElement("p", { id: 'site-title', onClick: handleGoHome },
                 react_1.default.createElement("span", null, "JOKE"),
                 "STARTER"),
             sessionUser.user.username

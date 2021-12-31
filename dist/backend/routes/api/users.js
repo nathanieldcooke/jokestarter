@@ -46,6 +46,7 @@ var _a = require('../../utils/validation'), validateLogin = _a.validateLogin, va
 var asyncHandler = require('express-async-handler');
 var _b = require('../../utils/auth'), setTokenCookie = _b.setTokenCookie, restoreUser = _b.restoreUser;
 var User = require('../../db/models').User;
+var generateDemoUser = require('../../utils/routeDataAggregators').generateDemoUser;
 var bookmarksRouter = require('./users-bookmarks-contributions-hide-routes/bookmarks');
 var hideprojectsRouter = require('./users-bookmarks-contributions-hide-routes/hideprojects');
 var contributionsRouter = require('./users-bookmarks-contributions-hide-routes/contributions');
@@ -105,22 +106,36 @@ router.put('/login', validateLogin, asyncHandler(function (req, res, next) { ret
 }); }));
 // Demo Log in
 router.put('/demo', asyncHandler(function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, err;
+    var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, User.login({ credential: 'demo@user.com', password: 'password' })];
+            case 0: return [4 /*yield*/, generateDemoUser()
+                // if (!user) {
+                //   const err = new ExpError('Login failed');
+                //   err.status = 401;
+                //   err.title = 'Login failed';
+                //   err.errors = ['The provided credentials were invalid.'];
+                //   return next(err);
+                // };
+            ];
             case 1:
                 user = _a.sent();
-                if (!user) {
-                    err = new d_1.ExpError('Login failed');
-                    err.status = 401;
-                    err.title = 'Login failed';
-                    err.errors = ['The provided credentials were invalid.'];
-                    return [2 /*return*/, next(err)];
-                }
-                ;
+                // if (!user) {
+                //   const err = new ExpError('Login failed');
+                //   err.status = 401;
+                //   err.title = 'Login failed';
+                //   err.errors = ['The provided credentials were invalid.'];
+                //   return next(err);
+                // };
                 return [4 /*yield*/, setTokenCookie(res, user)];
             case 2:
+                // if (!user) {
+                //   const err = new ExpError('Login failed');
+                //   err.status = 401;
+                //   err.title = 'Login failed';
+                //   err.errors = ['The provided credentials were invalid.'];
+                //   return next(err);
+                // };
                 _a.sent();
                 return [2 /*return*/, res.json({
                         status: true,

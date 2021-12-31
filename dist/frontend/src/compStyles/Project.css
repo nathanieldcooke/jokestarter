@@ -70,6 +70,24 @@ section#support-tiers {
     overflow-y: scroll;
 }
 
+section#support-tiers::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+section#support-tiers::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #028858;
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+section#support-tiers::-webkit-scrollbar-thumb:hover {
+    border-radius: 4px;
+    background-color: #005235;
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
 #project-details #title-summary {
     margin-top: 2.5em;
     margin-bottom: 2.5em;

@@ -74,7 +74,8 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, 
                     include: UsersToSupportTier
                 }
             }
-        }
+        },
+        order: [['createdAt', 'DESC']]
     });
 
     const formattedData = await formatContibutions(data, pageNumber, user);
