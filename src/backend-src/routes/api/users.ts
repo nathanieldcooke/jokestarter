@@ -12,6 +12,7 @@ const asyncHandler = require('express-async-handler');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
+const { generateDemoUser } = require('../../utils/routeDataAggregators')
 
 const bookmarksRouter = require('./users-bookmarks-contributions-hide-routes/bookmarks');
 const hideprojectsRouter = require('./users-bookmarks-contributions-hide-routes/hideprojects');
@@ -67,21 +68,24 @@ router.put(
     })
   );
 
+
+
 // Demo Log in
 router.put(
   '/demo',
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     // const { credential, password } = req.body;
 
-    const user = await User.login({ credential: 'demo@user.com', password: 'password' });
+    // const user = await User.login({ credential: 'demo@user.com', password: 'password' });
+    const user = await generateDemoUser()
 
-    if (!user) {
-      const err = new ExpError('Login failed');
-      err.status = 401;
-      err.title = 'Login failed';
-      err.errors = ['The provided credentials were invalid.'];
-      return next(err);
-    };
+    // if (!user) {
+    //   const err = new ExpError('Login failed');
+    //   err.status = 401;
+    //   err.title = 'Login failed';
+    //   err.errors = ['The provided credentials were invalid.'];
+    //   return next(err);
+    // };
 
     await setTokenCookie(res, user);
     return res.json({

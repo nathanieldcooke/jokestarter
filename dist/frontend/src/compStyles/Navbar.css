@@ -40,6 +40,10 @@ nav div#nav-top p#site-title {
     margin: .75em 0em;
 }
 
+nav div#nav-top p#site-title:hover {
+    cursor: pointer;
+}
+
 nav div#nav-top p#site-title span {
     font-family: 'Modak', cursive;
     color: black

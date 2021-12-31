@@ -1,7 +1,9 @@
 /*
 GLOSSARY:
     route: projects
+    route: users
     route: users/bookmarks
+    route: users/contributions
     route: projects
 */
 
@@ -10,7 +12,7 @@ GLOSSARY:
 import { Op } from "sequelize";
 import { IUser, IProjects, ISupportTier2, IReciept } from "../types/d";
 
-const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList } = require('../db/models');
+const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList, User } = require('../db/models');
 
 const getOtherCategory = async (category:string, pageNumber:string, user:IUser) => {
     const zeroIndexPage = Number(pageNumber) - 1;
@@ -241,6 +243,67 @@ const getProjectDetails = async (projectId:string, user:IUser) => {
 
 };
 
+/////////////////////route: users
+
+const generateDemoUser = async () => {
+    
+    const getRandomInt = (max:number) => {
+        return Math.floor(Math.random() * max);
+    }
+
+    const randomNum = `${getRandomInt(10)}${getRandomInt(10)}${getRandomInt(10)}`;
+    const username = `Demo User-${randomNum}`;
+    const email = `demo-user${randomNum}@demouser.com`;
+    const password = `password${randomNum}!A`;
+    const user = await User.signup({username, email, password });
+
+    const projectId1 = await Project.getProjectId('Sexy Beasts');
+    const projectId2 = await Project.getProjectId('Jalapeno Milk');
+    const projectId3 = await Project.getProjectId('Playground For Seniors');
+    
+    await Bookmark.create({ userId: user.id, projectId: projectId1 });
+    await Bookmark.create({ userId: user.id, projectId: projectId2 });
+    await Bookmark.create({ userId: user.id, projectId: projectId3 });
+
+    await Project.findOne({
+        where: {
+            title: 'Pregnancy Belly'
+        },
+        include: SupportTier
+    })
+    const project1 = await Project.findOne({
+        where: {
+            title: 'HomeSchooling'
+        },
+        include: SupportTier
+    })
+    const project2 = await Project.findOne({
+        where: {
+            title: 'Game, Set, Crack'
+        },
+        include: SupportTier
+    })
+    const project3 = await Project.findOne({
+        where: {
+            title: 'Pregnancy Belly'
+        },
+        include: SupportTier
+    })
+
+    const supportTier1 = project1.SupportTiers[0].id
+    const supportTier1Pledge = project1.SupportTiers[0].minPledge
+    const supportTier2 = project2.SupportTiers[3].id
+    const supportTier2Pledge = project2.SupportTiers[0].minPledge
+    const supportTier3 = project3.SupportTiers[2].id
+    const supportTier3Pledge = project3.SupportTiers[0].minPledge
+
+    await UsersToSupportTier.create({userId: user.id, supportTierId: supportTier1, pledgeAmount: supportTier1Pledge})
+    await UsersToSupportTier.create({userId: user.id, supportTierId: supportTier2, pledgeAmount: supportTier2Pledge})
+    await UsersToSupportTier.create({userId: user.id, supportTierId: supportTier3, pledgeAmount: supportTier3Pledge})
+
+    return user;
+}
+
 /////////////////////route: users/bookmarks
 
 const getBookmarks = async (pageNumber:string, user:IUser) => {
@@ -381,5 +444,6 @@ module.exports = {
     getProjectDetails,
     getOtherCategory,
     getTop,
-    genDictSupportTier
+    genDictSupportTier,
+    generateDemoUser
 };

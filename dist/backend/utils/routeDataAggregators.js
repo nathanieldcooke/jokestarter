@@ -2,7 +2,9 @@
 /*
 GLOSSARY:
     route: projects
+    route: users
     route: users/bookmarks
+    route: users/contributions
     route: projects
 */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -44,7 +46,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /////////////////////route: projects
 var sequelize_1 = require("sequelize");
-var _a = require('../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark, HideList = _a.HideList;
+var _a = require('../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark, HideList = _a.HideList, User = _a.User;
 var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
     var zeroIndexPage, categoryId, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects, projectsDict;
     var _a;
@@ -282,6 +284,91 @@ var getProjectDetails = function (projectId, user) { return __awaiter(void 0, vo
         }
     });
 }); };
+/////////////////////route: users
+var generateDemoUser = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var getRandomInt, randomNum, username, email, password, user, projectId1, projectId2, projectId3, project1, project2, project3, supportTier1, supportTier1Pledge, supportTier2, supportTier2Pledge, supportTier3, supportTier3Pledge;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                getRandomInt = function (max) {
+                    return Math.floor(Math.random() * max);
+                };
+                randomNum = "".concat(getRandomInt(10)).concat(getRandomInt(10)).concat(getRandomInt(10));
+                username = "Demo User-".concat(randomNum);
+                email = "demo-user".concat(randomNum, "@demouser.com");
+                password = "password".concat(randomNum, "!A");
+                return [4 /*yield*/, User.signup({ username: username, email: email, password: password })];
+            case 1:
+                user = _a.sent();
+                return [4 /*yield*/, Project.getProjectId('Sexy Beasts')];
+            case 2:
+                projectId1 = _a.sent();
+                return [4 /*yield*/, Project.getProjectId('Jalapeno Milk')];
+            case 3:
+                projectId2 = _a.sent();
+                return [4 /*yield*/, Project.getProjectId('Playground For Seniors')];
+            case 4:
+                projectId3 = _a.sent();
+                return [4 /*yield*/, Bookmark.create({ userId: user.id, projectId: projectId1 })];
+            case 5:
+                _a.sent();
+                return [4 /*yield*/, Bookmark.create({ userId: user.id, projectId: projectId2 })];
+            case 6:
+                _a.sent();
+                return [4 /*yield*/, Bookmark.create({ userId: user.id, projectId: projectId3 })];
+            case 7:
+                _a.sent();
+                return [4 /*yield*/, Project.findOne({
+                        where: {
+                            title: 'Pregnancy Belly'
+                        },
+                        include: SupportTier
+                    })];
+            case 8:
+                _a.sent();
+                return [4 /*yield*/, Project.findOne({
+                        where: {
+                            title: 'HomeSchooling'
+                        },
+                        include: SupportTier
+                    })];
+            case 9:
+                project1 = _a.sent();
+                return [4 /*yield*/, Project.findOne({
+                        where: {
+                            title: 'Game, Set, Crack'
+                        },
+                        include: SupportTier
+                    })];
+            case 10:
+                project2 = _a.sent();
+                return [4 /*yield*/, Project.findOne({
+                        where: {
+                            title: 'Pregnancy Belly'
+                        },
+                        include: SupportTier
+                    })];
+            case 11:
+                project3 = _a.sent();
+                supportTier1 = project1.SupportTiers[0].id;
+                supportTier1Pledge = project1.SupportTiers[0].minPledge;
+                supportTier2 = project2.SupportTiers[3].id;
+                supportTier2Pledge = project2.SupportTiers[0].minPledge;
+                supportTier3 = project3.SupportTiers[2].id;
+                supportTier3Pledge = project3.SupportTiers[0].minPledge;
+                return [4 /*yield*/, UsersToSupportTier.create({ userId: user.id, supportTierId: supportTier1, pledgeAmount: supportTier1Pledge })];
+            case 12:
+                _a.sent();
+                return [4 /*yield*/, UsersToSupportTier.create({ userId: user.id, supportTierId: supportTier2, pledgeAmount: supportTier2Pledge })];
+            case 13:
+                _a.sent();
+                return [4 /*yield*/, UsersToSupportTier.create({ userId: user.id, supportTierId: supportTier3, pledgeAmount: supportTier3Pledge })];
+            case 14:
+                _a.sent();
+                return [2 /*return*/, user];
+        }
+    });
+}); };
 /////////////////////route: users/bookmarks
 var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
     var zeroIndexPage, userBookmarks, projects, projectsDict;
@@ -434,5 +521,6 @@ module.exports = {
     getProjectDetails: getProjectDetails,
     getOtherCategory: getOtherCategory,
     getTop: getTop,
-    genDictSupportTier: genDictSupportTier
+    genDictSupportTier: genDictSupportTier,
+    generateDemoUser: generateDemoUser
 };

@@ -113,7 +113,8 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler(function (req, res) { 
                                     include: UsersToSupportTier
                                 }
                             }
-                        }
+                        },
+                        order: [['createdAt', 'DESC']]
                     })];
             case 1:
                 data = _a.sent();

@@ -14,12 +14,13 @@ import * as projectActions from './../store/projects'
 function Navbar() {
   const history = useHistory();
   const [selectedForm, setSelectedForm] = useState('')
-  const bottomNavDis = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
+  const [bottomNavDis, setBottomNavDis] = useState((window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
   ?
   'none'
   :
   ''
-  );
+  ));
+  
   const [open, setOpen] = useState(false);
   const handleOpen = (selectedForm:string) => {
             setSelectedForm(selectedForm);
@@ -32,6 +33,11 @@ function Navbar() {
   const handleLogout = async () => {
       await dispatch(sessionActions.logout())
       history.push('/category/Top/page/1')
+  }
+
+  const handleGoHome = async () => {
+    setBottomNavDis('');
+    history.push('/category/Top/page/1')
   }
 
   const checkActive = (nav:string) => {
@@ -83,7 +89,8 @@ function Navbar() {
             :
             <p id="nav-left">Log in to get started!</p> 
             }
-            <p id='site-title'><span>JOKE</span>STARTER</p>
+            <p id='site-title'
+            onClick={handleGoHome}><span>JOKE</span>STARTER</p>
             {
             sessionUser.user.username 
             ?
