@@ -109,33 +109,11 @@ router.put('/demo', asyncHandler(function (req, res, next) { return __awaiter(vo
     var user;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, generateDemoUser()
-                // if (!user) {
-                //   const err = new ExpError('Login failed');
-                //   err.status = 401;
-                //   err.title = 'Login failed';
-                //   err.errors = ['The provided credentials were invalid.'];
-                //   return next(err);
-                // };
-            ];
+            case 0: return [4 /*yield*/, generateDemoUser()];
             case 1:
                 user = _a.sent();
-                // if (!user) {
-                //   const err = new ExpError('Login failed');
-                //   err.status = 401;
-                //   err.title = 'Login failed';
-                //   err.errors = ['The provided credentials were invalid.'];
-                //   return next(err);
-                // };
                 return [4 /*yield*/, setTokenCookie(res, user)];
             case 2:
-                // if (!user) {
-                //   const err = new ExpError('Login failed');
-                //   err.status = 401;
-                //   err.title = 'Login failed';
-                //   err.errors = ['The provided credentials were invalid.'];
-                //   return next(err);
-                // };
                 _a.sent();
                 return [2 /*return*/, res.json({
                         status: true,
