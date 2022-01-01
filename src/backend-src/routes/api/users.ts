@@ -74,18 +74,7 @@ router.put(
 router.put(
   '/demo',
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    // const { credential, password } = req.body;
-
-    // const user = await User.login({ credential: 'demo@user.com', password: 'password' });
-    const user = await generateDemoUser()
-
-    // if (!user) {
-    //   const err = new ExpError('Login failed');
-    //   err.status = 401;
-    //   err.title = 'Login failed';
-    //   err.errors = ['The provided credentials were invalid.'];
-    //   return next(err);
-    // };
+    const user = await generateDemoUser();
 
     await setTokenCookie(res, user);
     return res.json({
