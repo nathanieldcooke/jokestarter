@@ -2,6 +2,8 @@
 
 _**[Jokestarter](https://joke-starter.herokuapp.com/)**_ is a human driven, crowd-sourcing platform that allows people to bring to the market the greatest products from the hit TV show, _Impractical Jokers_. 
 
+**[Wiki](https://github.com/nathanieldcooke/jokestarter/wiki)**: Jokestarter Application Details
+
 ## **Meeting Project Requirements**
 
   1. Use a modern JS Library/Framework like React, Angular, etc. We suggest using React.js  
