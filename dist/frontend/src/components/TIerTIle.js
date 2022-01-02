@@ -83,7 +83,10 @@ var TierTile = function (props) {
         setFocus(false);
     };
     var handleAmountChange = function (e) {
-        var currAmount = Number(e.target.value);
+        var currAmount = Math.floor(Number(e.target.value));
+        if (currAmount === 0) {
+            currAmount = '';
+        }
         setTierAmount(currAmount);
     };
     var handleContribution = function () { return __awaiter(_this, void 0, void 0, function () {

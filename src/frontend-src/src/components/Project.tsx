@@ -76,18 +76,18 @@ function Project() {
                     <section>
                         <LinearProgress variant="determinate" value={percentFunded} />
                         <div>
-                            <span id='funds-collected'>$ {project.fundsCollected}</span>
+                            <span id='funds-collected'>$ {project.fundsCollected && project.fundsCollected.toLocaleString()}</span>
                         </div>
                         <div>
                             <span>
-                            pledged of <span id='funding-goal'> ${project.goal} </span> goal
+                            pledged of <span id='funding-goal'> ${project.goal && project.goal.toLocaleString()} </span> goal
                             </span>
                         </div>
                     </section>
                     <section>
                         <div>
                             <div>
-                                <span id='num-of-backers'>{project.numOfBackers}</span>
+                                <span id='num-of-backers'>{project.numOfBackers && project.numOfBackers.toLocaleString()}</span>
                             </div>
                             <div>
                                 <span>backers</span>
