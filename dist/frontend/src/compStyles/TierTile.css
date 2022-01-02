@@ -85,9 +85,10 @@ div.support-tier > div {
 
 #enter-pledge-amount {
     margin-bottom: .5em;
-    display: block;
+    display: flex;
     box-sizing: border-box;
     border: black solid 1px;
+    align-items: center;
     /* padding: .25em .5em; */
 }
 

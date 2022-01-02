@@ -13,7 +13,7 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
 
     const [focus, setFocus] = useState(false);
-    const [tierAmount, setTierAmount] = useState(supportTier.amount)
+    const [tierAmount, setTierAmount]:[tierAmount:number|string, setTierAmount:React.Dispatch<React.SetStateAction<number|string>>] = useState(supportTier.amount)
     const [showSnackBar, setShowSnackBar] = useState(false)
 
     const handleFocus = () => {
@@ -29,7 +29,10 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
     }
 
     const handleAmountChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        let currAmount = Number(e.target.value)
+        let currAmount:number|string = Math.floor(Number(e.target.value))
+        if (currAmount === 0) {
+            currAmount = '';
+        }
         setTierAmount(currAmount);
     }
 
