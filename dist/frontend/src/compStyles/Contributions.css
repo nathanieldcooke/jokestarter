@@ -21,8 +21,11 @@
     margin-bottom: 5em;
 }
 
-.sub-cont-tier-tile {    
+.cont-tier-tile section:first-child {
     margin-left: 5em;
+}
+
+.sub-cont-tier-tile {    
     display: flex;
 }
 
