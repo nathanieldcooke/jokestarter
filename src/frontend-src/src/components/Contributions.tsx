@@ -50,7 +50,7 @@ export default function Contributions() {
                 return (
                     <section className='sub-cont-tier-tile' key={`${contribution.projectTile.id}${Math.random()}`}>
                         <ProjectTile props={{project: contribution.projectTile}}/>
-                        <ContTierTile props={{supportTier: contribution.recieptTile}}/>
+                        <ContTierTile props={{supportTier: contribution.receiptTile}}/>
                     </section>
                 )
             })}

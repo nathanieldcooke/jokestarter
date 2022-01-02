@@ -39,7 +39,7 @@ function Projects() {
     var pageNums = projects[0] ? projects[0].pageNums : 0;
     var _b = (0, react_1.useState)(pageNumberNum), page = _b[0], setPage = _b[1];
     var handleChange = function (_event, value) {
-        if (categoryName !== 'Bookmarks') {
+        if (categoryName !== 'bookmarks') {
             dispatch(projectActions.getProjects(categoryName, "".concat(value)));
         }
         else {
@@ -50,7 +50,7 @@ function Projects() {
     };
     (0, react_1.useEffect)(function () {
         setPage(1);
-        if (categoryName !== 'Bookmarks') {
+        if (categoryName !== 'bookmarks') {
             dispatch(projectActions.getProjects(categoryName, '1'));
         }
         else {

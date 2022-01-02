@@ -12,7 +12,7 @@ const { HideList } = require('../../../db/models');
 
 const router = express.Router();
 
-router.put('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
+router.delete('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
 
     const { projectId } = req.params;
     const user = req.user;

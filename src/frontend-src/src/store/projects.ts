@@ -22,7 +22,7 @@ export const getProjects = (category:string, page:string) => async (dispatch: Di
 };
 
 export const getBookmarks = (page:string, userId:number|null) => async (dispatch: Dispatch<IActionProjects>) => {
-    const response = await csrfFetch(`/api/users/${userId}/Bookmarks/page/${page}`)
+    const response = await csrfFetch(`/api/users/${userId}/bookmarks/page/${page}`)
 
     const data:IProjects[] = await response.json();
 
@@ -35,15 +35,15 @@ export const getBookmarks = (page:string, userId:number|null) => async (dispatch
 
 export const hideProject = (projectId:number, userId:number|null, category:string, page:string, bookmarked:boolean) => async (dispatch: Dispatch<IActionProjects>) => {
     const response1 = await csrfFetch(`/api/users/${userId}/hide-project/${projectId}`, {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {}, 
         body: JSON.stringify({
         }),
     })
 
     if (bookmarked) {
-        await csrfFetch(`/api/users/${userId}/Bookmarks/${projectId}`, {
-            method: 'POST',
+        await csrfFetch(`/api/users/${userId}/bookmarks/${projectId}`, {
+            method: 'PUT',
             headers: {}, 
             body: JSON.stringify({
               bookmarked: false,
@@ -81,11 +81,11 @@ const updateBookmarkedProject = (state:IProjects[], projectId:string) => {
             return {...project}
         }
     })
-}
+};
 
 export const updateBookmark = (projectId:number, bookmarked:boolean, projects:IProjects[], userId:number|null, category:string) => async (dispatch: Dispatch<IActionProjects>) => {
-    const response = await csrfFetch(`/api/users/${userId}/Bookmarks/${projectId}`, {
-        method: 'POST',
+    const response = await csrfFetch(`/api/users/${userId}/bookmarks/${projectId}`, {
+        method: 'PUT',
         headers: {}, 
         body: JSON.stringify({
           bookmarked,
@@ -96,7 +96,7 @@ export const updateBookmark = (projectId:number, bookmarked:boolean, projects:IP
 
     let updatedProjects:IProjects[] = []
 
-    if (!bookmarked && category === 'Bookmarks') {
+    if (!bookmarked && category === 'bookmarks') {
         updatedProjects = removeBookmarkedProject(projects,`${projectId}`)
     } else {
         updatedProjects = updateBookmarkedProject(projects, data.projecId)

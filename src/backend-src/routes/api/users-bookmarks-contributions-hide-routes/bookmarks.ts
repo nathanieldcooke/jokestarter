@@ -15,7 +15,6 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, 
 
     const { pageNumber } = req.params;
     const user:IUser = req.user;
-
     let projects = [];
 
     projects = await getBookmarks(pageNumber, user);
@@ -24,7 +23,7 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler( async (req: Request, 
 
 }));
 
-router.post('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
+router.put('/:projectId', restoreUser, asyncHandler( async (req: Request, res: Response) => {
 
     const { projectId } = req.params;
     const { bookmarked } = req.body;

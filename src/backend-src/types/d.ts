@@ -67,13 +67,14 @@ export interface IProjects {
     screenShot:string
     title:string
     summary:string
+    imgAlt:string
     creatorName:string
     percentFunded:number
     pageNums:number
     bookmarked:boolean
 }
 
-export interface IReciept {
+export interface IReceipt {
     amountPledged:number
     nameOfTier:string
     summaryOfTier:string

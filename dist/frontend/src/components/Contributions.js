@@ -57,7 +57,7 @@ function Contributions() {
                 react_1.default.createElement("div", { className: 'cont-tier-tile' }, contributions.map(function (contribution) {
                     return (react_1.default.createElement("section", { className: 'sub-cont-tier-tile', key: "".concat(contribution.projectTile.id).concat(Math.random()) },
                         react_1.default.createElement(ProjectTIle_1.default, { props: { project: contribution.projectTile } }),
-                        react_1.default.createElement(ContTierTile_1.default, { props: { supportTier: contribution.recieptTile } })));
+                        react_1.default.createElement(ContTierTile_1.default, { props: { supportTier: contribution.receiptTile } })));
                 })),
         react_1.default.createElement("div", { className: 'page-dial-container-bottom' },
             react_1.default.createElement(material_1.Stack, { spacing: 2 },

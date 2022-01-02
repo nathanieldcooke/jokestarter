@@ -38,6 +38,10 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
+      imgAlt: {
+        type: Sequelize.STRING(500),
+        allowNull: false,
+      },
       creatorName: {
         type: Sequelize.STRING(25),
         allowNull: false,

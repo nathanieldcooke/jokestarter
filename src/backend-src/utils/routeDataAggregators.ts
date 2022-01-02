@@ -4,13 +4,12 @@ GLOSSARY:
     route: users
     route: users/bookmarks
     route: users/contributions
-    route: projects
 */
 
 /////////////////////route: projects
 
 import { Op } from "sequelize";
-import { IUser, IProjects, ISupportTier2, IReciept } from "../types/d";
+import { IUser, IProjects, ISupportTier2, IReceipt } from "../types/d";
 
 const { Project, Category, SupportTier, UsersToSupportTier, Bookmark, HideList, User } = require('../db/models');
 
@@ -68,6 +67,7 @@ const getOtherCategory = async (category:string, pageNumber:string, user:IUser) 
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
+            imgAlt: project.imgAlt,
             creatorName: project.creatorName,
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
@@ -144,6 +144,7 @@ const getTop = async (pageNumber:string, user:IUser) => {
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
+            imgAlt: project.imgAlt,
             creatorName: project.creatorName,
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
@@ -307,6 +308,7 @@ const generateDemoUser = async () => {
 /////////////////////route: users/bookmarks
 
 const getBookmarks = async (pageNumber:string, user:IUser) => {
+    
     const zeroIndexPage = Number(pageNumber) - 1;
 
     let userBookmarks = await Bookmark.findAll({
@@ -345,6 +347,7 @@ const getBookmarks = async (pageNumber:string, user:IUser) => {
             screenShot: project.screenShot,
             title: project.title,
             summary: project.summary,
+            imgAlt: project.imgAlt,
             creatorName: project.creatorName,
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
@@ -393,7 +396,7 @@ const formatContibutions = async (data:typeof UsersToSupportTier[], pageNumber:s
 
     let bookmarkedProjectsSet = new Set(bookmarkedProjects);
 
-    let reciepts:{recieptTile:IReciept,projectTile:IProjects}[] = data.map((dataPoint:typeof UsersToSupportTier) => {
+    let receipts:{receiptTile:IReceipt,projectTile:IProjects}[] = data.map((dataPoint:typeof UsersToSupportTier) => {
 
         const supportTier = dataPoint.SupportTier;
         const project = supportTier.Project;
@@ -412,7 +415,7 @@ const formatContibutions = async (data:typeof UsersToSupportTier[], pageNumber:s
         let date = new Date(supportTier.estimatedDelivery);
 
         return {
-            recieptTile:{
+            receiptTile:{
                 amountPledged: dataPoint.pledgeAmount,
                 nameOfTier: supportTier.name,
                 summaryOfTier: supportTier.summary,
@@ -424,6 +427,7 @@ const formatContibutions = async (data:typeof UsersToSupportTier[], pageNumber:s
                 screenShot: project.screenShot,
                 title: project.title,
                 summary: project.summary,
+                imgAlt: project.imgAlt,
                 creatorName: project.creatorName,
                 percentFunded,
                 pageNums: Math.ceil(data.length / 2),
@@ -432,7 +436,7 @@ const formatContibutions = async (data:typeof UsersToSupportTier[], pageNumber:s
         };
     });
 
-    return reciepts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2);
+    return receipts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2);
 }
 
 

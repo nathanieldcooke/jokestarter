@@ -87,7 +87,7 @@ var getContributions = function (userId, page) { return function (dispatch) { re
 exports.getContributions = getContributions;
 var initialState = [
     {
-        recieptTile: {
+        receiptTile: {
             amountPledged: null,
             nameOfTier: null,
             summaryOfTier: null,
@@ -99,6 +99,7 @@ var initialState = [
             screenShot: undefined,
             title: null,
             summary: null,
+            imgAlt: null,
             creatorName: null,
             percentFunded: 0,
             pageNums: 0,

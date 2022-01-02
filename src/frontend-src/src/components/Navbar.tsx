@@ -58,7 +58,7 @@ function Navbar() {
     }, [sessionUser])
 
     const handleClick = (category:string) => {
-        if (category !== 'Bookmarks') {
+        if (category !== 'bookmarks') {
         dispatch(projectActions.getProjects(category, '1'))
         } else {
         dispatch(projectActions.getBookmarks('1', sessionUser.user.id))
@@ -155,10 +155,10 @@ function Navbar() {
                 ?
                 <>
                 <span>|</span>
-                <NavLink to="/category/Bookmarks/page/1" 
-                onClick={() => handleClick('Bookmarks')}
+                <NavLink to="/category/bookmarks/page/1" 
+                onClick={() => handleClick('bookmarks')}
                 activeClassName="selected"
-                isActive={() => checkActive('Bookmarks')}>
+                isActive={() => checkActive('bookmarks')}>
                     Bookmarks
                 </NavLink>
                 <NavLink to="/contributions/page/1" 
