@@ -61,7 +61,7 @@ router.get('/page/:pageNumber', restoreUser, asyncHandler(function (req, res) { 
         }
     });
 }); }));
-router.post('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var projectId, bookmarked, user;
     return __generator(this, function (_a) {
         switch (_a.label) {

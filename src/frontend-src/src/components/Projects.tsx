@@ -28,7 +28,7 @@ function Projects() {
   const [page, setPage] = useState(pageNumberNum);
 
   const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    if (categoryName !== 'Bookmarks') {
+    if (categoryName !== 'bookmarks') {
       dispatch(projectActions.getProjects(categoryName, `${value}`))
     } else {
       dispatch(projectActions.getBookmarks(`${value}`, sessionUser.user.id))
@@ -39,7 +39,7 @@ function Projects() {
     
     useEffect(() => {
       setPage(1)
-      if (categoryName !== 'Bookmarks') {
+      if (categoryName !== 'bookmarks') {
         dispatch(projectActions.getProjects(categoryName, '1'))
       } else {
         dispatch(projectActions.getBookmarks('1', sessionUser.user.id))

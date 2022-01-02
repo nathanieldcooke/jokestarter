@@ -1,7 +1,7 @@
 import React from 'react';
-import { IReciept } from '../d';
+import { IReceipt } from '../d';
 
-const ContTierTile = (props:{props:{supportTier:IReciept}}) => {
+const ContTierTile = (props:{props:{supportTier:IReceipt}}) => {
 
     const {supportTier} = props.props
 

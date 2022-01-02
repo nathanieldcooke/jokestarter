@@ -103,7 +103,7 @@ function ProjectTile(props) {
                     react_1.default.createElement("div", null, "Click To Undo"))
             :
                 react_1.default.createElement(react_1.default.Fragment, null,
-                    react_1.default.createElement("img", { src: project.screenShot }),
+                    react_1.default.createElement("img", { src: project.screenShot, alt: project.imgAlt }),
                     react_1.default.createElement(LinearProgress_1.default, { variant: "determinate", value: percentFunded }),
                     react_1.default.createElement("section", { className: 'text-content' },
                         react_1.default.createElement("div", { className: 'projects-title' },
@@ -119,7 +119,7 @@ function ProjectTile(props) {
                         react_1.default.createElement("div", { className: 'hidden-icons' },
                             react_1.default.createElement("div", null,
                                 react_1.default.createElement(Bookmark_1.default, { onClick: function (e) { return handleBookmarkClick(e); }, style: { color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : '' } })),
-                            react_1.default.createElement("div", { style: { display: (category === 'Bookmarks' || isContribution) ? 'none' : '' } },
+                            react_1.default.createElement("div", { style: { display: (category === 'bookmarks' || isContribution) ? 'none' : '' } },
                                 react_1.default.createElement(ThumbDown_1.default, { onClick: function (e) { return handleThumbClick(e); } }))))),
         showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } })));
 }

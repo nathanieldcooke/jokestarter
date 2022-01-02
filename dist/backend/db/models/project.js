@@ -47,6 +47,7 @@ module.exports = function (sequelize, dataTypes) {
         summary: dataTypes.STRING(500),
         video: dataTypes.STRING(500),
         screenShot: dataTypes.STRING(500),
+        imgAlt: dataTypes.STRING(500),
         creatorName: dataTypes.STRING(25),
         categoryId: dataTypes.INTEGER
     }, {});

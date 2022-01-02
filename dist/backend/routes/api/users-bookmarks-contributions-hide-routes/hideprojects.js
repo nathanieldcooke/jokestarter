@@ -45,7 +45,7 @@ var asyncHandler = require('express-async-handler');
 var restoreUser = require('../../../utils/auth').restoreUser;
 var HideList = require('../../../db/models').HideList;
 var router = express_1.default.Router();
-router.put('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var projectId, user;
     return __generator(this, function (_a) {
         switch (_a.label) {

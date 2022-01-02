@@ -20,7 +20,7 @@ const contributionsRouter = require('./users-bookmarks-contributions-hide-routes
 
 const router = express.Router();
 
-router.use('/:userId/Bookmarks', bookmarksRouter);
+router.use('/:userId/bookmarks', bookmarksRouter);
 router.use('/:userId/hide-project', hideprojectsRouter);
 router.use('/:userId/contributions', contributionsRouter);
 
@@ -85,19 +85,20 @@ router.put(
   })
 );
 
-  // Log out
-  router.put('/logout',
-    (_req, res) => {
-      res.clearCookie('token');
-      return res.json({
-        status: true,
-        errors: [],
-        user: { id: null, 
-          username: null
-        }
-      });
-    }
-  );
+// Log out
+router.put(
+  '/logout',
+  (_req, res) => {
+    res.clearCookie('token');
+    return res.json({
+      status: true,
+      errors: [],
+      user: { id: null, 
+        username: null
+      }
+    });
+  }
+);
 
 // Restore session user
 router.get(

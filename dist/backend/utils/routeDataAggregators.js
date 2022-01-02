@@ -5,7 +5,6 @@ GLOSSARY:
     route: users
     route: users/bookmarks
     route: users/contributions
-    route: projects
 */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -106,6 +105,7 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
+                        imgAlt: project.imgAlt,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
                         pageNums: Math.ceil(projects.length / 4),
@@ -184,6 +184,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
+                        imgAlt: project.imgAlt,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
                         pageNums: Math.ceil(projects.length / 4),
@@ -410,6 +411,7 @@ var getBookmarks = function (pageNumber, user) { return __awaiter(void 0, void 0
                         screenShot: project.screenShot,
                         title: project.title,
                         summary: project.summary,
+                        imgAlt: project.imgAlt,
                         creatorName: project.creatorName,
                         percentFunded: percentFunded,
                         pageNums: Math.ceil(projects.length / 4),
@@ -458,7 +460,7 @@ var removeBookmark = function (projectId, user) { return __awaiter(void 0, void 
 }); };
 /////////////////////route: users/contributions
 var formatContibutions = function (data, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, bookmarkedProjects, bookmarkedProjectsSet, reciepts;
+    var zeroIndexPage, bookmarkedProjects, bookmarkedProjectsSet, receipts;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -477,7 +479,7 @@ var formatContibutions = function (data, pageNumber, user) { return __awaiter(vo
             case 2:
                 ;
                 bookmarkedProjectsSet = new Set(bookmarkedProjects);
-                reciepts = data.map(function (dataPoint) {
+                receipts = data.map(function (dataPoint) {
                     var supportTier = dataPoint.SupportTier;
                     var project = supportTier.Project;
                     var supportTiers = project.SupportTiers;
@@ -490,7 +492,7 @@ var formatContibutions = function (data, pageNumber, user) { return __awaiter(vo
                     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     var date = new Date(supportTier.estimatedDelivery);
                     return {
-                        recieptTile: {
+                        receiptTile: {
                             amountPledged: dataPoint.pledgeAmount,
                             nameOfTier: supportTier.name,
                             summaryOfTier: supportTier.summary,
@@ -502,6 +504,7 @@ var formatContibutions = function (data, pageNumber, user) { return __awaiter(vo
                             screenShot: project.screenShot,
                             title: project.title,
                             summary: project.summary,
+                            imgAlt: project.imgAlt,
                             creatorName: project.creatorName,
                             percentFunded: percentFunded,
                             pageNums: Math.ceil(data.length / 2),
@@ -509,7 +512,7 @@ var formatContibutions = function (data, pageNumber, user) { return __awaiter(vo
                         }
                     };
                 });
-                return [2 /*return*/, reciepts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2)];
+                return [2 /*return*/, receipts.slice(zeroIndexPage * 2, zeroIndexPage * 2 + 2)];
         }
     });
 }); };

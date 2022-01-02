@@ -68,6 +68,7 @@ export interface IProjects {
     screenShot:string|undefined
     title:string|null
     summary:string|null
+    imgAlt:string|null
     creatorName:string|null
     percentFunded:number
     pageNums:number
@@ -108,6 +109,7 @@ export interface IProject {
     id:number
     goal:number|null
     screenShot:string|undefined
+    imgAlt:string|null
     videoSrc:string|undefined
     title:string|null
     summary:string|null
@@ -128,7 +130,7 @@ export interface IActionProject {
 
 /////////////////////// contributions interfaces and types
 
-export interface IReciept {
+export interface IReceipt {
     amountPledged:number|null
     nameOfTier:string|null
     summaryOfTier:string|null
@@ -137,7 +139,7 @@ export interface IReciept {
 }
 
 export interface IContribution {
-    recieptTile:IReciept
+    receiptTile:IReceipt
     projectTile:IProjects
 }
 

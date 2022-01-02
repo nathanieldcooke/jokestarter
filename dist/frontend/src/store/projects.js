@@ -85,7 +85,7 @@ var getBookmarks = function (page, userId) { return function (dispatch) { return
     var response, data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/page/").concat(page))];
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/bookmarks/page/").concat(page))];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
@@ -102,15 +102,15 @@ var hideProject = function (projectId, userId, category, page, bookmarked) { ret
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/hide-project/").concat(projectId), {
-                    method: 'PUT',
+                    method: 'DELETE',
                     headers: {},
                     body: JSON.stringify({}),
                 })];
             case 1:
                 response1 = _a.sent();
                 if (!bookmarked) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/").concat(projectId), {
-                        method: 'POST',
+                return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/bookmarks/").concat(projectId), {
+                        method: 'PUT',
                         headers: {},
                         body: JSON.stringify({
                             bookmarked: false,
@@ -156,8 +156,8 @@ var updateBookmark = function (projectId, bookmarked, projects, userId, category
     var response, data, updatedProjects;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/Bookmarks/").concat(projectId), {
-                    method: 'POST',
+            case 0: return [4 /*yield*/, (0, csrf_1.csrfFetch)("/api/users/".concat(userId, "/bookmarks/").concat(projectId), {
+                    method: 'PUT',
                     headers: {},
                     body: JSON.stringify({
                         bookmarked: bookmarked,
@@ -169,7 +169,7 @@ var updateBookmark = function (projectId, bookmarked, projects, userId, category
             case 2:
                 data = _a.sent();
                 updatedProjects = [];
-                if (!bookmarked && category === 'Bookmarks') {
+                if (!bookmarked && category === 'bookmarks') {
                     updatedProjects = removeBookmarkedProject(projects, "".concat(projectId));
                 }
                 else {

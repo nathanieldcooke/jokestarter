@@ -17,9 +17,9 @@ router.get('/:projectId', restoreUser, asyncHandler( async (req: Request, res: R
     const user = req.user;
     const { projectId } = req.params;
 
-    let projects = await getProjectDetails(projectId, user);
+    let project = await getProjectDetails(projectId, user);
 
-    res.json(projects);
+    res.json(project);
     
 }))
 

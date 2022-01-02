@@ -51,7 +51,7 @@ var bookmarksRouter = require('./users-bookmarks-contributions-hide-routes/bookm
 var hideprojectsRouter = require('./users-bookmarks-contributions-hide-routes/hideprojects');
 var contributionsRouter = require('./users-bookmarks-contributions-hide-routes/contributions');
 var router = express_1.default.Router();
-router.use('/:userId/Bookmarks', bookmarksRouter);
+router.use('/:userId/bookmarks', bookmarksRouter);
 router.use('/:userId/hide-project', hideprojectsRouter);
 router.use('/:userId/contributions', contributionsRouter);
 // Sign up

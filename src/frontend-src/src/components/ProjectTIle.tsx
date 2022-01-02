@@ -92,7 +92,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
             </div>
             :
         <>
-            <img src={project.screenShot}/>
+            <img src={project.screenShot} alt={project.imgAlt}/>
             <LinearProgress variant="determinate" value={percentFunded} />
             <section className='text-content'>
                 <div className='projects-title'>
@@ -117,7 +117,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                         style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
                     />
                 </div>
-                <div style={{display: (category === 'Bookmarks' || isContribution) ? 'none' : ''}}>
+                <div style={{display: (category === 'bookmarks' || isContribution) ? 'none' : ''}}>
                     <ThumbDownIcon
                         onClick={(e) => handleThumbClick(e)}
                     />

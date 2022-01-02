@@ -67,6 +67,7 @@ var initialState = {
     videoSrc: undefined,
     title: null,
     summary: null,
+    imgAlt: null,
     creatorName: null,
     fundsCollected: null,
     percentFunded: 0,

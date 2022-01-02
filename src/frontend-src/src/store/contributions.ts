@@ -41,7 +41,7 @@ export const getContributions = (userId:number|null, page:string) => async (disp
 
 const initialState:IContribution[] = [
     {
-        recieptTile:{
+        receiptTile:{
             amountPledged:null,
             nameOfTier:null,
             summaryOfTier:null,
@@ -53,6 +53,7 @@ const initialState:IContribution[] = [
             screenShot:undefined,
             title:null,
             summary:null,
+            imgAlt:null,
             creatorName:null,
             percentFunded:0,
             pageNums:0,

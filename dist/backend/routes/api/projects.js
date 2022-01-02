@@ -46,7 +46,7 @@ var asyncHandler = require('express-async-handler');
 var restoreUser = require('../../utils/auth').restoreUser;
 var router = express_1.default.Router();
 router.get('/:projectId', restoreUser, asyncHandler(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, projectId, projects;
+    var user, projectId, project;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -54,8 +54,8 @@ router.get('/:projectId', restoreUser, asyncHandler(function (req, res) { return
                 projectId = req.params.projectId;
                 return [4 /*yield*/, getProjectDetails(projectId, user)];
             case 1:
-                projects = _a.sent();
-                res.json(projects);
+                project = _a.sent();
+                res.json(project);
                 return [2 /*return*/];
         }
     });
