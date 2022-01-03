@@ -376,7 +376,7 @@ var generateDemoUser = function () { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, Project.getProjectId('Sexy Beasts')];
             case 2:
                 projectId1 = _a.sent();
-                return [4 /*yield*/, Project.getProjectId('Jalapeno Milk')];
+                return [4 /*yield*/, Project.getProjectId('Jalapeño Milk')];
             case 3:
                 projectId2 = _a.sent();
                 return [4 /*yield*/, Project.getProjectId('Playground For Seniors')];

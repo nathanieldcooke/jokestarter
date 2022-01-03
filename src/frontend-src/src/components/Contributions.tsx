@@ -33,7 +33,7 @@ export default function Contributions() {
         dispatch(contributionsActions.getContributions(sessionUser.user.id, pageNumber))
     }, [dispatch])
     
-  if (contributions[0].projectTile.id === 0) return <div id='no-projects-found' ></div>;
+  if (contributions[0] && contributions[0].projectTile.id === 0) return <div id='no-projects-found' ></div>;
   if (pageNums === 0) return <div id='no-projects-found' >No Contributions Found</div>
 
   return (
