@@ -41,7 +41,7 @@ const LoginForm = React.forwardRef(( props:{ props: {setSelectedForm: React.Disp
       </label>
       <Button type='submit' id='form-button'>Submit</Button>
 
-      <p id='log-sign-change'>don't have an account?<Button
+      <p id='log-sign-change'>Don't have an account?<Button
         onClick={() => setSelectedForm('signup')}
         >Sign Up</Button></p>
     </form>

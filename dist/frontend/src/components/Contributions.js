@@ -46,6 +46,10 @@ function Contributions() {
     (0, react_1.useEffect)(function () {
         dispatch(contributionsActions.getContributions(sessionUser.user.id, pageNumber));
     }, [dispatch]);
+    if (contributions[0].projectTile.id === 0)
+        return react_1.default.createElement("div", { id: 'no-projects-found' });
+    if (pageNums === 0)
+        return react_1.default.createElement("div", { id: 'no-projects-found' }, "No Contributions Found");
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("div", { className: 'page-dial-container-top' },
             react_1.default.createElement(material_1.Stack, { spacing: 2 },

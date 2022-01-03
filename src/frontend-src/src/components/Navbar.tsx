@@ -164,7 +164,7 @@ function Navbar() {
                 <NavLink to="/contributions/page/1" 
                 activeClassName="selected"
                 isActive={() => checkActive('contributions')}>
-                    Contributed
+                    Contributions
                 </NavLink>
                 </>
                 :

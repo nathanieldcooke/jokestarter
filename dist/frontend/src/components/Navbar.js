@@ -163,7 +163,7 @@ function Navbar() {
                         react_1.default.createElement(react_1.default.Fragment, null,
                             react_1.default.createElement("span", null, "|"),
                             react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/bookmarks/page/1", onClick: function () { return handleClick('bookmarks'); }, activeClassName: "selected", isActive: function () { return checkActive('bookmarks'); } }, "Bookmarks"),
-                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/contributions/page/1", activeClassName: "selected", isActive: function () { return checkActive('contributions'); } }, "Contributed"))
+                            react_1.default.createElement(react_router_dom_1.NavLink, { to: "/contributions/page/1", activeClassName: "selected", isActive: function () { return checkActive('contributions'); } }, "Contributions"))
                     :
                         null))));
 }

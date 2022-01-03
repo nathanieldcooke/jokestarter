@@ -17,6 +17,7 @@ nav div#nav-top {
 
 nav div#nav-top > p#nav-left {
     /* background-color: yellowgreen; */
+    color: rgb(85, 85, 85);
     font-size: 1.1em;
     width: 400px;
 }
@@ -25,6 +26,11 @@ nav div#nav-top > div#nav-button-container {
     display: flex;
     justify-content: flex-end;
     width: 400px;
+}
+
+nav div#nav-top > div#nav-button-container button:hover {
+    background-color: rgb(106, 106, 106);
+    color: white;
 }
 
 nav div#nav-top > p#nav-left > span {
@@ -54,6 +60,7 @@ nav div#nav-top p#site-title span {
 
 nav div#nav-bottom {
     /* background-color: tomato; */
+    font-weight: bolder;
     display: flex;
     justify-content: center;
     border-bottom: 1px solid rgb(189, 189, 189);

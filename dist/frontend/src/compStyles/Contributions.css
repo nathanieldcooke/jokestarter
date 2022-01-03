@@ -41,7 +41,7 @@
 
 .sub-cont-tier-tile {
     margin-right: 5em;
-    border: rgb(211, 211, 211) solid 1px;
+    /* border: rgb(211, 211, 211) solid 1px; */
 }
 
 .sub-cont-tier-tile > div.support-tier {

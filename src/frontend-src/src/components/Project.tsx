@@ -29,7 +29,8 @@ function Project() {
     ?
     100
     : 
-    project.percentFunded * 100
+    project.percentFunded * 100;
+    
     const tiersRef = useRef(null);
  
     const [bookmarked, setBookmarked] = useState(project.bookmarked)

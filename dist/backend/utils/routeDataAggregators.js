@@ -47,7 +47,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var sequelize_1 = require("sequelize");
 var _a = require('../db/models'), Project = _a.Project, Category = _a.Category, SupportTier = _a.SupportTier, UsersToSupportTier = _a.UsersToSupportTier, Bookmark = _a.Bookmark, HideList = _a.HideList, User = _a.User;
 var getOtherCategory = function (category, pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, categoryId, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects, projectsDict;
+    var zeroIndexPage, categoryId, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects, projectsDict, _loop_1, _i, projects_1, project;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -80,10 +80,7 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
                 ;
                 bookmarkedProjectsSet = new Set(bookmarkedProjects);
                 return [4 /*yield*/, Project.findAll({
-                        include: {
-                            model: SupportTier,
-                            include: UsersToSupportTier
-                        },
+                        include: SupportTier,
                         where: {
                             categoryId: categoryId,
                             id: (_a = {},
@@ -93,31 +90,70 @@ var getOtherCategory = function (category, pageNumber, user) { return __awaiter(
                     })];
             case 5:
                 projects = _b.sent();
-                projectsDict = projects.map(function (project) {
-                    var sum = 0;
-                    var percentFunded = 0;
-                    project.SupportTiers.forEach(function (supportTier) {
-                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                projectsDict = [];
+                _loop_1 = function (project) {
+                    var sum, percentFunded, _c, _d, supportTier, usersToSupportTier;
+                    return __generator(this, function (_e) {
+                        switch (_e.label) {
+                            case 0:
+                                sum = 0;
+                                percentFunded = 0;
+                                _c = 0, _d = project.SupportTiers;
+                                _e.label = 1;
+                            case 1:
+                                if (!(_c < _d.length)) return [3 /*break*/, 4];
+                                supportTier = _d[_c];
+                                return [4 /*yield*/, UsersToSupportTier.findAll({
+                                        where: {
+                                            supportTierId: supportTier.id
+                                        }
+                                    })];
+                            case 2:
+                                usersToSupportTier = _e.sent();
+                                usersToSupportTier.forEach(function (uToSTier) {
+                                    sum += uToSTier.pledgeAmount;
+                                });
+                                _e.label = 3;
+                            case 3:
+                                _c++;
+                                return [3 /*break*/, 1];
+                            case 4:
+                                percentFunded = sum / project.goal;
+                                projectsDict.push({
+                                    id: project.id,
+                                    screenShot: project.screenShot,
+                                    title: project.title,
+                                    summary: project.summary,
+                                    imgAlt: project.imgAlt,
+                                    creatorName: project.creatorName,
+                                    percentFunded: percentFunded,
+                                    pageNums: Math.ceil(projects.length / 4),
+                                    bookmarked: bookmarkedProjectsSet.has(project.id)
+                                });
+                                return [2 /*return*/];
+                        }
                     });
-                    percentFunded = sum / project.goal * 100;
-                    return {
-                        id: project.id,
-                        screenShot: project.screenShot,
-                        title: project.title,
-                        summary: project.summary,
-                        imgAlt: project.imgAlt,
-                        creatorName: project.creatorName,
-                        percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4),
-                        bookmarked: bookmarkedProjectsSet.has(project.id)
-                    };
-                });
+                };
+                _i = 0, projects_1 = projects;
+                _b.label = 6;
+            case 6:
+                if (!(_i < projects_1.length)) return [3 /*break*/, 9];
+                project = projects_1[_i];
+                return [5 /*yield**/, _loop_1(project)];
+            case 7:
+                _b.sent();
+                _b.label = 8;
+            case 8:
+                _i++;
+                return [3 /*break*/, 6];
+            case 9:
+                ;
                 return [2 /*return*/, projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
         }
     });
 }); };
 var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void 0, function () {
-    var zeroIndexPage, categories, categoryIds, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects, projectsDict;
+    var zeroIndexPage, categories, categoryIds, bookmarkedProjects, hideLists, bookmarkedProjectsSet, projects, projectsDict, _loop_2, _i, projects_2, project;
     var _a, _b, _c;
     return __generator(this, function (_d) {
         switch (_d.label) {
@@ -157,10 +193,7 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                 ;
                 bookmarkedProjectsSet = new Set(bookmarkedProjects);
                 return [4 /*yield*/, Project.findAll({
-                        include: {
-                            model: SupportTier,
-                            include: UsersToSupportTier
-                        },
+                        include: SupportTier,
                         where: {
                             categoryId: (_b = {},
                                 _b[sequelize_1.Op.or] = categoryIds,
@@ -172,25 +205,64 @@ var getTop = function (pageNumber, user) { return __awaiter(void 0, void 0, void
                     })];
             case 5:
                 projects = _d.sent();
-                projectsDict = projects.map(function (project) {
-                    var sum = 0;
-                    var percentFunded = 0;
-                    project.SupportTiers.forEach(function (supportTier) {
-                        sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
+                projectsDict = [];
+                _loop_2 = function (project) {
+                    var sum, percentFunded, _e, _f, supportTier, usersToSupportTier;
+                    return __generator(this, function (_g) {
+                        switch (_g.label) {
+                            case 0:
+                                sum = 0;
+                                percentFunded = 0;
+                                _e = 0, _f = project.SupportTiers;
+                                _g.label = 1;
+                            case 1:
+                                if (!(_e < _f.length)) return [3 /*break*/, 4];
+                                supportTier = _f[_e];
+                                return [4 /*yield*/, UsersToSupportTier.findAll({
+                                        where: {
+                                            supportTierId: supportTier.id
+                                        }
+                                    })];
+                            case 2:
+                                usersToSupportTier = _g.sent();
+                                usersToSupportTier.forEach(function (uToSTier) {
+                                    sum += uToSTier.pledgeAmount;
+                                });
+                                _g.label = 3;
+                            case 3:
+                                _e++;
+                                return [3 /*break*/, 1];
+                            case 4:
+                                percentFunded = sum / project.goal;
+                                projectsDict.push({
+                                    id: project.id,
+                                    screenShot: project.screenShot,
+                                    title: project.title,
+                                    summary: project.summary,
+                                    imgAlt: project.imgAlt,
+                                    creatorName: project.creatorName,
+                                    percentFunded: percentFunded,
+                                    pageNums: Math.ceil(projects.length / 4),
+                                    bookmarked: bookmarkedProjectsSet.has(project.id)
+                                });
+                                return [2 /*return*/];
+                        }
                     });
-                    percentFunded = sum / project.goal * 100;
-                    return {
-                        id: project.id,
-                        screenShot: project.screenShot,
-                        title: project.title,
-                        summary: project.summary,
-                        imgAlt: project.imgAlt,
-                        creatorName: project.creatorName,
-                        percentFunded: percentFunded,
-                        pageNums: Math.ceil(projects.length / 4),
-                        bookmarked: bookmarkedProjectsSet.has(project.id)
-                    };
-                });
+                };
+                _i = 0, projects_2 = projects;
+                _d.label = 6;
+            case 6:
+                if (!(_i < projects_2.length)) return [3 /*break*/, 9];
+                project = projects_2[_i];
+                return [5 /*yield**/, _loop_2(project)];
+            case 7:
+                _d.sent();
+                _d.label = 8;
+            case 8:
+                _i++;
+                return [3 /*break*/, 6];
+            case 9:
+                ;
                 projectsDict.sort(function (a, b) { return b.percentFunded - a.percentFunded; });
                 return [2 /*return*/, projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4)];
         }

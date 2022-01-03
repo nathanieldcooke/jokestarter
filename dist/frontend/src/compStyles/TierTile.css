@@ -8,7 +8,7 @@ div.support-tier {
     margin-right: 5em;
     margin-top: 1em;
     background-color: rgba(255, 255, 255, 0.844);
-    border: rgb(233, 233, 233) solid 1px
+    /* border: rgb(233, 233, 233) solid 1px */
 }
 
 div.support-tier > div {
@@ -71,7 +71,7 @@ div.support-tier > div {
 }
 
 .select-reward-hidden:hover {
-    background-color: rgba(7, 135, 0, 0.653);
+    background-color: rgba(7, 135, 0, 0.913);
     color: white;
     transition: .5s;
     cursor: pointer;

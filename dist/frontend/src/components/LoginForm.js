@@ -46,7 +46,7 @@ var LoginForm = react_1.default.forwardRef(function (props, ref) {
             react_1.default.createElement("input", { type: "password", value: password, onChange: function (e) { return setPassword(e.target.value); }, required: true })),
         react_1.default.createElement(Button_1.default, { type: 'submit', id: 'form-button' }, "Submit"),
         react_1.default.createElement("p", { id: 'log-sign-change' },
-            "don't have an account?",
+            "Don't have an account?",
             react_1.default.createElement(Button_1.default, { onClick: function () { return setSelectedForm('signup'); } }, "Sign Up"))));
 });
 exports.default = LoginForm;

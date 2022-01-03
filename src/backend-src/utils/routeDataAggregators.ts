@@ -41,10 +41,7 @@ const getOtherCategory = async (category:string, pageNumber:string, user:IUser) 
     let bookmarkedProjectsSet = new Set(bookmarkedProjects);
 
     let projects = await Project.findAll({
-        include: {
-            model: SupportTier,
-            include: UsersToSupportTier
-        },
+        include: SupportTier,
         where: {
             categoryId: categoryId,
             id: {
@@ -53,16 +50,25 @@ const getOtherCategory = async (category:string, pageNumber:string, user:IUser) 
         },
     });
 
-
-    const projectsDict:IProjects[] = projects.map((project:typeof Project) => {
+    const projectsDict:IProjects[] = []
+    for (let project of projects)  {
         let sum = 0;
         let percentFunded = 0;
-        project.SupportTiers.forEach((supportTier:typeof SupportTier) => {
-            sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
-        })
-        percentFunded = sum / project.goal * 100
 
-        return {
+        for (let supportTier of project.SupportTiers) {
+            let usersToSupportTier = await UsersToSupportTier.findAll({
+                where: {
+                    supportTierId: supportTier.id
+                }
+            });
+
+            usersToSupportTier.forEach((uToSTier: typeof UsersToSupportTier) => {
+                sum += uToSTier.pledgeAmount;
+            });
+
+        }
+        percentFunded = sum / project.goal;
+        projectsDict.push({
             id: project.id,
             screenShot: project.screenShot,
             title: project.title,
@@ -72,8 +78,8 @@ const getOtherCategory = async (category:string, pageNumber:string, user:IUser) 
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
             bookmarked: bookmarkedProjectsSet.has(project.id)
-        };
-    });
+        });
+    };
 
     return projectsDict.slice(zeroIndexPage * 4, zeroIndexPage * 4 + 4);
 
@@ -114,10 +120,7 @@ const getTop = async (pageNumber:string, user:IUser) => {
     let bookmarkedProjectsSet = new Set(bookmarkedProjects);
 
     let projects = await Project.findAll({
-        include: {
-            model: SupportTier,
-            include: UsersToSupportTier
-        },
+        include: SupportTier,
         where: {
             categoryId: {
                 [Op.or]: categoryIds
@@ -128,18 +131,25 @@ const getTop = async (pageNumber:string, user:IUser) => {
         },
     });
 
-    let projectsDict:IProjects[] = projects.map((project: typeof Project) => {
-
+    const projectsDict:IProjects[] = []
+    for (let project of projects)  {
         let sum = 0;
         let percentFunded = 0;
 
-        project.SupportTiers.forEach((supportTier:typeof SupportTier) => {
-            sum += supportTier.UsersToSupportTiers.length * supportTier.minPledge;
-        })
+        for (let supportTier of project.SupportTiers) {
+            let usersToSupportTier = await UsersToSupportTier.findAll({
+                where: {
+                    supportTierId: supportTier.id
+                }
+            });
 
-        percentFunded = sum / project.goal * 100;
+            usersToSupportTier.forEach((uToSTier: typeof UsersToSupportTier) => {
+                sum += uToSTier.pledgeAmount;
+            });
 
-        return {
+        }
+        percentFunded = sum / project.goal;
+        projectsDict.push({
             id: project.id,
             screenShot: project.screenShot,
             title: project.title,
@@ -149,8 +159,8 @@ const getTop = async (pageNumber:string, user:IUser) => {
             percentFunded,
             pageNums: Math.ceil(projects.length / 4),
             bookmarked: bookmarkedProjectsSet.has(project.id)
-        };
-    });
+        });
+    };
 
     projectsDict.sort((a:IProjects, b:IProjects) => b.percentFunded - a.percentFunded);
 
