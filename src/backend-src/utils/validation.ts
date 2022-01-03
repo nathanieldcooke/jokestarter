@@ -10,6 +10,8 @@ const { check } = require('express-validator');
 
 const { validationResult } = require('express-validator');
 
+const { User } = require('../db/models');
+
 // middleware for formatting errors from express-validator middleware
 const handleValidationErrors = (req: Request, _res: Response, next: NextFunction) => {
   const validationErrors = validationResult(req);
@@ -58,10 +60,26 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ max: 50 })
     .withMessage('Please provide a email with less than 51 characters.'),
+  check('email')
+  .custom(async (email:string, _checkVal:any) => {
+    const user = await User.findOne({ where: { email }})
+    if(user){
+      throw new Error('Email already in use.')
+    }
+  }),
   check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
+  check('confirmPassword')
+    .trim() // removes trailing spaces
+    // Validate confirmPassword
+    .custom(async (confirmPassword:string, checkVal:any) => {
+      const password = checkVal.req.body.password
+      if(password !== confirmPassword){
+        throw new Error('Password and Confirm Password must match')
+      }
+    }),
   handleValidationErrors
 ];
 

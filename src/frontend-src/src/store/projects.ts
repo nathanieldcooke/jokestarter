@@ -108,7 +108,19 @@ export const updateBookmark = (projectId:number, bookmarked:boolean, projects:IP
 };
 
 
-const initialState:IProjects[] = []
+const initialState:IProjects[] = [
+    {
+        id:0,
+        screenShot:undefined,
+        title:null,
+        summary:null,
+        imgAlt:null,
+        creatorName:null,
+        percentFunded:0,
+        pageNums:0,
+        bookmarked:false
+    }
+]
 
 const sessionReducer = (state = initialState, action:IActionProjects) => {
     let newState;

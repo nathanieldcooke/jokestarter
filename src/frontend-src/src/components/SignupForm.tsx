@@ -27,6 +27,7 @@ const SignupForm = React.forwardRef((props:{ props: {setSelectedForm: React.Disp
         Username:
         <input
           type="text"
+          name='username'
           value={username}
           onChange={(e) => setusername(e.target.value)}
           required
@@ -35,7 +36,8 @@ const SignupForm = React.forwardRef((props:{ props: {setSelectedForm: React.Disp
       <label>
         Email:
         <input
-          type="text"
+          type="email"
+          name='email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -45,6 +47,7 @@ const SignupForm = React.forwardRef((props:{ props: {setSelectedForm: React.Disp
         Password:
         <input
           type="password"
+          name='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -54,13 +57,14 @@ const SignupForm = React.forwardRef((props:{ props: {setSelectedForm: React.Disp
         Confirm Password:
         <input
           type="password"
+          name='confirmPassword'
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
       </label>
       <Button type='submit' id='form-button'>Sign Up</Button>
-      <p id='log-sign-change'>already have an account? <Button
+      <p id='log-sign-change'>Already have an account? <Button
         onClick={() => setSelectedForm('login')}
         >Log In</Button></p>
     </form>

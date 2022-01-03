@@ -46,6 +46,8 @@ function Projects() {
       }
     }, [dispatch, useParams<urlParams>().categoryName]);
 
+  if (projects[0] && projects[0].id === 0) return <div id='no-projects-found' ></div>;
+  if (pageNums === 0) return <div id='no-projects-found' >No Projects Found</div>
 
   return (
     <>

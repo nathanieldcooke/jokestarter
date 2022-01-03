@@ -25,6 +25,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     const [showSnackBar, setShowSnackBar] = useState(false)
     const [progress, setProgress] = useState(0);
     const [hideTile, setHideTile] = useState(false);
+    const [notifyDelete, setNotifyDelete] = useState(false);
     const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
     const pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]
     const openInNewTab = (url:string) => {
@@ -66,7 +67,10 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         const timer = setInterval(() => {
           setProgress((prevProgress) => {
             if (prevProgress >= 100) {
-                dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked))
+                setNotifyDelete(true)
+                setTimeout(() => {
+                    dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked))
+                }, 3000)
             }
               return (prevProgress >= 100 ? 0 : prevProgress + 10)
           });
@@ -84,47 +88,55 @@ function ProjectTile(props:{props: { project:IProjects }}) {
 
             hideTile
             ?
-            <div id='circle-undo'
-                onClick={undoHide}
-            >
-                <  CircularProgress variant="determinate" value={progress} />
-                <div>Click To Undo</div>
-            </div>
+                !notifyDelete
+                ?
+                    <div id='circle-undo'
+                        onClick={undoHide}
+                    >
+                        <  CircularProgress variant="determinate" value={progress} />
+                        <div>Click To Undo</div>
+                    </div>
+                :
+                    <div id='circle-undo'
+                    >
+                    <  CircularProgress variant="determinate" value={100} />
+                    <div>{project.title} is removed</div>
+                    </div>
             :
-        <>
-            <img src={project.screenShot} alt={project.imgAlt}/>
-            <LinearProgress variant="determinate" value={percentFunded} />
-            <section className='text-content'>
-                <div className='projects-title'>
-                    <span>{project.title}</span>
-                </div>
-                <div className='projects-summary'>
-                    <span>{project.summary}</span>
-                </div>
-                <div className='projects-creatorName'>
-                    <span>By {project.creatorName}</span>
-                </div>
-            </section>
-            <div 
-                className='hidden-tile-cover'
-                onClick={() => openInNewTab(`/category/${category}/project/${project.id}`)}
-                >
-                <span>More Details</span>
-            <div className='hidden-icons'>
-                <div>
-                    <BookmarkIcon
-                        onClick={(e) => handleBookmarkClick(e)}
-                        style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
-                    />
-                </div>
-                <div style={{display: (category === 'bookmarks' || isContribution) ? 'none' : ''}}>
-                    <ThumbDownIcon
-                        onClick={(e) => handleThumbClick(e)}
-                    />
-                </div>
-            </div>
-            </div>
-        </>}
+                <>
+                    <img src={project.screenShot} alt={project.imgAlt}/>
+                    <LinearProgress variant="determinate" value={percentFunded} />
+                    <section className='text-content'>
+                        <div className='projects-title'>
+                            <span>{project.title}</span>
+                        </div>
+                        <div className='projects-summary'>
+                            <span>{project.summary}</span>
+                        </div>
+                        <div className='projects-creatorName'>
+                            <span>By {project.creatorName}</span>
+                        </div>
+                    </section>
+                    <div 
+                        className='hidden-tile-cover'
+                        onClick={() => openInNewTab(`/category/${category}/project/${project.id}`)}
+                        >
+                        <span>More Details</span>
+                    <div className='hidden-icons'>
+                        <div>
+                            <BookmarkIcon
+                                onClick={(e) => handleBookmarkClick(e)}
+                                style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
+                            />
+                        </div>
+                        <div style={{display: (category === 'bookmarks' || isContribution) ? 'none' : ''}}>
+                            <ThumbDownIcon
+                                onClick={(e) => handleThumbClick(e)}
+                            />
+                        </div>
+                    </div>
+                    </div>
+                </>}
         {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}
     </div>
   )

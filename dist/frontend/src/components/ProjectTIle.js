@@ -45,6 +45,7 @@ function ProjectTile(props) {
     var _b = (0, react_1.useState)(false), showSnackBar = _b[0], setShowSnackBar = _b[1];
     var _c = (0, react_1.useState)(0), progress = _c[0], setProgress = _c[1];
     var _d = (0, react_1.useState)(false), hideTile = _d[0], setHideTile = _d[1];
+    var _e = (0, react_1.useState)(false), notifyDelete = _e[0], setNotifyDelete = _e[1];
     var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
     var pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
     var openInNewTab = function (url) {
@@ -85,7 +86,10 @@ function ProjectTile(props) {
             var timer_1 = setInterval(function () {
                 setProgress(function (prevProgress) {
                     if (prevProgress >= 100) {
-                        dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked));
+                        setNotifyDelete(true);
+                        setTimeout(function () {
+                            dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked));
+                        }, 3000);
                     }
                     return (prevProgress >= 100 ? 0 : prevProgress + 10);
                 });
@@ -98,9 +102,17 @@ function ProjectTile(props) {
     return (react_1.default.createElement("div", { className: 'project-tile' },
         hideTile
             ?
-                react_1.default.createElement("div", { id: 'circle-undo', onClick: undoHide },
-                    react_1.default.createElement(CircularProgress_1.default, { variant: "determinate", value: progress }),
-                    react_1.default.createElement("div", null, "Click To Undo"))
+                !notifyDelete
+                    ?
+                        react_1.default.createElement("div", { id: 'circle-undo', onClick: undoHide },
+                            react_1.default.createElement(CircularProgress_1.default, { variant: "determinate", value: progress }),
+                            react_1.default.createElement("div", null, "Click To Undo"))
+                    :
+                        react_1.default.createElement("div", { id: 'circle-undo' },
+                            react_1.default.createElement(CircularProgress_1.default, { variant: "determinate", value: 100 }),
+                            react_1.default.createElement("div", null,
+                                project.title,
+                                " is removed"))
             :
                 react_1.default.createElement(react_1.default.Fragment, null,
                     react_1.default.createElement("img", { src: project.screenShot, alt: project.imgAlt }),

@@ -181,7 +181,19 @@ var updateBookmark = function (projectId, bookmarked, projects, userId, category
     });
 }); }; };
 exports.updateBookmark = updateBookmark;
-var initialState = [];
+var initialState = [
+    {
+        id: 0,
+        screenShot: undefined,
+        title: null,
+        summary: null,
+        imgAlt: null,
+        creatorName: null,
+        percentFunded: 0,
+        pageNums: 0,
+        bookmarked: false
+    }
+];
 var sessionReducer = function (state, action) {
     if (state === void 0) { state = initialState; }
     var newState;

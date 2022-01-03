@@ -57,6 +57,10 @@ function Projects() {
             dispatch(projectActions.getBookmarks('1', sessionUser.user.id));
         }
     }, [dispatch, (0, react_router_dom_1.useParams)().categoryName]);
+    if (projects[0] && projects[0].id === 0)
+        return react_1.default.createElement("div", { id: 'no-projects-found' });
+    if (pageNums === 0)
+        return react_1.default.createElement("div", { id: 'no-projects-found' }, "No Projects Found");
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("div", { className: 'page-dial-container-top' },
             react_1.default.createElement(Stack_1.default, { spacing: 2 },

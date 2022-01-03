@@ -38,7 +38,8 @@ div.projects-title > span {
 }
 
 div.projects-summary {
-    margin-top: 1em;
+    margin-top: 2em;
+    line-height: 25px;
 }
 
 div.projects-summary > span {
@@ -47,9 +48,9 @@ div.projects-summary > span {
 
 
 div.projects-creatorName {
-    margin-top: 1em;
-    bottom: 1em;
-    position: absolute;
+    margin-top: 2em;
+    /* bottom: 1em;
+    position: absolute; */
 }
 
 div.hidden-tile-cover {
@@ -67,7 +68,7 @@ div.hidden-tile-cover {
 }
 
 div.hidden-tile-cover:hover {
-    background-color: rgba(7, 135, 0, 0.653);
+    background-color: rgba(7, 135, 0, 0.913);
     color: white;
     transition: .5s;
     cursor: pointer;
