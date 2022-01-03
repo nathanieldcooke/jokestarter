@@ -269,7 +269,7 @@ const generateDemoUser = async () => {
     const user = await User.signup({username, email, password });
 
     const projectId1 = await Project.getProjectId('Sexy Beasts');
-    const projectId2 = await Project.getProjectId('Jalapeno Milk');
+    const projectId2 = await Project.getProjectId('Jalapeño Milk');
     const projectId3 = await Project.getProjectId('Playground For Seniors');
     
     await Bookmark.create({ userId: user.id, projectId: projectId1 });

@@ -46,7 +46,7 @@ function Contributions() {
     (0, react_1.useEffect)(function () {
         dispatch(contributionsActions.getContributions(sessionUser.user.id, pageNumber));
     }, [dispatch]);
-    if (contributions[0].projectTile.id === 0)
+    if (contributions[0] && contributions[0].projectTile.id === 0)
         return react_1.default.createElement("div", { id: 'no-projects-found' });
     if (pageNums === 0)
         return react_1.default.createElement("div", { id: 'no-projects-found' }, "No Contributions Found");
