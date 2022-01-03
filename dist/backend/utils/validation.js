@@ -75,6 +75,21 @@ var validateSignup = [
         .exists({ checkFalsy: true })
         .isLength({ max: 50 })
         .withMessage('Please provide a username with less than 51 characters.'),
+    check('username')
+        .custom(function (username, _checkVal) { return __awaiter(void 0, void 0, void 0, function () {
+        var user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, User.findOne({ where: { username: username } })];
+                case 1:
+                    user = _a.sent();
+                    if (user) {
+                        throw new Error('Username already in use.');
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    }); }),
     check('email')
         .exists({ checkFalsy: true })
         .isLength({ min: 4 })
