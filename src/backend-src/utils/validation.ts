@@ -52,6 +52,13 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ max: 50 })
     .withMessage('Please provide a username with less than 51 characters.'),
+  check('username')
+  .custom(async (username:string, _checkVal:any) => {
+    const user = await User.findOne({ where: { username }})
+    if(user){
+      throw new Error('Username already in use.')
+    }
+  }),
   check('email')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
