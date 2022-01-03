@@ -12,7 +12,7 @@ module.exports = {
       },
       {
         userId: await User.getUserId('Demo User'),
-        projectId: await Project.getProjectId('Jalapeno Milk')
+        projectId: await Project.getProjectId('Jalapeño Milk')
       },
       {
         userId: await User.getUserId('Demo User'),

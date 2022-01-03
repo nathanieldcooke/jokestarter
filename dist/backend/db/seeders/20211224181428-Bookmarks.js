@@ -60,7 +60,7 @@ module.exports = {
                     return [4 /*yield*/, User.getUserId('Demo User')];
                 case 3:
                     _f.userId = _h.sent();
-                    return [4 /*yield*/, Project.getProjectId('Jalapeno Milk')];
+                    return [4 /*yield*/, Project.getProjectId('Jalapeño Milk')];
                 case 4:
                     _d = _d.concat([
                         (_f.projectId = _h.sent(),
