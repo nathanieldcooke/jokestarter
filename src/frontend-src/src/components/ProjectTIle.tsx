@@ -12,59 +12,73 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useHistory } from 'react-router-dom';
 
 function ProjectTile(props:{props: { project:IProjects }}) {
+
     const dispatch = useDispatch();
+
     const projects:IProjects[] = useSelector((state: RootState) => state.projects);
     const sessionUser:IUser = useSelector((state: RootState) => state.session);
+
     const isContribution = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 3] === 'contributions')
-    const project = props.props.project
+    const project = props.props.project;
     const percentFunded = project.percentFunded > 1 
     ?
-    100
+        100
     : 
-    project.percentFunded * 100;
-    const [bookmarked, setBookmarked] = useState(project.bookmarked)
-    const [showSnackBar, setShowSnackBar] = useState(false)
+        project.percentFunded * 100;
+
+    const [bookmarked, setBookmarked] = useState(project.bookmarked);
+    const [showSnackBar, setShowSnackBar] = useState(false);
     const [progress, setProgress] = useState(0);
     const [hideTile, setHideTile] = useState(false);
     const [notifyDelete, setNotifyDelete] = useState(false);
-    const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
-    const pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]
+    const [isFocused, setIsFocused] = useState(false);
+    const [subIsFocused, setSubIsFocused] = useState(false);
+
+    const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
+    const pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
 
     const history = useHistory();
-    const openProject = (url:string) => {
-        // const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-        // if (newWindow) newWindow.opener = null
-        history.push(url)
-        
+    const openProject = (e:React.MouseEvent|React.KeyboardEvent, url:string) => {
+        if (subIsFocused) return;
+        history.push(url);
     }
+
+    const handleFocus = () => {
+        setIsFocused(isFocused ? false : true);
+    };
+
+    const handleSubFocus = () => {
+        setSubIsFocused(subIsFocused ? false : true);
+    };
 
     const undoHide = () => {
-        setHideTile(false)
-    }
+        handleFocus();
+        setHideTile(false);
+    };
 
-    const handleBookmarkClick = (e:React.MouseEvent) => {
-        e.stopPropagation()
+    const handleBookmarkClick = (e:React.MouseEvent|React.KeyboardEvent) => {
+        e.stopPropagation();
         if (!sessionUser.user.id) {
-            setShowSnackBar(true)
+            setShowSnackBar(true);
         } else {
             if (bookmarked) {
                 setBookmarked(false);
-                dispatch(projectActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category))
+                dispatch(projectActions.updateBookmark(project.id, false, projects, sessionUser.user.id, category));
             } else {
                 setBookmarked(true);
-                dispatch(projectActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category))
-            }
-        }
-    }
+                dispatch(projectActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category));
+            };
+        };
+    };
 
-    const handleThumbClick = (e:React.MouseEvent) => {
+    const handleThumbClick = (e:React.MouseEvent|React.KeyboardEvent) => {
         e.stopPropagation()
         if (!sessionUser.user.id) {
-            setShowSnackBar(true)
+            setShowSnackBar(true);
         } else {
-            setHideTile(true)
-        }
-    }
+            setHideTile(true);
+        };
+    };
 
     useEffect(() => {
     if (hideTile) {
@@ -72,12 +86,12 @@ function ProjectTile(props:{props: { project:IProjects }}) {
         const timer = setInterval(() => {
           setProgress((prevProgress) => {
             if (prevProgress >= 100) {
-                setNotifyDelete(true)
+                setNotifyDelete(true);
                 setTimeout(() => {
-                    dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked))
+                    dispatch(projectActions.hideProject(project.id, sessionUser.user.id, category, pageNumber, project.bookmarked));
                 }, 3000)
             }
-              return (prevProgress >= 100 ? 0 : prevProgress + 10)
+              return (prevProgress >= 100 ? 0 : prevProgress + 10);
           });
         }, 800);
     
@@ -95,8 +109,9 @@ function ProjectTile(props:{props: { project:IProjects }}) {
             ?
                 !notifyDelete
                 ?
-                    <div id='circle-undo'
+                    <div tabIndex={0} id='circle-undo'
                         onClick={undoHide}
+                        onKeyDown={undoHide}
                     >
                         <  CircularProgress variant="determinate" value={progress} />
                         <div>Click To Undo</div>
@@ -122,25 +137,42 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                             <span>By {project.creatorName}</span>
                         </div>
                     </section>
-                    <div 
+                    <button 
                         className='hidden-tile-cover'
-                        onClick={() => openProject(`/category/${category}/project/${project.id}`)}
+                        onClick={(e) => openProject(e, `/category/${category}/project/${project.id}`)}
+                        onFocus={handleFocus}
+                        onBlur={handleFocus}
+                        style={isFocused ? {
+                            backgroundColor: 'rgba(7, 135, 0, 0.913)',
+                            color: 'white',
+                            transition: '.5s',
+                            cursor: 'pointer',
+                        } : {}}
                         >
                         <span>More Details</span>
-                    <div className='hidden-icons'>
-                        <div>
-                            <BookmarkIcon
-                                onClick={(e) => handleBookmarkClick(e)}
-                                style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
-                            />
+                        <div className='hidden-icons'>
+                            <div
+                            >
+                                <BookmarkIcon
+                                    onFocus={handleSubFocus}
+                                    onBlur={handleSubFocus}
+                                    onKeyPress={(e) => handleBookmarkClick(e)}
+                                    tabIndex={0}
+                                    onClick={(e) => handleBookmarkClick(e)}
+                                    style={{color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : ''}}
+                                />
+                            </div>
+                            <div style={{display: (category === 'bookmarks' || isContribution) ? 'none' : ''}}>
+                                <ThumbDownIcon
+                                    onFocus={handleSubFocus}
+                                    onBlur={handleSubFocus}
+                                    tabIndex={0}
+                                    onClick={(e) => handleThumbClick(e)}
+                                    onKeyPress={(e) => handleThumbClick(e)}
+                                />
+                            </div>
                         </div>
-                        <div style={{display: (category === 'bookmarks' || isContribution) ? 'none' : ''}}>
-                            <ThumbDownIcon
-                                onClick={(e) => handleThumbClick(e)}
-                            />
-                        </div>
-                    </div>
-                    </div>
+                    </button>
                 </>}
         {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}
     </div>

@@ -64,10 +64,10 @@ var projectsActions = __importStar(require("./../store/projects"));
 var projectActions = __importStar(require("./../store/project"));
 var Bookmark_1 = __importDefault(require("@mui/icons-material/Bookmark"));
 var react_router_dom_1 = require("react-router-dom");
-require("../compStyles/Project.css");
 var core_1 = require("@material-ui/core");
 var TIerTIle_1 = __importDefault(require("./TIerTIle"));
 var SnackBar_1 = __importDefault(require("./SnackBar"));
+require("../compStyles/Project.css");
 function Project() {
     var _this = this;
     var dispatch = (0, react_redux_1.useDispatch)();
@@ -107,7 +107,9 @@ function Project() {
                 setBookmarked(true);
                 dispatch(projectsActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category));
             }
+            ;
         }
+        ;
     };
     (0, react_1.useEffect)(function () { setBookmarked(project.bookmarked); }, [project]);
     (0, react_1.useEffect)(function () { window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop }); }, [support]);

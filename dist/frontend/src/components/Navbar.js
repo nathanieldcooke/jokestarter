@@ -97,6 +97,14 @@ function Navbar() {
             return [2 /*return*/];
         });
     }); };
+    var handleClick = function (category) {
+        if (category !== 'bookmarks') {
+            dispatch(projectActions.getProjects(category, '1'));
+        }
+        else {
+            dispatch(projectActions.getBookmarks('1', sessionUser.user.id));
+        }
+    };
     var checkActive = function (nav) {
         var len = window.location.pathname.split('/').length;
         var path = window.location.pathname.split('/');
@@ -113,20 +121,12 @@ function Navbar() {
             handleClose();
         }
     }, [sessionUser]);
-    var handleClick = function (category) {
-        if (category !== 'bookmarks') {
-            dispatch(projectActions.getProjects(category, '1'));
-        }
-        else {
-            dispatch(projectActions.getBookmarks('1', sessionUser.user.id));
-        }
-    };
     return (react_1.default.createElement("nav", null,
         react_1.default.createElement(Modal_1.default, { open: open, onClose: handleClose, "aria-labelledby": "modal-modal-title", "aria-describedby": "modal-modal-description" }, selectedForm === 'login'
             ?
-                react_1.default.createElement(LoginForm_1.default, { props: { setSelectedForm: setSelectedForm } })
+                react_1.default.createElement(LoginForm_1.default, { props: { setSelectedForm: setSelectedForm, handleClose: handleClose } })
             :
-                react_1.default.createElement(SignupForm_1.default, { props: { setSelectedForm: setSelectedForm } })),
+                react_1.default.createElement(SignupForm_1.default, { props: { setSelectedForm: setSelectedForm, handleClose: handleClose } })),
         react_1.default.createElement("div", { id: 'nav-top' },
             sessionUser.user.username
                 ?
@@ -135,7 +135,7 @@ function Navbar() {
                         react_1.default.createElement("span", null, sessionUser.user.username))
                 :
                     react_1.default.createElement("p", { id: "nav-left" }, "Log in to get started!"),
-            react_1.default.createElement("p", { id: 'site-title', onClick: handleGoHome },
+            react_1.default.createElement("h1", { id: 'site-title', tabIndex: 0, onKeyPress: handleGoHome, onClick: handleGoHome },
                 react_1.default.createElement("span", null, "JOKE"),
                 "STARTER"),
             sessionUser.user.username

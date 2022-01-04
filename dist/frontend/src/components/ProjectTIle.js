@@ -47,15 +47,24 @@ function ProjectTile(props) {
     var _c = (0, react_1.useState)(0), progress = _c[0], setProgress = _c[1];
     var _d = (0, react_1.useState)(false), hideTile = _d[0], setHideTile = _d[1];
     var _e = (0, react_1.useState)(false), notifyDelete = _e[0], setNotifyDelete = _e[1];
+    var _f = (0, react_1.useState)(false), isFocused = _f[0], setIsFocused = _f[1];
+    var _g = (0, react_1.useState)(false), subIsFocused = _g[0], setSubIsFocused = _g[1];
     var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
     var pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
     var history = (0, react_router_dom_1.useHistory)();
-    var openProject = function (url) {
-        // const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-        // if (newWindow) newWindow.opener = null
+    var openProject = function (e, url) {
+        if (subIsFocused)
+            return;
         history.push(url);
     };
+    var handleFocus = function () {
+        setIsFocused(isFocused ? false : true);
+    };
+    var handleSubFocus = function () {
+        setSubIsFocused(subIsFocused ? false : true);
+    };
     var undoHide = function () {
+        handleFocus();
         setHideTile(false);
     };
     var handleBookmarkClick = function (e) {
@@ -72,7 +81,9 @@ function ProjectTile(props) {
                 setBookmarked(true);
                 dispatch(projectActions.updateBookmark(project.id, true, projects, sessionUser.user.id, category));
             }
+            ;
         }
+        ;
     };
     var handleThumbClick = function (e) {
         e.stopPropagation();
@@ -82,6 +93,7 @@ function ProjectTile(props) {
         else {
             setHideTile(true);
         }
+        ;
     };
     (0, react_1.useEffect)(function () {
         if (hideTile) {
@@ -106,7 +118,7 @@ function ProjectTile(props) {
             ?
                 !notifyDelete
                     ?
-                        react_1.default.createElement("div", { id: 'circle-undo', onClick: undoHide },
+                        react_1.default.createElement("div", { tabIndex: 0, id: 'circle-undo', onClick: undoHide, onKeyDown: undoHide },
                             react_1.default.createElement(CircularProgress_1.default, { variant: "determinate", value: progress }),
                             react_1.default.createElement("div", null, "Click To Undo"))
                     :
@@ -128,13 +140,18 @@ function ProjectTile(props) {
                             react_1.default.createElement("span", null,
                                 "By ",
                                 project.creatorName))),
-                    react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openProject("/category/".concat(category, "/project/").concat(project.id)); } },
+                    react_1.default.createElement("button", { className: 'hidden-tile-cover', onClick: function (e) { return openProject(e, "/category/".concat(category, "/project/").concat(project.id)); }, onFocus: handleFocus, onBlur: handleFocus, style: isFocused ? {
+                            backgroundColor: 'rgba(7, 135, 0, 0.913)',
+                            color: 'white',
+                            transition: '.5s',
+                            cursor: 'pointer',
+                        } : {} },
                         react_1.default.createElement("span", null, "More Details"),
                         react_1.default.createElement("div", { className: 'hidden-icons' },
                             react_1.default.createElement("div", null,
-                                react_1.default.createElement(Bookmark_1.default, { onClick: function (e) { return handleBookmarkClick(e); }, style: { color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : '' } })),
+                                react_1.default.createElement(Bookmark_1.default, { onFocus: handleSubFocus, onBlur: handleSubFocus, onKeyPress: function (e) { return handleBookmarkClick(e); }, tabIndex: 0, onClick: function (e) { return handleBookmarkClick(e); }, style: { color: bookmarked ? 'yellow' : '', display: isContribution ? 'none' : '' } })),
                             react_1.default.createElement("div", { style: { display: (category === 'bookmarks' || isContribution) ? 'none' : '' } },
-                                react_1.default.createElement(ThumbDown_1.default, { onClick: function (e) { return handleThumbClick(e); } }))))),
+                                react_1.default.createElement(ThumbDown_1.default, { onFocus: handleSubFocus, onBlur: handleSubFocus, tabIndex: 0, onClick: function (e) { return handleThumbClick(e); }, onKeyPress: function (e) { return handleThumbClick(e); } }))))),
         showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } })));
 }
 ;

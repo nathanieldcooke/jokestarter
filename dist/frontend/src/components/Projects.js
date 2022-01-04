@@ -33,9 +33,9 @@ function Projects() {
     var history = (0, react_router_dom_1.useHistory)();
     var dispatch = (0, react_redux_1.useDispatch)();
     var _a = (0, react_router_dom_1.useParams)(), categoryName = _a.categoryName, pageNumber = _a.pageNumber;
-    var pageNumberNum = Number(pageNumber);
     var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
     var sessionUser = (0, react_redux_1.useSelector)(function (state) { return state.session; });
+    var pageNumberNum = Number(pageNumber);
     var pageNums = projects[0] ? projects[0].pageNums : 0;
     var _b = (0, react_1.useState)(pageNumberNum), page = _b[0], setPage = _b[1];
     var handleChange = function (_event, value) {
@@ -45,6 +45,7 @@ function Projects() {
         else {
             dispatch(projectActions.getBookmarks("".concat(value), sessionUser.user.id));
         }
+        ;
         setPage(value);
         history.push("/category/".concat(categoryName, "/page/").concat(value));
     };
@@ -56,6 +57,7 @@ function Projects() {
         else {
             dispatch(projectActions.getBookmarks('1', sessionUser.user.id));
         }
+        ;
     }, [dispatch, (0, react_router_dom_1.useParams)().categoryName]);
     if (projects[0] && projects[0].id === 0)
         return react_1.default.createElement("div", { id: 'no-projects-found' });
@@ -65,7 +67,7 @@ function Projects() {
         react_1.default.createElement("div", { className: 'page-dial-container-top' },
             react_1.default.createElement(Stack_1.default, { spacing: 2 },
                 react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange }))),
-        react_1.default.createElement("div", { id: 'projects' }, projects.map((function (project) { return react_1.default.createElement(ProjectTIle_1.default, { key: "project-tile-".concat(project.title), props: { project: project } }); }))),
+        react_1.default.createElement("section", { id: 'projects' }, projects.map((function (project) { return react_1.default.createElement(ProjectTIle_1.default, { key: "project-tile-".concat(project.title), props: { project: project } }); }))),
         react_1.default.createElement("div", { className: 'page-dial-container-bottom' },
             react_1.default.createElement(Stack_1.default, { spacing: 2 },
                 react_1.default.createElement(Pagination_1.default, { count: pageNums, page: page, onChange: handleChange })))));

@@ -9,15 +9,15 @@ function Footer() {
     <footer className='links'>
       <span>Nathaniel Cooke: </span>
       <a href="https://github.com/nathanieldcooke/jokestarter/wiki" target="_blank" >
-        <GitHubIcon/>
+        <GitHubIcon />
       </a>
       <a href="https://www.linkedin.com/in/nathaniel-cooke-nrd/" target="_blank" >
-        <LinkedInIcon/>
+        <LinkedInIcon />
       </a>
       <a href="https://nathanieldcooke.github.io/" target="_blank" >
-        <FolderSharedIcon/>
+        <FolderSharedIcon />
       </a>
     </footer>
   )
-}
+};
 export default Footer;

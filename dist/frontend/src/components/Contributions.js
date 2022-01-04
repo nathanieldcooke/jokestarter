@@ -68,3 +68,4 @@ function Contributions() {
                 react_1.default.createElement(material_1.Pagination, { count: pageNums, page: page, onChange: handleChange })))));
 }
 exports.default = Contributions;
+;
