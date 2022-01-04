@@ -32,13 +32,14 @@ function Project() {
     project.percentFunded * 100;
     
     const tiersRef = useRef(null);
- 
+    
     const [bookmarked, setBookmarked] = useState(project.bookmarked)
     const [showSnackBar, setShowSnackBar] = useState(false)
+    const [support, setSupport] = useState(false);
 
-    const handleScroll = async () => {
-        window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop })
-        
+    const handleTierOpen = async () => {
+        setSupport(support ? false : true);
+        window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop });
     }
 
     const handleBookmarkClick = (e:React.MouseEvent) => {
@@ -57,10 +58,11 @@ function Project() {
     }
 
     useEffect(() => {setBookmarked(project.bookmarked)}, [project])
-
+    useEffect(() => {window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop });}, [support])
     useEffect(() => {
         dispatch(projectActions.getProject(projectIdNum))
     }, [dispatch]);
+    
   return (
     <div id='project-details'>
         <section id='title-summary'>
@@ -105,7 +107,7 @@ function Project() {
                     </section>
                     <Button 
                         id='back-this-project-btn'
-                        onClick={handleScroll}
+                        onClick={handleTierOpen}
                     >Back this project</Button>
                     <Button 
                         id='bookmark-btn'
@@ -115,7 +117,7 @@ function Project() {
                     />Bookmark</Button>
             </div>
         </section>
-        <section ref={tiersRef} id='support-tiers'>
+        <section ref={tiersRef} id='support-tiers' style={{display: support ? 'flex' : 'none'}}>
             {project.supportTiers.map(supportTier => <TierTile key={`support-tier-${supportTier.name}`} props={{supportTier}}/>)}
         </section>
         {showSnackBar && <CustomizedSnackbars props={{showSnackBar,setShowSnackBar}}/>}

@@ -10,7 +10,7 @@ require("../compStyles/Footer.css");
 function Footer() {
     return (react_1.default.createElement("footer", { className: 'links' },
         react_1.default.createElement("span", null, "Nathaniel Cooke: "),
-        react_1.default.createElement("a", { href: "https://github.com/nathanieldcooke", target: "_blank" },
+        react_1.default.createElement("a", { href: "https://github.com/nathanieldcooke/jokestarter/wiki", target: "_blank" },
             react_1.default.createElement(GitHub_1.default, null)),
         react_1.default.createElement("a", { href: "https://www.linkedin.com/in/nathaniel-cooke-nrd/", target: "_blank" },
             react_1.default.createElement(LinkedIn_1.default, null)),

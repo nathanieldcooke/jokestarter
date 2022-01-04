@@ -8,7 +8,7 @@ function Footer() {
   return (
     <footer className='links'>
       <span>Nathaniel Cooke: </span>
-      <a href="https://github.com/nathanieldcooke" target="_blank" >
+      <a href="https://github.com/nathanieldcooke/jokestarter/wiki" target="_blank" >
         <GitHubIcon/>
       </a>
       <a href="https://www.linkedin.com/in/nathaniel-cooke-nrd/" target="_blank" >

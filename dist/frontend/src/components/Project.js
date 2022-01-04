@@ -85,8 +85,10 @@ function Project() {
     var tiersRef = (0, react_1.useRef)(null);
     var _a = (0, react_1.useState)(project.bookmarked), bookmarked = _a[0], setBookmarked = _a[1];
     var _b = (0, react_1.useState)(false), showSnackBar = _b[0], setShowSnackBar = _b[1];
-    var handleScroll = function () { return __awaiter(_this, void 0, void 0, function () {
+    var _c = (0, react_1.useState)(false), support = _c[0], setSupport = _c[1];
+    var handleTierOpen = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
+            setSupport(support ? false : true);
             window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop });
             return [2 /*return*/];
         });
@@ -108,6 +110,7 @@ function Project() {
         }
     };
     (0, react_1.useEffect)(function () { setBookmarked(project.bookmarked); }, [project]);
+    (0, react_1.useEffect)(function () { window.scrollTo({ behavior: 'smooth', top: tiersRef.current.offsetTop }); }, [support]);
     (0, react_1.useEffect)(function () {
         dispatch(projectActions.getProject(projectIdNum));
     }, [dispatch]);
@@ -145,11 +148,11 @@ function Project() {
                         react_1.default.createElement("span", { id: 'days-to-go' }, project.daysToGo)),
                     react_1.default.createElement("div", null,
                         react_1.default.createElement("span", null, "days to go"))),
-                react_1.default.createElement(core_1.Button, { id: 'back-this-project-btn', onClick: handleScroll }, "Back this project"),
+                react_1.default.createElement(core_1.Button, { id: 'back-this-project-btn', onClick: handleTierOpen }, "Back this project"),
                 react_1.default.createElement(core_1.Button, { id: 'bookmark-btn', onClick: function (e) { return handleBookmarkClick(e); } },
                     react_1.default.createElement(Bookmark_1.default, { style: { color: bookmarked ? 'yellow' : '' } }),
                     "Bookmark"))),
-        react_1.default.createElement("section", { ref: tiersRef, id: 'support-tiers' }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement(TIerTIle_1.default, { key: "support-tier-".concat(supportTier.name), props: { supportTier: supportTier } }); })),
+        react_1.default.createElement("section", { ref: tiersRef, id: 'support-tiers', style: { display: support ? 'flex' : 'none' } }, project.supportTiers.map(function (supportTier) { return react_1.default.createElement(TIerTIle_1.default, { key: "support-tier-".concat(supportTier.name), props: { supportTier: supportTier } }); })),
         showSnackBar && react_1.default.createElement(SnackBar_1.default, { props: { showSnackBar: showSnackBar, setShowSnackBar: setShowSnackBar } })));
 }
 ;
