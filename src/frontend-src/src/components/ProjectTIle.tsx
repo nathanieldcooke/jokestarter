@@ -9,6 +9,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import '../compStyles/ProjectTile.css'
 import CustomizedSnackbars from './SnackBar';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useHistory } from 'react-router-dom';
 
 function ProjectTile(props:{props: { project:IProjects }}) {
     const dispatch = useDispatch();
@@ -28,9 +29,13 @@ function ProjectTile(props:{props: { project:IProjects }}) {
     const [notifyDelete, setNotifyDelete] = useState(false);
     const category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3]
     const pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]
-    const openInNewTab = (url:string) => {
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-        if (newWindow) newWindow.opener = null
+
+    const history = useHistory();
+    const openProject = (url:string) => {
+        // const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        // if (newWindow) newWindow.opener = null
+        history.push(url)
+        
     }
 
     const undoHide = () => {
@@ -119,7 +124,7 @@ function ProjectTile(props:{props: { project:IProjects }}) {
                     </section>
                     <div 
                         className='hidden-tile-cover'
-                        onClick={() => openInNewTab(`/category/${category}/project/${project.id}`)}
+                        onClick={() => openProject(`/category/${category}/project/${project.id}`)}
                         >
                         <span>More Details</span>
                     <div className='hidden-icons'>

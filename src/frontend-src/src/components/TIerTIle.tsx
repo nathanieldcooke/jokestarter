@@ -24,7 +24,11 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
         }
     }
 
-    const handleBlur = () => {
+    const handleBlur = (e) => {
+        if (e.currentTarget.contains(e.relatedTarget)) { // ensures that child input field doesn't take div blur
+            return;
+        }
+
         setFocus(false);
     }
 
@@ -42,7 +46,8 @@ const TierTile = (props:{props:{supportTier:ISupportTier}}) => {
 
     return (
         <div className='support-tier'
-            onMouseLeave={handleBlur}
+            tabIndex={0} // enables onBlur event to work with div: thanks shakeel https://stackoverflow.com/questions/47308081/onblur-event-is-not-firing
+            onBlur={handleBlur}
         >
             <div>
                 <span className='pledge' >Pledge ${supportTier.amount} or more</span>
