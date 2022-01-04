@@ -3,8 +3,7 @@ import { IReceipt } from '../d';
 
 const ContTierTile = (props:{props:{supportTier:IReceipt}}) => {
 
-    const {supportTier} = props.props
-
+    const {supportTier} = props.props;
 
     return (
         <div className='support-tier'>
@@ -36,6 +35,6 @@ const ContTierTile = (props:{props:{supportTier:IReceipt}}) => {
         </div>
     );
   
-}
+};
   
   export default ContTierTile;

@@ -53,11 +53,12 @@ div.projects-creatorName {
     position: absolute; */
 }
 
-div.hidden-tile-cover {
+button.hidden-tile-cover {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.25em;
+    border: none;
     font-weight: bold;
     color: rgba(255, 255, 255, 0);
     position: absolute;
@@ -67,7 +68,7 @@ div.hidden-tile-cover {
     background-color: rgba(7, 142, 0, 0);
 }
 
-div.hidden-tile-cover:hover {
+button.hidden-tile-cover:hover {
     background-color: rgba(7, 135, 0, 0.913);
     color: white;
     transition: .5s;

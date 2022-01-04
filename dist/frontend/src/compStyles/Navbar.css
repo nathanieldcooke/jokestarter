@@ -38,7 +38,7 @@ nav div#nav-top > p#nav-left > span {
     font-weight: bold;
 }
 
-nav div#nav-top p#site-title {
+nav div#nav-top h1#site-title {
     font-family: 'Modak', cursive;
     font-size: 2em;
     letter-spacing: .05em;
@@ -46,11 +46,11 @@ nav div#nav-top p#site-title {
     margin: .75em 0em;
 }
 
-nav div#nav-top p#site-title:hover {
+nav div#nav-top h1#site-title:hover {
     cursor: pointer;
 }
 
-nav div#nav-top p#site-title span {
+nav div#nav-top h1#site-title span {
     font-family: 'Modak', cursive;
     color: black
 }

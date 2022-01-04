@@ -1,5 +1,4 @@
-div#projects {
-    /* background-color: burlywood; */
+section#projects {
     display: flex;
     justify-content: space-evenly;
     margin-top: 5em;
@@ -22,8 +21,6 @@ div#projects {
 }
 
 #must-log-in-alert {
-    /* height: 1em; */
-    /* width: 30em; */
     background-color: rgb(255, 0, 0);
     position: absolute;
     bottom: 2.5em;

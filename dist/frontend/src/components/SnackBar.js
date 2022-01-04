@@ -49,4 +49,5 @@ function CustomizedSnackbars(props) {
         React.createElement(Snackbar_1.default, { open: open, autoHideDuration: 6000, onClose: handleClose, anchorOrigin: { vertical: 'bottom', horizontal: 'right' } },
             React.createElement(Alert, { onClose: handleClose, severity: "error", sx: { width: '100%' } }, "Must be logged in to use feature"))));
 }
+;
 exports.default = CustomizedSnackbars;

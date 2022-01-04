@@ -17,4 +17,5 @@ function Footer() {
         react_1.default.createElement("a", { href: "https://nathanieldcooke.github.io/", target: "_blank" },
             react_1.default.createElement(FolderShared_1.default, null))));
 }
+;
 exports.default = Footer;

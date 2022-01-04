@@ -78,11 +78,13 @@ var TierTile = function (props) {
         else {
             setShowSnackBar(true);
         }
+        ;
     };
     var handleBlur = function (e) {
         if (e.currentTarget.contains(e.relatedTarget)) { // ensures that child input field doesn't take div blur
             return;
         }
+        ;
         setFocus(false);
     };
     var handleAmountChange = function (e) {
@@ -98,7 +100,7 @@ var TierTile = function (props) {
             return [2 /*return*/];
         });
     }); };
-    return (react_1.default.createElement("div", { className: 'support-tier', tabIndex: 0, onBlur: handleBlur },
+    return (react_1.default.createElement("div", { className: 'support-tier', tabIndex: 0, onBlur: handleBlur, onKeyPress: function (e) { return e.key === 'Enter' ? setFocus(true) : null; } },
         react_1.default.createElement("div", null,
             react_1.default.createElement("span", { className: 'pledge' },
                 "Pledge $",

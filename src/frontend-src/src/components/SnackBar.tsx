@@ -27,6 +27,6 @@ function CustomizedSnackbars(props:{props:{showSnackBar:boolean,setShowSnackBar:
       </Snackbar>
     </Stack>
   );
-}
+};
 
 export default CustomizedSnackbars;
