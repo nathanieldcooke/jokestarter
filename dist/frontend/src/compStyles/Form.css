@@ -87,3 +87,11 @@ form input {
     background-color: rgb(136, 0, 0);
     cursor: pointer;
 }
+
+#close-modal-div {
+    background-color: rgba(255, 255, 255, 0);
+    height: 300vh;
+    width: 300vw;
+    position: absolute;
+    z-index: -1;
+}

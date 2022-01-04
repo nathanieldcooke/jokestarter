@@ -25,59 +25,65 @@ const SignupForm = React.forwardRef((props: { props: { setSelectedForm: React.Di
 
   return (
     <FocusTrap>
-      <form className='log-sign' onSubmit={handleSubmit}>
-        <ul>
-          {sessionUser && sessionUser.errors && sessionUser.errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
-        <label>
-          Username:
-          <input
-            type="text"
-            name='username'
-            value={username}
-            onChange={(e) => setusername(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Confirm Password:
-          <input
-            type="password"
-            name='confirmPassword'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
-        <Button type='submit' id='form-button'>Sign Up</Button>
-        <p id='log-sign-change'>Already have an account? <Button
-          onClick={() => setSelectedForm('login')}
-        >Log In</Button></p>
-        <button
-          id='close-modal'
+      <div>
+
+        <form className='log-sign' onSubmit={handleSubmit}>
+          <ul>
+            {sessionUser && sessionUser.errors && sessionUser.errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          </ul>
+          <label>
+            Username:
+            <input
+              type="text"
+              name='username'
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              name='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              name='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Confirm Password:
+            <input
+              type="password"
+              name='confirmPassword'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </label>
+          <Button type='submit' id='form-button'>Sign Up</Button>
+          <p id='log-sign-change'>Already have an account? <Button
+            onClick={() => setSelectedForm('login')}
+          >Log In</Button></p>
+          <button
+            id='close-modal'
+            onClick={handleClose}
+          >X</button>
+        </form>
+        <div 
           onClick={handleClose}
-        >X</button>
-      </form>
+          id='close-modal-div'></div>
+      </div>
     </FocusTrap>
   );
 });
