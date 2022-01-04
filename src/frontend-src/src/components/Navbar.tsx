@@ -14,12 +14,6 @@ import * as projectActions from './../store/projects'
 function Navbar() {
   const history = useHistory();
   const [selectedForm, setSelectedForm] = useState('')
-  const [bottomNavDis, setBottomNavDis] = useState((window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project' 
-  ?
-  'none'
-  :
-  ''
-  ));
   
   const [open, setOpen] = useState(false);
   const handleOpen = (selectedForm:string) => {
@@ -36,7 +30,6 @@ function Navbar() {
   }
 
   const handleGoHome = async () => {
-    setBottomNavDis('');
     history.push('/category/Top/page/1')
   }
 
@@ -44,6 +37,8 @@ function Navbar() {
     const len = window.location.pathname.split('/').length
     const path =  window.location.pathname.split('/')
     const cat = path[len - 3]
+    const type = path[len - 2] 
+    if (type !== 'page') return false;
     return cat === nav
   }
 
@@ -117,7 +112,7 @@ function Navbar() {
             </div>
             }
         </div>
-        <div id='nav-bottom' style={{display: bottomNavDis}}>
+        <div id='nav-bottom'>
             <div id='nav-link-container'>
                 <NavLink to="/category/Top/page/1" 
                 onClick={() => handleClick('Top')}

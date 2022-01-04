@@ -30,6 +30,7 @@ var ThumbDown_1 = __importDefault(require("@mui/icons-material/ThumbDown"));
 require("../compStyles/ProjectTile.css");
 var SnackBar_1 = __importDefault(require("./SnackBar"));
 var CircularProgress_1 = __importDefault(require("@mui/material/CircularProgress"));
+var react_router_dom_1 = require("react-router-dom");
 function ProjectTile(props) {
     var dispatch = (0, react_redux_1.useDispatch)();
     var projects = (0, react_redux_1.useSelector)(function (state) { return state.projects; });
@@ -48,10 +49,11 @@ function ProjectTile(props) {
     var _e = (0, react_1.useState)(false), notifyDelete = _e[0], setNotifyDelete = _e[1];
     var category = window.location.pathname.split('/')[window.location.pathname.split('/').length - 3];
     var pageNumber = window.location.pathname.split('/')[window.location.pathname.split('/').length - 1];
-    var openInNewTab = function (url) {
-        var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        if (newWindow)
-            newWindow.opener = null;
+    var history = (0, react_router_dom_1.useHistory)();
+    var openProject = function (url) {
+        // const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        // if (newWindow) newWindow.opener = null
+        history.push(url);
     };
     var undoHide = function () {
         setHideTile(false);
@@ -126,7 +128,7 @@ function ProjectTile(props) {
                             react_1.default.createElement("span", null,
                                 "By ",
                                 project.creatorName))),
-                    react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openInNewTab("/category/".concat(category, "/project/").concat(project.id)); } },
+                    react_1.default.createElement("div", { className: 'hidden-tile-cover', onClick: function () { return openProject("/category/".concat(category, "/project/").concat(project.id)); } },
                         react_1.default.createElement("span", null, "More Details"),
                         react_1.default.createElement("div", { className: 'hidden-icons' },
                             react_1.default.createElement("div", null,

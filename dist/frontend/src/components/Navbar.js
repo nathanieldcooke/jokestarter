@@ -71,12 +71,7 @@ function Navbar() {
     var _this = this;
     var history = (0, react_router_dom_1.useHistory)();
     var _a = (0, react_1.useState)(''), selectedForm = _a[0], setSelectedForm = _a[1];
-    var _b = (0, react_1.useState)((window.location.pathname.split('/')[window.location.pathname.split('/').length - 2] === 'project'
-        ?
-            'none'
-        :
-            '')), bottomNavDis = _b[0], setBottomNavDis = _b[1];
-    var _c = (0, react_1.useState)(false), open = _c[0], setOpen = _c[1];
+    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
     var handleOpen = function (selectedForm) {
         setSelectedForm(selectedForm);
         setOpen(true);
@@ -98,7 +93,6 @@ function Navbar() {
     }); };
     var handleGoHome = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            setBottomNavDis('');
             history.push('/category/Top/page/1');
             return [2 /*return*/];
         });
@@ -107,6 +101,9 @@ function Navbar() {
         var len = window.location.pathname.split('/').length;
         var path = window.location.pathname.split('/');
         var cat = path[len - 3];
+        var type = path[len - 2];
+        if (type !== 'page')
+            return false;
         return cat === nav;
     };
     var dispatch = (0, react_redux_1.useDispatch)();
@@ -150,7 +147,7 @@ function Navbar() {
                         react_1.default.createElement(Button_1.default, { id: 'login', onClick: function () { return handleOpen('login'); } }, "Log In"),
                         react_1.default.createElement(Button_1.default, { id: 'signup', onClick: function () { return handleOpen('signup'); } }, "Sign Up"),
                         react_1.default.createElement(Button_1.default, { id: 'demo', onClick: function () { return dispatch(sessionActions.demo()); } }, "Demo"))),
-        react_1.default.createElement("div", { id: 'nav-bottom', style: { display: bottomNavDis } },
+        react_1.default.createElement("div", { id: 'nav-bottom' },
             react_1.default.createElement("div", { id: 'nav-link-container' },
                 react_1.default.createElement(react_router_dom_1.NavLink, { to: "/category/Top/page/1", onClick: function () { return handleClick('Top'); }, activeClassName: "selected", isActive: function () { return checkActive('Top'); } }, "Top"),
                 react_1.default.createElement("br", null),
