@@ -38,18 +38,20 @@ var LoginForm = react_1.default.forwardRef(function (props, ref) {
         return dispatch(sessionActions.login({ credential: credential, password: password }));
     };
     return (react_1.default.createElement(focus_trap_react_1.default, null,
-        react_1.default.createElement("form", { className: 'log-sign', onSubmit: handleSubmit },
-            react_1.default.createElement("ul", null, sessionUser && sessionUser.errors && sessionUser.errors.map(function (error, idx) { return react_1.default.createElement("li", { key: idx }, error); })),
-            react_1.default.createElement("label", null,
-                "Username/Email:",
-                react_1.default.createElement("input", { type: "text", value: credential, onChange: function (e) { return setCredential(e.target.value); }, required: true })),
-            react_1.default.createElement("label", null,
-                "Password:",
-                react_1.default.createElement("input", { type: "password", value: password, onChange: function (e) { return setPassword(e.target.value); }, required: true })),
-            react_1.default.createElement(Button_1.default, { type: 'submit', id: 'form-button' }, "Submit"),
-            react_1.default.createElement("p", { id: 'log-sign-change' },
-                "Don't have an account?",
-                react_1.default.createElement(Button_1.default, { onClick: function () { return setSelectedForm('signup'); } }, "Sign Up")),
-            react_1.default.createElement("button", { id: 'close-modal', onClick: handleClose }, "X"))));
+        react_1.default.createElement("div", null,
+            react_1.default.createElement("form", { className: 'log-sign', onSubmit: handleSubmit },
+                react_1.default.createElement("ul", null, sessionUser && sessionUser.errors && sessionUser.errors.map(function (error, idx) { return react_1.default.createElement("li", { key: idx }, error); })),
+                react_1.default.createElement("label", null,
+                    "Username/Email:",
+                    react_1.default.createElement("input", { type: "text", value: credential, onChange: function (e) { return setCredential(e.target.value); }, required: true })),
+                react_1.default.createElement("label", null,
+                    "Password:",
+                    react_1.default.createElement("input", { type: "password", value: password, onChange: function (e) { return setPassword(e.target.value); }, required: true })),
+                react_1.default.createElement(Button_1.default, { type: 'submit', id: 'form-button' }, "Submit"),
+                react_1.default.createElement("p", { id: 'log-sign-change' },
+                    "Don't have an account?",
+                    react_1.default.createElement(Button_1.default, { onClick: function () { return setSelectedForm('signup'); } }, "Sign Up")),
+                react_1.default.createElement("button", { id: 'close-modal', onClick: handleClose }, "X")),
+            react_1.default.createElement("div", { onClick: handleClose, id: 'close-modal-div' }))));
 });
 exports.default = LoginForm;

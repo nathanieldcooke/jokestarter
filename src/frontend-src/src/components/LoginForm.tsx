@@ -24,6 +24,7 @@ const LoginForm = React.forwardRef((props: { props: { setSelectedForm: React.Dis
 
   return (
     <FocusTrap>
+    <div>
       <form
         className='log-sign'
         onSubmit={handleSubmit}
@@ -58,6 +59,10 @@ const LoginForm = React.forwardRef((props: { props: { setSelectedForm: React.Dis
           onClick={handleClose}
         >X</button>
       </form>
+      <div 
+          onClick={handleClose}
+          id='close-modal-div'></div>
+    </div>
     </FocusTrap>
   );
 });
