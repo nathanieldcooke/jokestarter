@@ -26,6 +26,7 @@ div.support-tier > div {
 
 .summary-tier {
     font-size: 1.25em;
+    line-height: 25px;
 }
 
 .delivery-tier-title {
